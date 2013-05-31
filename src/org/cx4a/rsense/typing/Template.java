@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Collections;
 
-import org.jruby.ast.YieldNode;
+import org.jrubyparser.ast.YieldNode;
 
 import org.cx4a.rsense.ruby.Frame;
 import org.cx4a.rsense.ruby.Scope;
@@ -30,7 +30,7 @@ public class Template {
     private Vertex returnVertex;
     private Frame frame;
     private Scope scope;
-    
+
     public Template(Method method, Frame frame, Scope scope, TemplateAttribute attr) {
         this.method = method;
         this.attr = attr;

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.jruby.ast.Node;
-import org.jruby.ast.ArgsNode;
+import org.jrubyparser.ast.Node;
+import org.jrubyparser.ast.ArgsNode;
 
 import org.cx4a.rsense.ruby.IRubyObject;
 import org.cx4a.rsense.ruby.RubyModule;

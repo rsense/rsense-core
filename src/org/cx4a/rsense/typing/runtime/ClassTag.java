@@ -1,6 +1,6 @@
 package org.cx4a.rsense.typing.runtime;
 
-import org.jruby.ast.Node;
+import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.typing.annotation.ClassType;
 
@@ -11,7 +11,7 @@ public class ClassTag {
     public ClassTag(Node node) {
         this(node, null);
     }
-    
+
     public ClassTag(Node bodyNode, ClassType type) {
         this.bodyNode = bodyNode;
         this.type = type;

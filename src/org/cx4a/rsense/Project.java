@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
 
-import org.jruby.ast.Node;
+import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.ruby.Ruby;
 import org.cx4a.rsense.typing.Graph;

@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.jruby.Ruby;
-import org.jruby.ast.Node;
+import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.ruby.IRubyObject;
 import org.cx4a.rsense.util.Logger;
@@ -105,7 +105,7 @@ public class Main {
     private CodeAssist codeAssist;
     private TestStats testStats;
     private ProgressMonitor progressMonitor;
-    
+
     public static void main(String[] args) throws Exception {
         new Main().run(args);
     }
@@ -325,7 +325,7 @@ public class Main {
                     // comment
                     continue;
                 }
-                
+
                 String[] argv = StringUtil.shellwords(line);
                 if (argv.length > 0) {
                     String command = argv[0];
@@ -347,7 +347,7 @@ public class Main {
             this.inReader = oldInReader;
         }
     }
-    
+
     private void command(String command, Options options) {
         long start = System.currentTimeMillis();
         Logger.info("command: %s", command);
@@ -478,7 +478,7 @@ public class Main {
             if (options.isPrintAST()) {
                 Logger.debug("AST:\n%s", result.getAST());
             }
-            
+
             if (options.isTest()) {
                 Set<String> data = new HashSet<String>();
                 for (IRubyObject klass : result.getTypeSet()) {
@@ -535,7 +535,7 @@ public class Main {
             if (options.isPrintAST()) {
                 Logger.debug("AST:\n%s", result.getAST());
             }
-            
+
             if (options.isTest()) {
                 Set<String> data = new HashSet<String>();
                 for (SourceLocation location : result.getLocations()) {
@@ -637,7 +637,7 @@ public class Main {
             if (options.isPrintAST()) {
                 Logger.debug("AST:\n%s", result.getAST());
             }
-            
+
             if (options.isEmacsFormat()) {
                 out.print("(");
                 codeAssistError(result, options);
@@ -669,7 +669,7 @@ public class Main {
         for (Map.Entry<String, Project> entry : codeAssist.getProjects().entrySet()) {
             String name = entry.getKey();
             Project project = entry.getValue();
-            
+
             if (verbose) {
                 if (!first) {
                     out.println();
@@ -725,7 +725,7 @@ public class Main {
             out.println("  - " + path);
         }
     }
-    
+
     private void commandHelp(Options options) {
         if (options.isEmacsFormat()) {
             out.print("\"");
@@ -794,7 +794,7 @@ public class Main {
     private void testSuccess(Options options) {
         testSuccess(options, null);
     }
-    
+
     private void testSuccess(Options options, String format, Object... args) {
         if (testStats == null) {
             testStats = new TestStats();
@@ -816,7 +816,7 @@ public class Main {
     private void testFailure(Options options) {
         testFailure(options, null);
     }
-    
+
     private void testFailure(Options options, String format, Object... args) {
         if (testStats == null) {
             testStats = new TestStats();

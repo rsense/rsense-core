@@ -7,11 +7,11 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Collections;
 
-import org.jruby.ast.Node;
-import org.jruby.ast.FixnumNode;
-import org.jruby.ast.StrNode;
-import org.jruby.ast.SymbolNode;
-import org.jruby.ast.types.INameNode;
+import org.jrubyparser.ast.Node;
+import org.jrubyparser.ast.FixnumNode;
+import org.jrubyparser.ast.StrNode;
+import org.jrubyparser.ast.SymbolNode;
+import org.jrubyparser.ast.INameNode;
 
 import org.cx4a.rsense.ruby.IRubyObject;
 import org.cx4a.rsense.typing.TypeSet;

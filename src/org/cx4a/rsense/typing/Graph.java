@@ -1,174 +1,178 @@
 package org.cx4a.rsense.typing;
 
-import java.util.Iterator;
-import java.util.Collection;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Queue;
-import java.util.Collections;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
-import org.jruby.ast.AliasNode;
-import org.jruby.ast.AndNode;
-import org.jruby.ast.ArgsCatNode;
-import org.jruby.ast.ArgsNode;
-import org.jruby.ast.ArgsPushNode;
-import org.jruby.ast.ArrayNode;
-import org.jruby.ast.AttrAssignNode;
-import org.jruby.ast.BackRefNode;
-import org.jruby.ast.BeginNode;
-import org.jruby.ast.BignumNode;
-import org.jruby.ast.BlockArgNode;
-import org.jruby.ast.BlockNode;
-import org.jruby.ast.BlockPassNode;
-import org.jruby.ast.BreakNode;
-import org.jruby.ast.CallNode;
-import org.jruby.ast.CaseNode;
-import org.jruby.ast.ClassNode;
-import org.jruby.ast.ClassVarAsgnNode;
-import org.jruby.ast.ClassVarDeclNode;
-import org.jruby.ast.ClassVarNode;
-import org.jruby.ast.Colon2Node;
-import org.jruby.ast.Colon3Node;
-import org.jruby.ast.ConstDeclNode;
-import org.jruby.ast.ConstNode;
-import org.jruby.ast.DAsgnNode;
-import org.jruby.ast.DRegexpNode;
-import org.jruby.ast.DStrNode;
-import org.jruby.ast.DSymbolNode;
-import org.jruby.ast.DVarNode;
-import org.jruby.ast.DXStrNode;
-import org.jruby.ast.DefinedNode;
-import org.jruby.ast.DefnNode;
-import org.jruby.ast.DefsNode;
-import org.jruby.ast.DotNode;
-import org.jruby.ast.EncodingNode;
-import org.jruby.ast.EnsureNode;
-import org.jruby.ast.EvStrNode;
-import org.jruby.ast.FCallNode;
-import org.jruby.ast.FalseNode;
-import org.jruby.ast.FixnumNode;
-import org.jruby.ast.FlipNode;
-import org.jruby.ast.FloatNode;
-import org.jruby.ast.ForNode;
-import org.jruby.ast.GlobalAsgnNode;
-import org.jruby.ast.GlobalVarNode;
-import org.jruby.ast.HashNode;
-import org.jruby.ast.IfNode;
-import org.jruby.ast.InstAsgnNode;
-import org.jruby.ast.InstVarNode;
-import org.jruby.ast.IterNode;
-import org.jruby.ast.LocalAsgnNode;
-import org.jruby.ast.LocalVarNode;
-import org.jruby.ast.Match2Node;
-import org.jruby.ast.Match3Node;
-import org.jruby.ast.MatchNode;
-import org.jruby.ast.ModuleNode;
-import org.jruby.ast.MultipleAsgn19Node;
-import org.jruby.ast.MultipleAsgnNode;
-import org.jruby.ast.NewlineNode;
-import org.jruby.ast.NextNode;
-import org.jruby.ast.NilNode;
-import org.jruby.ast.NotNode;
-import org.jruby.ast.NthRefNode;
-import org.jruby.ast.OpAsgnAndNode;
-import org.jruby.ast.OpAsgnNode;
-import org.jruby.ast.OpAsgnOrNode;
-import org.jruby.ast.OpElementAsgnNode;
-import org.jruby.ast.OrNode;
-import org.jruby.ast.PostExeNode;
-import org.jruby.ast.PreExeNode;
-import org.jruby.ast.RedoNode;
-import org.jruby.ast.RegexpNode;
-import org.jruby.ast.RescueBodyNode;
-import org.jruby.ast.RescueNode;
-import org.jruby.ast.RestArgNode;
-import org.jruby.ast.RetryNode;
-import org.jruby.ast.ReturnNode;
-import org.jruby.ast.RootNode;
-import org.jruby.ast.SClassNode;
-import org.jruby.ast.SValueNode;
-import org.jruby.ast.SelfNode;
-import org.jruby.ast.SplatNode;
-import org.jruby.ast.StrNode;
-import org.jruby.ast.SuperNode;
-import org.jruby.ast.SymbolNode;
-import org.jruby.ast.ToAryNode;
-import org.jruby.ast.TrueNode;
-import org.jruby.ast.UndefNode;
-import org.jruby.ast.UntilNode;
-import org.jruby.ast.VAliasNode;
-import org.jruby.ast.VCallNode;
-import org.jruby.ast.WhenNode;
-import org.jruby.ast.WhileNode;
-import org.jruby.ast.XStrNode;
-import org.jruby.ast.YieldNode;
-import org.jruby.ast.ZArrayNode;
-import org.jruby.ast.ZSuperNode;
-import org.jruby.ast.MethodDefNode;
+import org.jrubyparser.ast.AliasNode;
+import org.jrubyparser.ast.AndNode;
+import org.jrubyparser.ast.ArgsCatNode;
+import org.jrubyparser.ast.ArgsNode;
+import org.jrubyparser.ast.ArgsPushNode;
+import org.jrubyparser.ast.ArgumentNode;
+import org.jrubyparser.ast.ArrayNode;
+import org.jrubyparser.ast.AttrAssignNode;
+import org.jrubyparser.ast.BackRefNode;
+import org.jrubyparser.ast.BeginNode;
+import org.jrubyparser.ast.BignumNode;
+import org.jrubyparser.ast.BlockArg18Node;
+import org.jrubyparser.ast.BlockArgNode;
+import org.jrubyparser.ast.BlockNode;
+import org.jrubyparser.ast.BlockPassNode;
+import org.jrubyparser.ast.BreakNode;
+import org.jrubyparser.ast.CallNode;
+import org.jrubyparser.ast.CaseNode;
+import org.jrubyparser.ast.ClassNode;
+import org.jrubyparser.ast.ClassVarAsgnNode;
+import org.jrubyparser.ast.ClassVarDeclNode;
+import org.jrubyparser.ast.ClassVarNode;
+import org.jrubyparser.ast.Colon2Node;
+import org.jrubyparser.ast.Colon3Node;
+import org.jrubyparser.ast.ConstDeclNode;
+import org.jrubyparser.ast.ConstNode;
+import org.jrubyparser.ast.DAsgnNode;
+import org.jrubyparser.ast.DRegexpNode;
+import org.jrubyparser.ast.DStrNode;
+import org.jrubyparser.ast.DSymbolNode;
+import org.jrubyparser.ast.DVarNode;
+import org.jrubyparser.ast.DXStrNode;
+import org.jrubyparser.ast.DefinedNode;
+import org.jrubyparser.ast.DefnNode;
+import org.jrubyparser.ast.DefsNode;
+import org.jrubyparser.ast.DotNode;
+import org.jrubyparser.ast.EncodingNode;
+import org.jrubyparser.ast.EnsureNode;
+import org.jrubyparser.ast.EvStrNode;
+import org.jrubyparser.ast.FCallNode;
+import org.jrubyparser.ast.FalseNode;
+import org.jrubyparser.ast.FixnumNode;
+import org.jrubyparser.ast.FlipNode;
+import org.jrubyparser.ast.FloatNode;
+import org.jrubyparser.ast.ForNode;
+import org.jrubyparser.ast.GlobalAsgnNode;
+import org.jrubyparser.ast.GlobalVarNode;
+import org.jrubyparser.ast.HashNode;
+import org.jrubyparser.ast.IfNode;
+import org.jrubyparser.ast.InstAsgnNode;
+import org.jrubyparser.ast.InstVarNode;
+import org.jrubyparser.ast.IterNode;
+import org.jrubyparser.ast.LiteralNode;
+import org.jrubyparser.ast.LocalAsgnNode;
+import org.jrubyparser.ast.LocalVarNode;
+import org.jrubyparser.ast.Match2Node;
+import org.jrubyparser.ast.Match3Node;
+import org.jrubyparser.ast.MatchNode;
+import org.jrubyparser.ast.MethodDefNode;
+import org.jrubyparser.ast.ModuleNode;
+import org.jrubyparser.ast.MultipleAsgn19Node;
+import org.jrubyparser.ast.MultipleAsgnNode;
+import org.jrubyparser.ast.NewlineNode;
+import org.jrubyparser.ast.NextNode;
+import org.jrubyparser.ast.NilNode;
+import org.jrubyparser.ast.NotNode;
+import org.jrubyparser.ast.NthRefNode;
+import org.jrubyparser.ast.OpAsgnAndNode;
+import org.jrubyparser.ast.OpAsgnNode;
+import org.jrubyparser.ast.OpAsgnOrNode;
+import org.jrubyparser.ast.OpElementAsgnNode;
+import org.jrubyparser.ast.OptArgNode;
+import org.jrubyparser.ast.OrNode;
+import org.jrubyparser.ast.PostExeNode;
+import org.jrubyparser.ast.PreExeNode;
+import org.jrubyparser.ast.RedoNode;
+import org.jrubyparser.ast.RegexpNode;
+import org.jrubyparser.ast.RescueBodyNode;
+import org.jrubyparser.ast.RescueNode;
+import org.jrubyparser.ast.RestArgNode;
+import org.jrubyparser.ast.RetryNode;
+import org.jrubyparser.ast.ReturnNode;
+import org.jrubyparser.ast.RootNode;
+import org.jrubyparser.ast.SClassNode;
+import org.jrubyparser.ast.SValueNode;
+import org.jrubyparser.ast.SelfNode;
+import org.jrubyparser.ast.SplatNode;
+import org.jrubyparser.ast.StrNode;
+import org.jrubyparser.ast.SuperNode;
+import org.jrubyparser.ast.SymbolNode;
+import org.jrubyparser.ast.ToAryNode;
+import org.jrubyparser.ast.TrueNode;
+import org.jrubyparser.ast.UndefNode;
+import org.jrubyparser.ast.UntilNode;
+import org.jrubyparser.ast.VAliasNode;
+import org.jrubyparser.ast.VCallNode;
+import org.jrubyparser.ast.WhenNode;
+import org.jrubyparser.ast.WhileNode;
+import org.jrubyparser.ast.XStrNode;
+import org.jrubyparser.ast.YieldNode;
+import org.jrubyparser.ast.ZArrayNode;
+import org.jrubyparser.ast.ZSuperNode;
 
-import org.jruby.ast.NodeType;
-import org.jruby.ast.Node;
-import org.jruby.ast.ListNode;
-import org.jruby.ast.AssignableNode;
-import org.jruby.ast.ZeroArgNode;
-import org.jruby.ast.types.INameNode;
-import org.jruby.ast.visitor.NodeVisitor;
+import org.jrubyparser.NodeVisitor;
+import org.jrubyparser.ast.AssignableNode;
+import org.jrubyparser.ast.INameNode;
+import org.jrubyparser.ast.ListNode;
+import org.jrubyparser.ast.Node;
+import org.jrubyparser.ast.NodeType;
+import org.jrubyparser.ast.ZeroArgNode;
 
-import org.cx4a.rsense.ruby.Ruby;
+import org.cx4a.rsense.ruby.Block;
 import org.cx4a.rsense.ruby.Context;
+import org.cx4a.rsense.ruby.DynamicMethod;
+import org.cx4a.rsense.ruby.DynamicScope;
+import org.cx4a.rsense.ruby.Frame;
+import org.cx4a.rsense.ruby.IRubyObject;
+import org.cx4a.rsense.ruby.LocalScope;
+import org.cx4a.rsense.ruby.MetaClass;
+import org.cx4a.rsense.ruby.Ruby;
 import org.cx4a.rsense.ruby.RubyClass;
 import org.cx4a.rsense.ruby.RubyModule;
-import org.cx4a.rsense.ruby.MetaClass;
-import org.cx4a.rsense.ruby.IRubyObject;
 import org.cx4a.rsense.ruby.RubyObject;
-import org.cx4a.rsense.ruby.Visibility;
-import org.cx4a.rsense.ruby.Block;
-import org.cx4a.rsense.ruby.Frame;
 import org.cx4a.rsense.ruby.Scope;
-import org.cx4a.rsense.ruby.LocalScope;
-import org.cx4a.rsense.ruby.DynamicScope;
-import org.cx4a.rsense.ruby.DynamicMethod;
+import org.cx4a.rsense.ruby.Visibility;
+import org.cx4a.rsense.typing.annotation.ClassType;
+import org.cx4a.rsense.typing.annotation.MethodType;
+import org.cx4a.rsense.typing.annotation.TypeAnnotation;
+import org.cx4a.rsense.typing.annotation.TypeVariable;
+import org.cx4a.rsense.typing.runtime.AliasMethod;
+import org.cx4a.rsense.typing.runtime.AnnotationHelper;
+import org.cx4a.rsense.typing.runtime.Array;
+import org.cx4a.rsense.typing.runtime.ClassTag;
+import org.cx4a.rsense.typing.runtime.DefaultMethod;
+import org.cx4a.rsense.typing.runtime.Hash;
+import org.cx4a.rsense.typing.runtime.LoopTag;
+import org.cx4a.rsense.typing.runtime.Method;
+import org.cx4a.rsense.typing.runtime.ObjectAllocator;
+import org.cx4a.rsense.typing.runtime.Proc;
+import org.cx4a.rsense.typing.runtime.RuntimeHelper;
+import org.cx4a.rsense.typing.runtime.SpecialMethod;
+import org.cx4a.rsense.typing.runtime.TypeVarMap;
+import org.cx4a.rsense.typing.runtime.VertexHolder;
+import org.cx4a.rsense.typing.vertex.CallVertex;
+import org.cx4a.rsense.typing.vertex.MultipleAsgnVertex;
+import org.cx4a.rsense.typing.vertex.PassThroughVertex;
+import org.cx4a.rsense.typing.vertex.SValueVertex;
+import org.cx4a.rsense.typing.vertex.SplatVertex;
+import org.cx4a.rsense.typing.vertex.ToAryVertex;
+import org.cx4a.rsense.typing.vertex.TypeVarVertex;
+import org.cx4a.rsense.typing.vertex.Vertex;
+import org.cx4a.rsense.typing.vertex.YieldVertex;
 import org.cx4a.rsense.util.Logger;
 import org.cx4a.rsense.util.NodeDiff;
 import org.cx4a.rsense.util.SourceLocation;
-import org.cx4a.rsense.typing.runtime.ObjectAllocator;
-import org.cx4a.rsense.typing.runtime.VertexHolder;
-import org.cx4a.rsense.typing.runtime.Array;
-import org.cx4a.rsense.typing.runtime.Hash;
-import org.cx4a.rsense.typing.runtime.Method;
-import org.cx4a.rsense.typing.runtime.DefaultMethod;
-import org.cx4a.rsense.typing.runtime.AliasMethod;
-import org.cx4a.rsense.typing.runtime.SpecialMethod;
-import org.cx4a.rsense.typing.runtime.Proc;
-import org.cx4a.rsense.typing.runtime.RuntimeHelper;
-import org.cx4a.rsense.typing.runtime.AnnotationHelper;
-import org.cx4a.rsense.typing.runtime.TypeVarMap;
-import org.cx4a.rsense.typing.runtime.LoopTag;
-import org.cx4a.rsense.typing.runtime.ClassTag;
-import org.cx4a.rsense.typing.vertex.Vertex;
-import org.cx4a.rsense.typing.vertex.PassThroughVertex;
-import org.cx4a.rsense.typing.vertex.TypeVarVertex;
-import org.cx4a.rsense.typing.vertex.CallVertex;
-import org.cx4a.rsense.typing.vertex.MultipleAsgnVertex;
-import org.cx4a.rsense.typing.vertex.ToAryVertex;
-import org.cx4a.rsense.typing.vertex.SplatVertex;
-import org.cx4a.rsense.typing.vertex.SValueVertex;
-import org.cx4a.rsense.typing.vertex.YieldVertex;
-import org.cx4a.rsense.typing.annotation.TypeAnnotation;
-import org.cx4a.rsense.typing.annotation.TypeVariable;
-import org.cx4a.rsense.typing.annotation.ClassType;
-import org.cx4a.rsense.typing.annotation.MethodType;
 
 public class Graph implements NodeVisitor {
     public interface EventListener {
         public enum EventType { DEFINE, CLASS, MODULE, METHOD_MISSING }
-        
+
         public static class Event {
             public final EventType type;
 
@@ -176,7 +180,7 @@ public class Graph implements NodeVisitor {
             public final String name;
             public final Node node;
             public final Vertex vertex;
-            
+
             public Event(EventType type, String name, Node node) {
                 this.type = type;
                 this.name = name;
@@ -191,7 +195,7 @@ public class Graph implements NodeVisitor {
                 this.vertex = vertex;
             }
         }
-        
+
         public void update(Event event);
     }
 
@@ -492,7 +496,7 @@ public class Graph implements NodeVisitor {
                     result.setCallNextMethod(callNextMethod);
                 }
             });
-        
+
         addSpecialMethod("unpack", new SpecialMethod() {
                 public void call(Ruby runtime, TypeSet receivers, Vertex[] args, Block block, Result result) {
                     if (args != null && args.length > 0) {
@@ -508,7 +512,7 @@ public class Graph implements NodeVisitor {
                                         case 'a': case 'A': case 'Z': case 'b':
                                         case 'B': case 'h': case 'H': case 'm':
                                         case 'M': case 'p': case 'P': case 'u':
-                                        case 'U': 
+                                        case 'U':
                                             type = runtime.getString();
                                             break;
                                         case 'c': case 'C': case 's': case 'S':
@@ -618,7 +622,7 @@ public class Graph implements NodeVisitor {
         RubyClass objectClass = runtime.getObject();
         RubyClass classClass = runtime.getClassClass();
         RubyClass procClass = runtime.getProc();
-        
+
         objectClass.addMethod("class", new DefaultMethod(objectClass, "class", null, null, Visibility.PUBLIC, null) {
                 public Vertex call(Graph graph, Template template, IRubyObject receiver, IRubyObject[] args, Vertex[] argVertices, Block block) {
                     return graph.createFreeSingleTypeVertex(receiver.getMetaClass());
@@ -686,7 +690,7 @@ public class Graph implements NodeVisitor {
     public VertexHolder createVertexHolder(Vertex vertex) {
         return new VertexHolder(runtime, vertex);
     }
-    
+
     public VertexHolder createFreeVertexHolder() {
         return new VertexHolder(runtime, createFreeVertex());
     }
@@ -694,7 +698,7 @@ public class Graph implements NodeVisitor {
     public Vertex createEmptyVertex(Node node) {
         return new Vertex(node);
     }
-    
+
     public Vertex createSingleTypeVertex(Node node, IRubyObject type) {
         Vertex vertex = new Vertex(node, 2);
         vertex.addType(type);
@@ -769,30 +773,66 @@ public class Graph implements NodeVisitor {
     }
 
     public Object visitAliasNode(AliasNode node) {
+        int endName;
+
         RubyModule module = context.getFrameModule();
-        DynamicMethod method = module.getMethod(node.getOldName());
-        if (method instanceof Method)
-            module.addMethod(node.getNewName(), new AliasMethod(node.getNewName(), (Method) method));
+        Node oldNode = node.getOldName();
+        String oldNodeString = oldNode.toString();
+
+        CharSequence comma = ",";
+        CharSequence colon = ":";
+        if (oldNodeString.contains(colon)) {
+            endName = oldNodeString.indexOf(':');
+        } else if (oldNodeString.contains(comma)) {
+            endName = oldNodeString.indexOf(",");
+        } else {
+            endName = oldNodeString.length() - 1;
+        }
+
+        String oldName = oldNodeString.substring(1,endName);
+
+        DynamicMethod method = module.getMethod(oldName);
+        if (method instanceof Method) {
+
+            int endNameTo;
+
+            Node newNode = node.getNewName();
+            String newNodeString = newNode.toString();
+
+            CharSequence commaTo = ",";
+            CharSequence colonTo = ":";
+            if (newNodeString.contains(colonTo)) {
+                endNameTo = newNodeString.indexOf(':');
+            } else if (newNodeString.contains(commaTo)) {
+                endNameTo = newNodeString.indexOf(",");
+            } else {
+                endNameTo = newNodeString.length() - 1;
+            }
+
+            String newName = newNodeString.substring(1, endNameTo);
+            module.addMethod(newName, new AliasMethod(newName, (Method) method));
+        }
+
         return Vertex.EMPTY;
     }
-    
+
     public Object visitAndNode(AndNode node) {
         Vertex vertex = createEmptyVertex(node);
-        Vertex firstVertex = createVertex(node.getFirstNode());
-        Vertex secondVertex = createVertex(node.getSecondNode());
+        Vertex firstVertex = createVertex(node.getFirst());
+        Vertex secondVertex = createVertex(node.getSecond());
         addEdgeAndUpdate(secondVertex, vertex);
         return vertex;
     }
-    
+
     public Object visitArgsNode(ArgsNode node) {
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
     public Object visitArgsCatNode(ArgsCatNode node) {
         Vertex vertex = createEmptyVertex(node);
-        Vertex first = createVertex(node.getFirstNode());
-        SplatVertex second = new SplatVertex(node, createVertex(node.getSecondNode()));
+        Vertex first = createVertex(node.getFirst());
+        SplatVertex second = new SplatVertex(node, createVertex(node.getSecond()));
         RuntimeHelper.splatValue(this, second);
         for (IRubyObject a : first.getTypeSet()) {
             List<Vertex> elements = new ArrayList<Vertex>();
@@ -818,21 +858,26 @@ public class Graph implements NodeVisitor {
         }
         return vertex;
     }
-    
+
     public Object visitArgsPushNode(ArgsPushNode node) {
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
+    public Object visitArgumentNode(ArgumentNode node) {
+        Vertex vertex = createEmptyVertex(node);
+        return vertex;
+    }
+
     public Object visitArrayNode(ArrayNode node) {
         return RuntimeHelper.createArrayVertex(this, node, RuntimeHelper.toVertices(this, node));
     }
-    
+
     public Object visitAttrAssignNode(AttrAssignNode node) {
-        Vertex receiverVertex = createVertex(node.getReceiverNode());
+        Vertex receiverVertex = createVertex(node.getReceiver());
         Vertex[] argVertices = null;
-        if (node.getArgsNode() != null) {
-            List<Node> argNodes = node.getArgsNode().childNodes();
+        if (node.getArgs() != null) {
+            List<Node> argNodes = node.getArgs().childNodes();
             argVertices = new Vertex[argNodes.size()];
             for (int i = 0; i < argVertices.length; i++) {
                 argVertices[i] = createVertex(argNodes.get(i));
@@ -842,24 +887,29 @@ public class Graph implements NodeVisitor {
         CallVertex vertex = new CallVertex(node, receiverVertex, argVertices, null);
         return RuntimeHelper.call(this, vertex);
     }
-    
+
     public Object visitBackRefNode(BackRefNode node) {
         return createSingleTypeVertex(node, newInstanceOf(runtime.getString()));
     }
-    
+
     public Object visitBeginNode(BeginNode node) {
-        return createVertex(node.getBodyNode());
+        return createVertex(node.getBody());
     }
-    
+
     public Object visitBignumNode(BignumNode node) {
         return createSingleTypeVertex(node, newInstanceOf(runtime.getBignum()));
     }
-    
+
     public Object visitBlockArgNode(BlockArgNode node) {
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
+    public Object visitBlockArg18Node(BlockArg18Node node) {
+        unsupportedNode(node);
+        return Vertex.EMPTY;
+    }
+
     public Object visitBlockNode(BlockNode node) {
         Object result = null;
         for (Node child : node.childNodes()) {
@@ -867,13 +917,13 @@ public class Graph implements NodeVisitor {
         }
         return result;
     }
-    
+
     public Object visitBlockPassNode(BlockPassNode node) {
         // Never reach here
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
     public Object visitBreakNode(BreakNode node) {
         Frame frame = context.getCurrentFrame();
         LoopTag loopTag = RuntimeHelper.getFrameLoopTag(frame);
@@ -887,54 +937,54 @@ public class Graph implements NodeVisitor {
         }
         return Vertex.EMPTY;
     }
-    
+
     public Object visitConstDeclNode(ConstDeclNode node) {
         return RuntimeHelper.constDeclaration(this, node);
     }
-    
+
     public Object visitClassVarAsgnNode(ClassVarAsgnNode node) {
         return RuntimeHelper.classVarAssign(this, node);
     }
-    
+
     public Object visitClassVarDeclNode(ClassVarDeclNode node) {
         return RuntimeHelper.classVarDeclaration(this, node);
     }
-    
+
     public Object visitClassVarNode(ClassVarNode node) {
         return RuntimeHelper.classVariable(this, node);
     }
-    
+
     public Object visitCallNode(CallNode node) {
-        Vertex receiverVertex = createVertex(node.getReceiverNode());
-        Vertex[] argVertices = RuntimeHelper.setupCallArgs(this, node.getArgsNode());
-        Block block = RuntimeHelper.setupCallBlock(this, node.getIterNode());
+        Vertex receiverVertex = createVertex(node.getReceiver());
+        Vertex[] argVertices = RuntimeHelper.setupCallArgs(this, node.getArgs());
+        Block block = RuntimeHelper.setupCallBlock(this, node.getIter());
         CallVertex vertex = new CallVertex(node, receiverVertex, argVertices, block);
         return RuntimeHelper.call(this, vertex);
     }
-    
+
     public Object visitCaseNode(CaseNode node) {
         // FIXME eval ===
         Vertex vertex = createEmptyVertex(node);
-        if (node.getCaseNode() != null) {
-            createVertex(node.getCaseNode());
+        if (node.getCase() != null) {
+            createVertex(node.getCase());
         }
         ListNode cases = node.getCases();
         if (cases != null) {
             for (int i = 0; i < cases.size(); i++) {
                 WhenNode when = (WhenNode) cases.get(i);
-                if (when.getBodyNode() != null) {
-                    Vertex v = createVertex(when.getBodyNode());
+                if (when.getBody() != null) {
+                    Vertex v = createVertex(when.getBody());
                     addEdgeAndUpdate(v, vertex);
                 }
             }
         }
-        if (node.getElseNode() != null) {
-            Vertex v = createVertex(node.getElseNode());
+        if (node.getElse() != null) {
+            Vertex v = createVertex(node.getElse());
             addEdgeAndUpdate(v, vertex);
         }
         return vertex;
     }
-    
+
     public Object visitClassNode(ClassNode node) {
         Colon3Node cpath = node.getCPath();
         String name = cpath.getName();
@@ -945,8 +995,8 @@ public class Graph implements NodeVisitor {
         }
 
         RubyClass superClass = null;
-        if (node.getSuperNode() != null) {
-            Vertex v = createVertex(node.getSuperNode());
+        if (node.getSuper() != null) {
+            Vertex v = createVertex(node.getSuper());
             if (v != null) {
                 IRubyObject superObj = v.singleType();
                 if (superObj instanceof RubyClass) {
@@ -964,19 +1014,19 @@ public class Graph implements NodeVisitor {
             context.pushFrame(klass, name, klass, null, Visibility.PUBLIC);
             context.pushScope(new LocalScope(klass));
 
-            RuntimeHelper.classPartialUpdate(this, klass, node.getBodyNode());
+            RuntimeHelper.classPartialUpdate(this, klass, node.getBody());
 
             context.popScope();
             context.popFrame();
 
-            RuntimeHelper.setClassTag(klass, node.getBodyNode(), AnnotationHelper.parseAnnotations(node.getCommentList(), node.getPosition().getStartLine()));
+            RuntimeHelper.setClassTag(klass, node.getBody(), AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
 
             notifyClassEvent(node, klass);
         }
-        
+
         return Vertex.EMPTY;
     }
-    
+
     public Object visitColon2Node(Colon2Node node) {
         RubyModule target = RuntimeHelper.getNamespace(this, node);
         if (target != null) {
@@ -992,7 +1042,7 @@ public class Graph implements NodeVisitor {
             return Vertex.EMPTY;
         }
     }
-    
+
     public Object visitColon3Node(Colon3Node node) {
         IRubyObject value = runtime.getObject().getConstant(node.getName());
         if (value instanceof VertexHolder) {
@@ -1003,7 +1053,7 @@ public class Graph implements NodeVisitor {
             return Vertex.EMPTY;
         }
     }
-    
+
     public Object visitConstNode(ConstNode node) {
         IRubyObject value = context.getConstant(node.getName());
         if (value instanceof VertexHolder) {
@@ -1014,46 +1064,46 @@ public class Graph implements NodeVisitor {
             return Vertex.EMPTY;
         }
     }
-    
+
     public Object visitDAsgnNode(DAsgnNode node) {
         return RuntimeHelper.dynamicAssign(this, node);
     }
-    
+
     public Object visitDRegxNode(DRegexpNode node) {
         // FIXME eval
         return createSingleTypeVertex(node, newInstanceOf(runtime.getRegexp()));
     }
-    
+
     public Object visitDStrNode(DStrNode node) {
         // FIXME eval
         return createSingleTypeVertex(node, newInstanceOf(runtime.getString()));
     }
-    
+
     public Object visitDSymbolNode(DSymbolNode node) {
         // FIXME eval
         return createSingleTypeVertex(node, newInstanceOf(runtime.getSymbol()));
     }
-    
+
     public Object visitDVarNode(DVarNode node) {
         VertexHolder holder = (VertexHolder) runtime.getContext().getCurrentScope().getValue(node.getName());
         return holder != null ? holder.getVertex() : Vertex.EMPTY;
     }
-    
+
     public Object visitDXStrNode(DXStrNode node) {
         // FIXME eval `
         return createSingleTypeVertex(node, newInstanceOf(runtime.getString()));
     }
-    
+
     public Object visitDefinedNode(DefinedNode node) {
         return createSingleTypeVertex(node, newInstanceOf(runtime.getString()));
     }
-    
+
     public Object visitDefnNode(DefnNode node) {
         RubyModule cbase = context.getCurrentScope().getModule();
         RubyModule klass = context.getFrameModule();
         String name = node.getName();
-        Node bodyNode = node.getBodyNode();
-        Node argsNode = node.getArgsNode();
+        Node bodyNode = node.getBody();
+        Node argsNode = node.getArgs();
         Visibility visibility = context.getFrameVisibility();
         boolean moduleFunction = visibility == Visibility.MODULE_FUNCTION;
         if (name == "initialize" || name == "initialize_copy" || moduleFunction) {
@@ -1063,7 +1113,7 @@ public class Graph implements NodeVisitor {
         Method oldMethod = (Method) klass.getMethod(name);
         Method newMethod = new DefaultMethod(cbase, name, bodyNode, argsNode, visibility, SourceLocation.of(node));
         klass.addMethod(name, newMethod);
-        
+
         if (moduleFunction) {
             Method singletonMethod = new DefaultMethod(cbase, name, bodyNode, argsNode, visibility, SourceLocation.of(node));
             singletonMethod.setVisibility(Visibility.PUBLIC);
@@ -1071,9 +1121,9 @@ public class Graph implements NodeVisitor {
         }
 
         IRubyObject receiver = newInstanceOf((klass instanceof RubyClass) ? (RubyClass) klass : runtime.getObject());
-        
+
         RuntimeHelper.methodPartialUpdate(this, node, newMethod, oldMethod, receiver);
-        RuntimeHelper.setMethodTag(newMethod, node, AnnotationHelper.parseAnnotations(node.getCommentList(), node.getPosition().getStartLine()));
+        RuntimeHelper.setMethodTag(newMethod, node, AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
 
         dummyCallQueue.offer(new DummyCall(node, newMethod, oldMethod, receiver));
 
@@ -1081,9 +1131,9 @@ public class Graph implements NodeVisitor {
 
         return Vertex.EMPTY;
     }
-    
+
     public Object visitDefsNode(DefsNode node) {
-        Vertex receiverVertex = createVertex(node.getReceiverNode());
+        Vertex receiverVertex = createVertex(node.getReceiver());
         if (receiverVertex.isEmpty()) {
             Logger.error(SourceLocation.of(node), "null receiver for defs: %s", node.getName());
             return Vertex.EMPTY;
@@ -1094,15 +1144,15 @@ public class Graph implements NodeVisitor {
         for (IRubyObject receiver : receiverVertex.getTypeSet()) {
             if (receiver instanceof RubyModule) {
                 RubyClass rubyClass = receiver.getSingletonClass();
-                Node bodyNode = node.getBodyNode();
-                Node argsNode = node.getArgsNode();
+                Node bodyNode = node.getBody();
+                Node argsNode = node.getArgs();
 
                 Method oldMethod = (Method) rubyClass.getMethod(name);
                 Method newMethod = new DefaultMethod(cbase, name, bodyNode, argsNode, Visibility.PUBLIC, SourceLocation.of(node));
                 rubyClass.addMethod(name, newMethod);
 
                 RuntimeHelper.methodPartialUpdate(this, node, newMethod, oldMethod, receiver);
-                RuntimeHelper.setMethodTag(newMethod, node, AnnotationHelper.parseAnnotations(node.getCommentList(), node.getPosition().getStartLine()));
+                RuntimeHelper.setMethodTag(newMethod, node, AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
 
                 dummyCallQueue.offer(new DummyCall(node, newMethod, oldMethod, receiver));
 
@@ -1113,12 +1163,12 @@ public class Graph implements NodeVisitor {
 
         return Vertex.EMPTY;
     }
-    
+
     public Object visitDotNode(DotNode node) {
         // FIXME propagation
         IRubyObject range = newInstanceOf(runtime.getRange());
-        Vertex beginVertex = createVertex(node.getBeginNode());
-        Vertex endVertex = createVertex(node.getEndNode());
+        Vertex beginVertex = createVertex(node.getBegin());
+        Vertex endVertex = createVertex(node.getEnd());
         TypeVarMap typeVarMap = RuntimeHelper.getTypeVarMap(range);
         if (typeVarMap != null && beginVertex != null && endVertex != null) {
             Vertex t = createFreeVertex();
@@ -1128,81 +1178,81 @@ public class Graph implements NodeVisitor {
         }
         return createSingleTypeVertex(node, range);
     }
-    
+
     public Object visitEncodingNode(EncodingNode node) {
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
     public Object visitEnsureNode(EnsureNode node) {
         // FIXME
-        if (node.getEnsureNode() != null) {
-            createVertex(node.getEnsureNode());
+        if (node.getEnsure() != null) {
+            createVertex(node.getEnsure());
         }
-        return createVertex(node.getBodyNode());
+        return createVertex(node.getBody());
     }
-    
+
     public Object visitEvStrNode(EvStrNode node) {
         // never reach here
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
     public Object visitFCallNode(FCallNode node) {
-        Vertex[] argVertices = RuntimeHelper.setupCallArgs(this, node.getArgsNode());
-        Block block = RuntimeHelper.setupCallBlock(this, node.getIterNode());
+        Vertex[] argVertices = RuntimeHelper.setupCallArgs(this, node.getArgs());
+        Block block = RuntimeHelper.setupCallBlock(this, node.getIter());
         CallVertex vertex = new CallVertex(node, createFreeSingleTypeVertex(context.getFrameSelf()), argVertices, block);
         vertex.setPrivateVisibility(true);
         return RuntimeHelper.call(this, vertex);
     }
-    
+
     public Object visitFalseNode(FalseNode node) {
         return createSingleTypeVertex(node, runtime.getFalse());
     }
-    
+
     public Object visitFixnumNode(FixnumNode node) {
         return createSingleTypeVertex(node, newInstanceOf(runtime.getFixnum()));
     }
-    
+
     public Object visitFlipNode(FlipNode node) {
         // FIXME check booleans (new vertex)
         return createSingleTypeVertex(node, newInstanceOf(runtime.getBoolean()));
     }
-    
+
     public Object visitFloatNode(FloatNode node) {
         return createSingleTypeVertex(node, newInstanceOf(runtime.getFloat()));
     }
-    
+
     public Object visitForNode(ForNode node) {
         Vertex vertex = createEmptyVertex(node);
-        Vertex receiverVertex = createVertex(node.getIterNode());
-        Block block = new Proc(runtime, node.getVarNode(), node.getBodyNode(), context.getCurrentFrame(), context.getCurrentScope());
+        Vertex receiverVertex = createVertex(node.getIter());
+        Block block = new Proc(runtime, node.getVar(), node.getBody(), context.getCurrentFrame(), context.getCurrentScope());
         CallVertex callVertex = new CallVertex(node, "each", receiverVertex, null, block);
         RuntimeHelper.call(this, callVertex);
         addEdgeAndUpdate(vertex, callVertex);
         return vertex;
     }
-    
+
     public Object visitGlobalAsgnNode(GlobalAsgnNode node) {
         return RuntimeHelper.globalAssign(this, node);
     }
-    
+
     public Object visitGlobalVarNode(GlobalVarNode node) {
         return RuntimeHelper.globalVariable(this, node);
     }
-    
+
     public Object visitHashNode(HashNode node) {
         return RuntimeHelper.createHashVertex(this, node, RuntimeHelper.toVertices(this, node.getListNode()));
     }
-    
+
     public Object visitInstAsgnNode(InstAsgnNode node) {
         return RuntimeHelper.instanceAssign(this, node);
     }
-    
+
     public Object visitInstVarNode(InstVarNode node) {
         return RuntimeHelper.instanceVariable(this, node);
     }
-    
+
     public Object visitIfNode(IfNode node) {
         Vertex vertex = createEmptyVertex(node);
         createVertex(node.getCondition());
@@ -1219,45 +1269,55 @@ public class Graph implements NodeVisitor {
         }
         return vertex;
     }
-    
+
     public Object visitIterNode(IterNode node) {
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
+    public Object visitListNode(ListNode node) {
+        Vertex vertex = createEmptyVertex(node);
+        return vertex;
+    }
+
+    public Object visitLiteralNode(LiteralNode node) {
+        unsupportedNode(node);
+        return Vertex.EMPTY;
+    }
+
     public Object visitLocalAsgnNode(LocalAsgnNode node) {
         return RuntimeHelper.localAssign(this, node);
     }
-    
+
     public Object visitLocalVarNode(LocalVarNode node) {
         VertexHolder holder = (VertexHolder) runtime.getContext().getCurrentScope().getValue(node.getName());
         return holder != null ? holder.getVertex() : Vertex.EMPTY;
     }
-    
+
     public Object visitMultipleAsgnNode(MultipleAsgnNode node) {
         return RuntimeHelper.multipleAssign(this, node);
     }
-    
+
     public Object visitMultipleAsgnNode(MultipleAsgn19Node node) {
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
     public Object visitMatch2Node(Match2Node node) {
         // FIXME speedup node
         return createSingleTypeVertex(node, newInstanceOf(runtime.getMatchData()));
     }
-    
+
     public Object visitMatch3Node(Match3Node node) {
         // FIXME speedup node
         return createSingleTypeVertex(node, newInstanceOf(runtime.getMatchData()));
     }
-    
+
     public Object visitMatchNode(MatchNode node) {
         // FIXME speedup node
         return createSingleTypeVertex(node, newInstanceOf(runtime.getMatchData()));
     }
-    
+
     public Object visitModuleNode(ModuleNode node) {
         Colon3Node cpath = node.getCPath();
         String name = cpath.getName();
@@ -1273,19 +1333,19 @@ public class Graph implements NodeVisitor {
             context.pushFrame(module, name, module, null, Visibility.PUBLIC);
             context.pushScope(new LocalScope(module));
 
-            RuntimeHelper.classPartialUpdate(this, module, node.getBodyNode());
+            RuntimeHelper.classPartialUpdate(this, module, node.getBody());
 
             context.popScope();
             context.popFrame();
-        
-            RuntimeHelper.setClassTag(module, node.getBodyNode(), AnnotationHelper.parseAnnotations(node.getCommentList(), node.getPosition().getStartLine()));
-        
+
+            RuntimeHelper.setClassTag(module, node.getBody(), AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
+
             notifyModuleEvent(node, module);
         }
-        
+
         return Vertex.EMPTY;
     }
-    
+
     public Object visitNewlineNode(NewlineNode node) {
         return createVertex(node.getNextNode());
     }
@@ -1303,163 +1363,168 @@ public class Graph implements NodeVisitor {
         }
         return Vertex.EMPTY;
     }
-    
+
     public Object visitNilNode(NilNode node) {
         return createSingleTypeVertex(node, runtime.getNil());
     }
-    
+
     public Object visitNotNode(NotNode node) {
-        createVertex(node.getConditionNode());
+        createVertex(node.getCondition());
         return createSingleTypeVertex(node, newInstanceOf(runtime.getBoolean()));
     }
-    
+
     public Object visitNthRefNode(NthRefNode node) {
         // FIXME
         return createSingleTypeVertex(node, newInstanceOf(runtime.getString()));
     }
-    
+
     public Object visitOpElementAsgnNode(OpElementAsgnNode node) {
         String operator = node.getOperatorName();
-        Vertex receiverVertex = createVertex(node.getReceiverNode());
+        Vertex receiverVertex = createVertex(node.getReceiver());
         Vertex[] argVertices = null;
-        if (node.getArgsNode() != null) {
-            List<Node> argNodes = node.getArgsNode().childNodes();
+        if (node.getArgs() != null) {
+            List<Node> argNodes = node.getArgs().childNodes();
             argVertices = new Vertex[argNodes.size()];
             for (int i = 0; i < argVertices.length; i++) {
                 argVertices[i] = createVertex(argNodes.get(i));
             }
         }
-        Vertex src = createVertex(node.getValueNode());
+        Vertex src = createVertex(node.getValue());
         Vertex value;
 
         if (operator.equals("||") || operator.equals("&&")) {
             // do nothing
             value = src;
         } else {
-            CallVertex getter = new CallVertex(node.getReceiverNode(), "[]", receiverVertex, argVertices, null);
+            CallVertex getter = new CallVertex(node.getReceiver(), "[]", receiverVertex, argVertices, null);
             CallVertex op = new CallVertex(node, operator, RuntimeHelper.call(this, getter), new Vertex[] {src}, null);
             value = RuntimeHelper.call(this, op);
         }
-       
+
         Vertex[] expandedArgs = new Vertex[argVertices.length + 1];
         System.arraycopy(argVertices, 0, expandedArgs, 0, argVertices.length);
         expandedArgs[expandedArgs.length - 1] = value;
         CallVertex setter = new CallVertex(node, "[]=", receiverVertex, expandedArgs, null);
         return RuntimeHelper.call(this, setter);
     }
-    
+
     public Object visitOpAsgnNode(OpAsgnNode node) {
         String operator = node.getOperatorName();
         String var = node.getVariableName();
-        String varAsgn = node.getVariableNameAsgn();
-        Vertex receiverVertex = createVertex(node.getReceiverNode());
-        Vertex src = createVertex(node.getValueNode());
+        String varAsgn = (node.getVariableName() + "=");
+        Vertex receiverVertex = createVertex(node.getReceiver());
+        Vertex src = createVertex(node.getValue());
         Vertex value;
         if (operator.equals("||") || operator.equals("&&")) {
             // do nothing
             value = src;
         } else {
-            CallVertex getter = new CallVertex(node.getValueNode(), var, receiverVertex, null, null);
-            CallVertex op = new CallVertex(node.getValueNode(), operator, RuntimeHelper.call(this, getter), new Vertex[] {src}, null);
+            CallVertex getter = new CallVertex(node.getValue(), var, receiverVertex, null, null);
+            CallVertex op = new CallVertex(node.getValue(), operator, RuntimeHelper.call(this, getter), new Vertex[] {src}, null);
             value = RuntimeHelper.call(this, op);
         }
-        
-        CallVertex setter = new CallVertex(node.getValueNode(), varAsgn, receiverVertex, new Vertex[] {value}, null);
+
+        CallVertex setter = new CallVertex(node.getValue(), varAsgn, receiverVertex, new Vertex[] {value}, null);
         return RuntimeHelper.call(this, setter);
     }
-    
+
     public Object visitOpAsgnAndNode(OpAsgnAndNode node) {
         Vertex vertex = createEmptyVertex(node);
-        Vertex firstVertex = createVertex(node.getFirstNode());
-        Vertex secondVertex = createVertex(node.getSecondNode());
+        Vertex firstVertex = createVertex(node.getFirst());
+        Vertex secondVertex = createVertex(node.getSecond());
         addEdgeAndUpdate(firstVertex, vertex);
         addEdgeAndUpdate(secondVertex, vertex);
         return vertex;
     }
-    
+
     public Object visitOpAsgnOrNode(OpAsgnOrNode node) {
         Vertex vertex = createEmptyVertex(node);
-        Vertex firstVertex = createVertex(node.getFirstNode());
-        Vertex secondVertex = createVertex(node.getSecondNode());
+        Vertex firstVertex = createVertex(node.getFirst());
+        Vertex secondVertex = createVertex(node.getSecond());
         addEdgeAndUpdate(firstVertex, vertex);
         addEdgeAndUpdate(secondVertex, vertex);
         return vertex;
     }
-    
+
+    public Object visitOptArgNode(OptArgNode node) {
+        Vertex vertex = createEmptyVertex(node);
+        return vertex;
+    };
+
     public Object visitOrNode(OrNode node) {
         Vertex vertex = createEmptyVertex(node);
-        Vertex firstVertex = createVertex(node.getFirstNode());
-        Vertex secondVertex = createVertex(node.getSecondNode());
+        Vertex firstVertex = createVertex(node.getFirst());
+        Vertex secondVertex = createVertex(node.getSecond());
         addEdgeAndUpdate(firstVertex, vertex);
         addEdgeAndUpdate(secondVertex, vertex);
         return vertex;
     }
-    
+
     public Object visitPreExeNode(PreExeNode node) {
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
     public Object visitPostExeNode(PostExeNode node) {
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
     public Object visitRedoNode(RedoNode node) {
         return Vertex.EMPTY;
     }
-    
+
     public Object visitRegexpNode(RegexpNode node) {
         return createSingleTypeVertex(node, newInstanceOf(runtime.getRegexp()));
     }
-    
+
     public Object visitRescueBodyNode(RescueBodyNode node) {
-        if (node.getBodyNode() != null) {
-            return createVertex(node.getBodyNode());
+        if (node.getBody() != null) {
+            return createVertex(node.getBody());
         }
         return Vertex.EMPTY;
     }
-    
+
     public Object visitRescueNode(RescueNode node) {
         Vertex result = Vertex.EMPTY;
-        if (node.getBodyNode() != null) {
-            result = createVertex(node.getBodyNode());
+        if (node.getBody() != null) {
+            result = createVertex(node.getBody());
         }
-        if (node.getRescueNode() != null) {
-            createVertex(node.getRescueNode());
+        if (node.getRescue() != null) {
+            createVertex(node.getRescue());
         }
-        if (node.getElseNode() != null) {
-            result = createVertex(node.getElseNode());
+        if (node.getElse() != null) {
+            result = createVertex(node.getElse());
         }
         return result;
     }
-    
+
     public Object visitRestArgNode(RestArgNode node) {
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
     public Object visitRetryNode(RetryNode node) {
         return Vertex.EMPTY;
     }
-    
+
     public Object visitReturnNode(ReturnNode node) {
         Frame frame = context.getCurrentFrame();
         Template template = RuntimeHelper.getFrameTemplate(frame);
         if (template != null) {
-            Vertex vertex = createVertex(node.getValueNode());
+            Vertex vertex = createVertex(node.getValue());
             addEdgeAndPropagate(vertex, template.getReturnVertex());
             return vertex;
         }
         return Vertex.EMPTY;
     }
-    
+
     public Object visitRootNode(RootNode node) {
-        return createVertex(node.getBodyNode());
+        return createVertex(node.getBody());
     }
-    
+
     public Object visitSClassNode(SClassNode node) {
-        Vertex receiverVertex = createVertex(node.getReceiverNode());
+        Vertex receiverVertex = createVertex(node.getReceiver());
 
         if (receiverVertex != null) {
             for (IRubyObject object : receiverVertex.getTypeSet()) {
@@ -1470,14 +1535,14 @@ public class Graph implements NodeVisitor {
                         context.pushFrame(klass, "sclass", klass, null, Visibility.PUBLIC);
                         context.pushScope(new LocalScope((RubyModule) metaClass.getAttached()));
 
-                        if (node.getBodyNode() != null) {
-                            createVertex(node.getBodyNode());
+                        if (node.getBody() != null) {
+                            createVertex(node.getBody());
                         }
 
                         context.popScope();
                         context.popFrame();
                     }
-                    
+
                     return Vertex.EMPTY;
                 } else {
                     Logger.warn(SourceLocation.of(node), "singleton class of objects is not supported.");
@@ -1487,7 +1552,7 @@ public class Graph implements NodeVisitor {
 
         return Vertex.EMPTY;
     }
-    
+
     public Object visitSelfNode(SelfNode node) {
         IRubyObject self = context.getFrameSelf();
         if (self == null) {
@@ -1496,114 +1561,114 @@ public class Graph implements NodeVisitor {
         } else
             return createSingleTypeVertex(node, self);
     }
-    
+
     public Object visitSplatNode(SplatNode node) {
         Vertex valueVertex = createVertex(node.getValue());
         SplatVertex vertex = new SplatVertex(node, valueVertex);
         RuntimeHelper.splatValue(this, vertex);
         return vertex;
     }
-    
+
     public Object visitStrNode(StrNode node) {
         return createSingleTypeVertex(node, newInstanceOf(runtime.getString()));
     }
-    
+
     public Object visitSuperNode(SuperNode node) {
         Vertex receiverVertex = createFreeSingleTypeVertex(context.getFrameSelf());
         Vertex[] argVertices = null;
-        if (node.getArgsNode() != null) {
-            List<Node> argNodes = node.getArgsNode().childNodes();
+        if (node.getArgs() != null) {
+            List<Node> argNodes = node.getArgs().childNodes();
             argVertices = new Vertex[argNodes.size()];
             for (int i = 0; i < argVertices.length; i++) {
                 argVertices[i] = createVertex(argNodes.get(i));
             }
         }
-        
-        Block block = RuntimeHelper.setupCallBlock(this, node.getIterNode());
+
+        Block block = RuntimeHelper.setupCallBlock(this, node.getIter());
         CallVertex vertex = new CallVertex(node, context.getCurrentFrame().getName(), receiverVertex, argVertices, block);
         vertex.setPrivateVisibility(true);
         return RuntimeHelper.callSuper(this, vertex);
     }
-    
+
     public Object visitSValueNode(SValueNode node) {
         SValueVertex vertex = new SValueVertex(node, createVertex(node.getValue()));
         RuntimeHelper.aValueSplat(this, vertex);
         return vertex;
     }
-    
+
     public Object visitSymbolNode(SymbolNode node) {
         return createSingleTypeVertex(node, newInstanceOf(runtime.getSymbol()));
     }
-    
+
     public Object visitToAryNode(ToAryNode node) {
         Vertex valueVertex = createVertex(node.getValue());
         ToAryVertex vertex = new ToAryVertex(node, valueVertex);
         RuntimeHelper.toAryValue(this, vertex);
         return vertex;
     }
-    
+
     public Object visitTrueNode(TrueNode node) {
         return createSingleTypeVertex(node, runtime.getTrue());
     }
-    
+
     public Object visitUndefNode(UndefNode node) {
         Logger.warn("undef is not supported yet.");
         return Vertex.EMPTY;
     }
-    
+
     public Object visitUntilNode(UntilNode node) {
         Vertex vertex = createEmptyVertex(node);
-        createVertex(node.getConditionNode());
+        createVertex(node.getCondition());
         RuntimeHelper.pushLoopFrame(context, vertex, null);
-        createVertex(node.getBodyNode());
+        createVertex(node.getBody());
         RuntimeHelper.popLoopFrame(context);
         return vertex;
     }
-    
+
     public Object visitVAliasNode(VAliasNode node) {
-        RuntimeHelper.aliasGlobalVaraibles(this, node.getNewName(), node.getOldName());
+        RuntimeHelper.aliasGlobalVariables(this, node.getNewName(), node.getOldName());
         return Vertex.EMPTY;
     }
-    
+
     public Object visitVCallNode(VCallNode node) {
         CallVertex vertex = new CallVertex(node, createFreeSingleTypeVertex(context.getFrameSelf()), null, null);
         vertex.setPrivateVisibility(true);
         return RuntimeHelper.call(this, vertex);
     }
-    
+
     public Object visitWhenNode(WhenNode node) {
         // never reach here
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
     public Object visitWhileNode(WhileNode node) {
         Vertex vertex = createEmptyVertex(node);
-        createVertex(node.getConditionNode());
+        createVertex(node.getCondition());
         RuntimeHelper.pushLoopFrame(context, vertex, null);
-        createVertex(node.getBodyNode());
+        createVertex(node.getBody());
         RuntimeHelper.popLoopFrame(context);
         return vertex;
     }
-    
+
     public Object visitXStrNode(XStrNode node) {
         // FIXME eval `
         return createSingleTypeVertex(node, newInstanceOf(runtime.getString()));
     }
-    
+
     public Object visitYieldNode(YieldNode node) {
         Vertex argsVertex = null;
-        if (node.getArgsNode() != null) {
-            argsVertex = createVertex(node.getArgsNode());
+        if (node.getArgs() != null) {
+            argsVertex = createVertex(node.getArgs());
         }
         YieldVertex vertex = new YieldVertex(node, RuntimeHelper.getFrameTemplate(context.getCurrentFrame()), context.getFrameBlock(), argsVertex, node.getExpandArguments());
         return RuntimeHelper.yield(this, vertex);
     }
-    
+
     public Object visitZArrayNode(ZArrayNode node) {
         return RuntimeHelper.createArrayVertex(this, node, null);
     }
-    
+
     public Object visitZSuperNode(ZSuperNode node) {
         Template template = RuntimeHelper.getFrameTemplate(context.getCurrentFrame());
         if (template != null) {
@@ -1616,8 +1681,8 @@ public class Graph implements NodeVisitor {
             for (int i = 0; i < args.length; i++) {
                 argVertices[i] = createFreeSingleTypeVertex(args[i]);
             }
-            
-            Block block = RuntimeHelper.setupCallBlock(this, node.getIterNode());
+
+            Block block = RuntimeHelper.setupCallBlock(this, node.getIter());
             CallVertex vertex = new CallVertex(node, context.getCurrentFrame().getName(), receiverVertex, argVertices, block);
             vertex.setPrivateVisibility(true);
             return RuntimeHelper.callSuper(this, vertex);
@@ -1700,7 +1765,7 @@ public class Graph implements NodeVisitor {
 
         return propagateEdges(propagation, dest);
     }
-    
+
     public boolean propagateTypeVarVertex(Propagation propagation, TypeVarVertex dest, Vertex src) {
         if (propagation.checkVisited(dest)) { return true; }
 

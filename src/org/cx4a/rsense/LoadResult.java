@@ -6,7 +6,7 @@ public class LoadResult extends CodeAssistResult {
         result.addError(new CodeAssistError("File not found"));
         return result;
     }
-    
+
     public static LoadResult failWithException(String message, Throwable cause) {
         LoadResult result = new LoadResult();
         result.addError(new CodeAssistError(message, cause));

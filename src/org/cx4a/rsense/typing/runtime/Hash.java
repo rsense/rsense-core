@@ -11,10 +11,10 @@ import org.cx4a.rsense.typing.vertex.Vertex;
 import org.cx4a.rsense.typing.annotation.TypeVariable;
 import org.cx4a.rsense.typing.annotation.ClassType;
 
-import org.jruby.ast.Node;
-import org.jruby.ast.StrNode;
-import org.jruby.ast.FixnumNode;
-import org.jruby.ast.SymbolNode;
+import org.jrubyparser.ast.Node;
+import org.jrubyparser.ast.StrNode;
+import org.jrubyparser.ast.FixnumNode;
+import org.jrubyparser.ast.SymbolNode;
 
 public class Hash extends Array {
     public static class Key {
@@ -34,7 +34,7 @@ public class Hash extends Array {
             return typeSet;
         }
     }
-    
+
     protected Key[] keys;
 
     public Hash(Ruby runtime, Vertex[] elements) {

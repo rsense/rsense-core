@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Collections;
 
-import org.jruby.ast.Node;
+import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.ruby.Ruby;
 import org.cx4a.rsense.ruby.RubyClass;
@@ -27,7 +27,7 @@ public class Proc extends RubyObject implements Block {
     private Scope scope;
     private Set<YieldVertex> yields;
     private int varNodeHashCode, bodyNodeHashCode;
-    
+
     public Proc(Ruby runtime, Node varNode, Node bodyNode, Frame frame, Scope scope) {
         super(runtime, runtime.getProc());
         this.varNode = varNode;

@@ -4,12 +4,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
-import org.jruby.ast.Node;
-import org.jruby.ast.types.INameNode;
+import org.jrubyparser.ast.Node;
+import org.jrubyparser.ast.INameNode;
 
 public class NodeDiff {
     protected List<Node> diff;
-    
+
     public NodeDiff() {
     }
 

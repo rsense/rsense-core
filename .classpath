@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="build_lib/antlr-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-runtime-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/jruby.jar"/>
+  <classpathentry kind="lib" path="lib/JRubyParser.jar"/>
 	<classpathentry kind="con" path="${classpath}"/>
 </classpath>

@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.jruby.ast.Node;
+import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.ruby.IRubyObject;
 import org.cx4a.rsense.ruby.DynamicMethod;

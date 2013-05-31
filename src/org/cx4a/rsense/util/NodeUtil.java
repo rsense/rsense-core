@@ -1,8 +1,8 @@
 package org.cx4a.rsense.util;
 
-import org.jruby.ast.*;
-import org.jruby.ast.types.INameNode;
-import org.jruby.ast.visitor.NodeVisitor;
+import org.jrubyparser.ast.*;
+import org.jrubyparser.ast.INameNode;
+import org.jrubyparser.NodeVisitor;
 
 public class NodeUtil {
     private static NodeDiff diff = new NodeDiff();
@@ -25,7 +25,7 @@ public class NodeUtil {
 
     private static class NodeHashCodeCalculator implements NodeVisitor {
         private int hashCode;
-        
+
         public NodeHashCodeCalculator(Node node) {
             hashCode = 0;
             node.accept(this);
@@ -132,6 +132,8 @@ public class NodeUtil {
         public Object visitYieldNode(YieldNode node) { return update(94); }
         public Object visitZArrayNode(ZArrayNode node) { return update(95); }
         public Object visitZSuperNode(ZSuperNode node) { return update(96); }
+        public Object visitLiteralNode(LiteralNode node) { return update(0); }
+        public Object visitBlockArg18Node(BlockArg18Node node) { return update(0); }
 
         private Object update(int n) {
             hashCode = hashCode * 13 + n;
