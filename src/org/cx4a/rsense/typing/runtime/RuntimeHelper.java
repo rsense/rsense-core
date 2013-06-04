@@ -1,82 +1,83 @@
 package org.cx4a.rsense.typing.runtime;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Collections;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import org.jrubyparser.ast.Node;
-import org.jrubyparser.ast.ArgsNode;
-import org.jrubyparser.ast.ArgumentNode;
-import org.jrubyparser.ast.ListNode;
-import org.jrubyparser.ast.LocalVarNode;
-import org.jrubyparser.ast.LocalAsgnNode;
-import org.jrubyparser.ast.DAsgnNode;
-import org.jrubyparser.ast.ClassVarDeclNode;
-import org.jrubyparser.ast.ClassVarAsgnNode;
-import org.jrubyparser.ast.ClassVarNode;
-import org.jrubyparser.ast.InstAsgnNode;
-import org.jrubyparser.ast.InstVarNode;
-import org.jrubyparser.ast.ConstDeclNode;
-import org.jrubyparser.ast.GlobalAsgnNode;
-import org.jrubyparser.ast.GlobalVarNode;
-import org.jrubyparser.ast.MultipleAsgnNode;
-import org.jrubyparser.ast.Colon2Node;
-import org.jrubyparser.ast.Colon2ImplicitNode;
-import org.jrubyparser.ast.Colon3Node;
-import org.jrubyparser.ast.AssignableNode;
-import org.jrubyparser.ast.IterNode;
-import org.jrubyparser.ast.YieldNode;
-import org.jrubyparser.ast.ZeroArgNode;
-import org.jrubyparser.ast.MethodDefNode;
-import org.jrubyparser.ast.DefnNode;
-import org.jrubyparser.ast.BlockArgNode;
-import org.jrubyparser.ast.NodeType;
-import org.jrubyparser.ast.INameNode;
 import org.jrubyparser.LocalStaticScope;
 import org.jrubyparser.SourcePosition;
+import org.jrubyparser.ast.ArgsNode;
+import org.jrubyparser.ast.ArgumentNode;
+import org.jrubyparser.ast.AssignableNode;
+import org.jrubyparser.ast.BlockArgNode;
+import org.jrubyparser.ast.ClassVarAsgnNode;
+import org.jrubyparser.ast.ClassVarDeclNode;
+import org.jrubyparser.ast.ClassVarNode;
+import org.jrubyparser.ast.Colon2ImplicitNode;
+import org.jrubyparser.ast.Colon2Node;
+import org.jrubyparser.ast.Colon3Node;
+import org.jrubyparser.ast.ConstDeclNode;
+import org.jrubyparser.ast.DAsgnNode;
+import org.jrubyparser.ast.DefnNode;
+import org.jrubyparser.ast.GlobalAsgnNode;
+import org.jrubyparser.ast.GlobalVarNode;
+import org.jrubyparser.ast.INameNode;
+import org.jrubyparser.ast.InstAsgnNode;
+import org.jrubyparser.ast.InstVarNode;
+import org.jrubyparser.ast.IterNode;
+import org.jrubyparser.ast.ListNode;
+import org.jrubyparser.ast.LocalAsgnNode;
+import org.jrubyparser.ast.LocalVarNode;
+import org.jrubyparser.ast.MethodDefNode;
+import org.jrubyparser.ast.MethodNameNode;
+import org.jrubyparser.ast.MultipleAsgnNode;
+import org.jrubyparser.ast.Node;
+import org.jrubyparser.ast.NodeType;
+import org.jrubyparser.ast.YieldNode;
+import org.jrubyparser.ast.ZeroArgNode;
 
-import org.cx4a.rsense.ruby.Ruby;
-import org.cx4a.rsense.ruby.Context;
-import org.cx4a.rsense.ruby.Scope;
-import org.cx4a.rsense.ruby.DynamicScope;
-import org.cx4a.rsense.ruby.LocalScope;
 import org.cx4a.rsense.ruby.Block;
-import org.cx4a.rsense.ruby.Frame;
-import org.cx4a.rsense.ruby.Visibility;
-import org.cx4a.rsense.ruby.RubyModule;
-import org.cx4a.rsense.ruby.RubyClass;
-import org.cx4a.rsense.ruby.MetaClass;
-import org.cx4a.rsense.ruby.IRubyObject;
+import org.cx4a.rsense.ruby.Context;
 import org.cx4a.rsense.ruby.DynamicMethod;
-import org.cx4a.rsense.util.Logger;
-import org.cx4a.rsense.util.NodeDiff;
-import org.cx4a.rsense.util.SourceLocation;
-import org.cx4a.rsense.typing.TypeSet;
+import org.cx4a.rsense.ruby.DynamicScope;
+import org.cx4a.rsense.ruby.Frame;
+import org.cx4a.rsense.ruby.IRubyObject;
+import org.cx4a.rsense.ruby.LocalScope;
+import org.cx4a.rsense.ruby.MetaClass;
+import org.cx4a.rsense.ruby.Ruby;
+import org.cx4a.rsense.ruby.RubyClass;
+import org.cx4a.rsense.ruby.RubyModule;
+import org.cx4a.rsense.ruby.Scope;
+import org.cx4a.rsense.ruby.Visibility;
+import org.cx4a.rsense.typing.Graph;
 import org.cx4a.rsense.typing.Template;
 import org.cx4a.rsense.typing.TemplateAttribute;
-import org.cx4a.rsense.typing.Graph;
-import org.cx4a.rsense.typing.runtime.TypeVarMap;
-import org.cx4a.rsense.typing.runtime.AnnotationHelper;
-import org.cx4a.rsense.typing.runtime.ClassTag;
-import org.cx4a.rsense.typing.runtime.Method;
+import org.cx4a.rsense.typing.TypeSet;
+import org.cx4a.rsense.typing.annotation.ClassType;
+import org.cx4a.rsense.typing.annotation.MethodType;
 import org.cx4a.rsense.typing.annotation.TypeAnnotation;
 import org.cx4a.rsense.typing.annotation.TypeExpression;
 import org.cx4a.rsense.typing.annotation.TypeVariable;
-import org.cx4a.rsense.typing.annotation.ClassType;
-import org.cx4a.rsense.typing.annotation.MethodType;
-import org.cx4a.rsense.typing.vertex.Vertex;
+import org.cx4a.rsense.typing.runtime.AnnotationHelper;
+import org.cx4a.rsense.typing.runtime.ClassTag;
+import org.cx4a.rsense.typing.runtime.Method;
+import org.cx4a.rsense.typing.runtime.TypeVarMap;
 import org.cx4a.rsense.typing.vertex.CallVertex;
 import org.cx4a.rsense.typing.vertex.MultipleAsgnVertex;
-import org.cx4a.rsense.typing.vertex.ToAryVertex;
-import org.cx4a.rsense.typing.vertex.SplatVertex;
-import org.cx4a.rsense.typing.vertex.SValueVertex;
-import org.cx4a.rsense.typing.vertex.YieldVertex;
 import org.cx4a.rsense.typing.vertex.PassThroughVertex;
+import org.cx4a.rsense.typing.vertex.SValueVertex;
+import org.cx4a.rsense.typing.vertex.SplatVertex;
+import org.cx4a.rsense.typing.vertex.ToAryVertex;
 import org.cx4a.rsense.typing.vertex.TypeVarVertex;
+import org.cx4a.rsense.typing.vertex.Vertex;
+import org.cx4a.rsense.typing.vertex.YieldVertex;
+import org.cx4a.rsense.util.Logger;
+import org.cx4a.rsense.util.NodeDiff;
+import org.cx4a.rsense.util.SourceLocation;
 
 public class RuntimeHelper {
     private RuntimeHelper() {}
@@ -843,7 +844,8 @@ public class RuntimeHelper {
                     if (varNode.getNodeType() == NodeType.ARGSNODE ) {
                         // argsAssign(graph, varNode, graph, block);
                         //debug
-                        System.out.println("Debug:" + varNode.getNodeType());
+                        System.out.println("Debug:" + varNode.getNodeType() + varNode.getInnermostIter());
+                        assign(graph, varNode, graph.createFreeSingleTypeVertex(value));
 
                     } else {
                         assign(graph, varNode, graph.createFreeSingleTypeVertex(value));
@@ -1172,7 +1174,7 @@ public class RuntimeHelper {
     public static void defineAttrReader(Graph graph, String name) {
         SourcePosition pos = new SourcePosition("(generated)", 0, 0);
         graph.createVertex(new DefnNode(pos,
-                                        new ArgumentNode(pos, name),
+                                        new MethodNameNode(pos, name),
                                         new ArgsNode(pos, null, null, null, null, null),
                                         new LocalStaticScope(null),
                                         new InstVarNode(pos, "@" + name)));
@@ -1181,7 +1183,7 @@ public class RuntimeHelper {
     public static void defineAttrWriter(Graph graph, String name) {
         SourcePosition pos = new SourcePosition("(generated)", 0, 0);
         graph.createVertex(new DefnNode(pos,
-                                        new ArgumentNode(pos, name + "="),
+                                        new MethodNameNode(pos, name + "="),
                                         new ArgsNode(pos, new ListNode(null, new ArgumentNode(null, name)), null, null, null, null),
                                         new LocalStaticScope(null),
                                         new InstAsgnNode(pos, "@" + name, new LocalVarNode(null, 0, name))));
