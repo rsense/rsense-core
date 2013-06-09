@@ -72,6 +72,7 @@ import org.jrubyparser.ast.Match2Node;
 import org.jrubyparser.ast.Match3Node;
 import org.jrubyparser.ast.MatchNode;
 import org.jrubyparser.ast.MethodDefNode;
+import org.jrubyparser.ast.MethodNameNode;
 import org.jrubyparser.ast.ModuleNode;
 import org.jrubyparser.ast.MultipleAsgn19Node;
 import org.jrubyparser.ast.MultipleAsgnNode;
@@ -773,49 +774,12 @@ public class Graph implements NodeVisitor {
     }
 
     public Object visitAliasNode(AliasNode node) {
-        int endName;
-
         RubyModule module = context.getFrameModule();
-        Node oldNode = node.getOldName();
-        String oldNodeString = oldNode.toString();
-
-        CharSequence comma = ",";
-        CharSequence colon = ":";
-        if (oldNodeString.contains(colon)) {
-            endName = oldNodeString.indexOf(':');
-        } else if (oldNodeString.contains(comma)) {
-            endName = oldNodeString.indexOf(",");
-        } else {
-            endName = oldNodeString.length() - 1;
-        }
-
-        String oldName = oldNodeString.substring(1,endName);
-
-        DynamicMethod method = module.getMethod(oldName);
-        if (method instanceof Method) {
-
-            int endNameTo;
-
-            Node newNode = node.getNewName();
-            String newNodeString = newNode.toString();
-
-            CharSequence commaTo = ",";
-            CharSequence colonTo = ":";
-            if (newNodeString.contains(colonTo)) {
-                endNameTo = newNodeString.indexOf(':');
-            } else if (newNodeString.contains(commaTo)) {
-                endNameTo = newNodeString.indexOf(",");
-            } else {
-                endNameTo = newNodeString.length() - 1;
-            }
-
-            String newName = newNodeString.substring(1, endNameTo);
-            module.addMethod(newName, new AliasMethod(newName, (Method) method));
-        }
-
+        DynamicMethod method = module.getMethod(node.getOldNameString());
+        if (method instanceof Method)
+            module.addMethod(node.getNewNameString(), new AliasMethod(node.getNewNameString(), (Method) method));
         return Vertex.EMPTY;
     }
-
     public Object visitAndNode(AndNode node) {
         Vertex vertex = createEmptyVertex(node);
         Vertex firstVertex = createVertex(node.getFirst());
@@ -1292,6 +1256,11 @@ public class Graph implements NodeVisitor {
     public Object visitLocalVarNode(LocalVarNode node) {
         VertexHolder holder = (VertexHolder) runtime.getContext().getCurrentScope().getValue(node.getName());
         return holder != null ? holder.getVertex() : Vertex.EMPTY;
+    }
+
+    public Object visitMethodNameNode(MethodNameNode node) {
+        Vertex vertex = createEmptyVertex(node);
+        return vertex;
     }
 
     public Object visitMultipleAsgnNode(MultipleAsgnNode node) {

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="JRubyParser">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/JRubyParser.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../jruby-parser/src" />
+    </SOURCES>
+  </library>
+</component>

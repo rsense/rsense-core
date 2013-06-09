@@ -10,35 +10,7 @@ import java.util.Map;
 
 import org.jrubyparser.LocalStaticScope;
 import org.jrubyparser.SourcePosition;
-import org.jrubyparser.ast.ArgsNode;
-import org.jrubyparser.ast.ArgumentNode;
-import org.jrubyparser.ast.AssignableNode;
-import org.jrubyparser.ast.BlockArgNode;
-import org.jrubyparser.ast.ClassVarAsgnNode;
-import org.jrubyparser.ast.ClassVarDeclNode;
-import org.jrubyparser.ast.ClassVarNode;
-import org.jrubyparser.ast.Colon2ImplicitNode;
-import org.jrubyparser.ast.Colon2Node;
-import org.jrubyparser.ast.Colon3Node;
-import org.jrubyparser.ast.ConstDeclNode;
-import org.jrubyparser.ast.DAsgnNode;
-import org.jrubyparser.ast.DefnNode;
-import org.jrubyparser.ast.GlobalAsgnNode;
-import org.jrubyparser.ast.GlobalVarNode;
-import org.jrubyparser.ast.INameNode;
-import org.jrubyparser.ast.InstAsgnNode;
-import org.jrubyparser.ast.InstVarNode;
-import org.jrubyparser.ast.IterNode;
-import org.jrubyparser.ast.ListNode;
-import org.jrubyparser.ast.LocalAsgnNode;
-import org.jrubyparser.ast.LocalVarNode;
-import org.jrubyparser.ast.MethodDefNode;
-import org.jrubyparser.ast.MethodNameNode;
-import org.jrubyparser.ast.MultipleAsgnNode;
-import org.jrubyparser.ast.Node;
-import org.jrubyparser.ast.NodeType;
-import org.jrubyparser.ast.YieldNode;
-import org.jrubyparser.ast.ZeroArgNode;
+import org.jrubyparser.ast.*;
 
 import org.cx4a.rsense.ruby.Block;
 import org.cx4a.rsense.ruby.Context;
@@ -106,7 +78,8 @@ public class RuntimeHelper {
         }
         Logger.error("unknown assignable node: %s", node);
         Logger.message("Type: %s", node.getNodeType());
-        return Vertex.EMPTY;
+        throw new RuntimeException("Unknown: " + node);
+//        return Vertex.EMPTY;
     }
 
     public static Vertex localAssign(Graph graph, LocalAsgnNode node) {
@@ -315,6 +288,16 @@ public class RuntimeHelper {
         holder.getVertex().addType((Proc) block);
     }
 
+    public static int handleOptArgs(OptArgNode optArgs, Graph graph, Vertex[] args, Block block, int num) {
+        int argsCount = 0;
+        for (Node node: optArgs.childNodes()) {
+            assign(graph, node, args[num + argsCount]);
+            argsCount++;
+//            System.out.println("Debug: " + optArgs);
+        }
+        return argsCount;
+    }
+
     public static void argsAssign(Graph graph, ArgsNode argsNode, Vertex[] args, Block block) {
         Scope scope = graph.getRuntime().getContext().getCurrentScope();
         ListNode pre = argsNode.getPre();
@@ -354,8 +337,14 @@ public class RuntimeHelper {
         if (optArgs != null) {
             int j = 0;
             for (int i = preCount; i < args.length - postCount && j < optArgs.size(); i++, j++) {
-                assign(graph, optArgs.get(j), args[i]);
-                givenArgsCount++;
+                if (optArgs.get(j).getNodeType() == NodeType.OPTARGNODE) {
+                    int plusCount = handleOptArgs((OptArgNode)optArgs.get(j), graph, args, block, i);
+                    givenArgsCount+= plusCount;
+                }
+                else {
+                    assign(graph, optArgs.get(j), args[i]);
+                    givenArgsCount++;
+                }
             }
             for (int i = 0; j < optArgs.size(); i++, j++) {
                 graph.createVertex(optArgs.get(j));
@@ -840,12 +829,11 @@ public class RuntimeHelper {
                     }
                     multipleAssign(graph, masgn, array);
                 } else {
-
+                    // TODO what do we do here?
                     if (varNode.getNodeType() == NodeType.ARGSNODE ) {
-                        // argsAssign(graph, varNode, graph, block);
                         //debug
-                        System.out.println("Debug:" + varNode.getNodeType() + varNode.getInnermostIter());
-                        assign(graph, varNode, graph.createFreeSingleTypeVertex(value));
+                        ArgsNode argsFromBlock = (ArgsNode) varNode;
+                        argsAssign(graph, argsFromBlock, new Vertex[]{graph.createFreeSingleTypeVertex(value)}, block);
 
                     } else {
                         assign(graph, varNode, graph.createFreeSingleTypeVertex(value));

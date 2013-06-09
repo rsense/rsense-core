@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="org.jruby:jruby-complete:1.7.4" type="repository">
+    <properties maven-id="org.jruby:jruby-complete:1.7.4" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jruby-complete-1.7.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bsf-2.3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ant-1.7.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ant-launcher-1.7.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

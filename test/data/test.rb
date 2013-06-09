@@ -1,6 +1,6 @@
 File.open('foo.txt') {|f|
   f.each {|line|
-    puts line
+    puts line_|_
     a = "a"
     a
   }
