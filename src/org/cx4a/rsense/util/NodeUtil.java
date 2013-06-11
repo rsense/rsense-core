@@ -1,8 +1,8 @@
 package org.cx4a.rsense.util;
 
-import org.jrubyparser.ast.*;
-import org.jrubyparser.ast.INameNode;
 import org.jrubyparser.NodeVisitor;
+import org.jrubyparser.ast.*;
+
 
 public class NodeUtil {
     private static NodeDiff diff = new NodeDiff();

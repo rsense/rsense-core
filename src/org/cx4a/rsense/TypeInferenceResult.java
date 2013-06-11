@@ -1,8 +1,5 @@
 package org.cx4a.rsense;
 
-import java.util.List;
-
-import org.jrubyparser.ast.Node;
 import org.cx4a.rsense.typing.TypeSet;
 
 public class TypeInferenceResult extends CodeAssistResult {

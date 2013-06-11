@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.jrubyparser.LocalStaticScope;
 import org.jrubyparser.SourcePosition;
@@ -37,7 +36,6 @@ import org.jrubyparser.ast.MethodNameNode;
 import org.jrubyparser.ast.MultipleAsgnNode;
 import org.jrubyparser.ast.Node;
 import org.jrubyparser.ast.NodeType;
-import org.jrubyparser.ast.YieldNode;
 import org.jrubyparser.ast.ZeroArgNode;
 
 import org.cx4a.rsense.ruby.Block;
@@ -60,7 +58,6 @@ import org.cx4a.rsense.typing.TypeSet;
 import org.cx4a.rsense.typing.annotation.ClassType;
 import org.cx4a.rsense.typing.annotation.MethodType;
 import org.cx4a.rsense.typing.annotation.TypeAnnotation;
-import org.cx4a.rsense.typing.annotation.TypeExpression;
 import org.cx4a.rsense.typing.annotation.TypeVariable;
 import org.cx4a.rsense.typing.runtime.AnnotationHelper;
 import org.cx4a.rsense.typing.runtime.ClassTag;

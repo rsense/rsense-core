@@ -3,8 +3,6 @@ package org.cx4a.rsense.typing.vertex;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
 import java.util.Collections;
 
 import org.jrubyparser.ast.Node;

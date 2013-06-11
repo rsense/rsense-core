@@ -1,11 +1,8 @@
 package org.cx4a.rsense;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Collection;
-import java.util.Arrays;
 import java.util.Properties;
 
 import java.io.File;
@@ -18,15 +15,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.Map;
-import java.util.HashMap;
-
-import org.jruby.Ruby;
-import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.ruby.IRubyObject;
 import org.cx4a.rsense.util.Logger;
 import org.cx4a.rsense.util.StringUtil;
-import org.cx4a.rsense.util.HereDocReader;
 import org.cx4a.rsense.util.SourceLocation;
 
 public class Main {

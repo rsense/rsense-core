@@ -14,35 +14,9 @@ import org.antlr.runtime.RecognitionException;
 
 import org.cx4a.rsense.parser.TypeAnnotationLexer;
 import org.cx4a.rsense.parser.TypeAnnotationParser;
-import org.cx4a.rsense.ruby.Block;
-import org.cx4a.rsense.ruby.Context;
-import org.cx4a.rsense.ruby.DynamicScope;
-import org.cx4a.rsense.ruby.Frame;
-import org.cx4a.rsense.ruby.IRubyObject;
-import org.cx4a.rsense.ruby.LocalScope;
-import org.cx4a.rsense.ruby.Ruby;
-import org.cx4a.rsense.ruby.RubyClass;
-import org.cx4a.rsense.ruby.RubyModule;
-import org.cx4a.rsense.ruby.Scope;
-import org.cx4a.rsense.ruby.Visibility;
 import org.cx4a.rsense.typing.Graph;
 import org.cx4a.rsense.typing.Template;
-import org.cx4a.rsense.typing.TemplateAttribute;
-import org.cx4a.rsense.typing.TypeSet;
-import org.cx4a.rsense.typing.annotation.ClassType;
-import org.cx4a.rsense.typing.annotation.MethodType;
 import org.cx4a.rsense.typing.annotation.TypeAnnotation;
-import org.cx4a.rsense.typing.annotation.TypeExpression;
-import org.cx4a.rsense.typing.annotation.TypeVariable;
-import org.cx4a.rsense.typing.runtime.AnnotationHelper;
-import org.cx4a.rsense.typing.runtime.ClassTag;
-import org.cx4a.rsense.typing.runtime.TypeVarMap;
-import org.cx4a.rsense.typing.vertex.CallVertex;
-import org.cx4a.rsense.typing.vertex.MultipleAsgnVertex;
-import org.cx4a.rsense.typing.vertex.ToAryVertex;
-import org.cx4a.rsense.typing.vertex.Vertex;
-import org.cx4a.rsense.typing.vertex.YieldVertex;
-import org.cx4a.rsense.util.Logger;
 
 public class AnnotationHelper {
     private AnnotationHelper() {}

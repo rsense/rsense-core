@@ -2,7 +2,6 @@ package org.cx4a.rsense.ruby;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class LocalScope implements Scope {
     private RubyModule cref;

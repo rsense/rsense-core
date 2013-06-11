@@ -4,12 +4,8 @@ import java.io.File;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
-
-import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.ruby.Ruby;
 import org.cx4a.rsense.typing.Graph;

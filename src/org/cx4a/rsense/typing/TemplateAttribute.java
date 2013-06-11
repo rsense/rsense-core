@@ -1,14 +1,10 @@
 package org.cx4a.rsense.typing;
 
-import java.util.Iterator;
 import java.util.Arrays;
 
 import org.cx4a.rsense.ruby.Block;
 import org.cx4a.rsense.ruby.IRubyObject;
-import org.cx4a.rsense.typing.runtime.TypeVarMap;
-import org.cx4a.rsense.typing.runtime.VertexHolder;
 import org.cx4a.rsense.typing.runtime.PolymorphicObject;
-import org.cx4a.rsense.typing.annotation.TypeVariable;
 
 public class TemplateAttribute {
     private IRubyObject receiver;

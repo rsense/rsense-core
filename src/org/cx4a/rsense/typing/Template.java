@@ -2,27 +2,18 @@ package org.cx4a.rsense.typing;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
-
-import org.jrubyparser.ast.YieldNode;
 
 import org.cx4a.rsense.ruby.Frame;
 import org.cx4a.rsense.ruby.Scope;
 import org.cx4a.rsense.ruby.IRubyObject;
 import org.cx4a.rsense.ruby.Block;
 import org.cx4a.rsense.typing.runtime.Method;
-import org.cx4a.rsense.typing.runtime.TypeVarMap;
-import org.cx4a.rsense.typing.runtime.VertexHolder;
 import org.cx4a.rsense.typing.runtime.RuntimeHelper;
 import org.cx4a.rsense.typing.runtime.MonomorphicObject;
 import org.cx4a.rsense.typing.runtime.Proc;
 import org.cx4a.rsense.typing.vertex.Vertex;
 import org.cx4a.rsense.typing.vertex.YieldVertex;
-import org.cx4a.rsense.typing.vertex.TypeVarVertex;
 import org.cx4a.rsense.typing.annotation.TypeVariable;
-import org.cx4a.rsense.util.Logger;
 
 public class Template {
     private Method method;
