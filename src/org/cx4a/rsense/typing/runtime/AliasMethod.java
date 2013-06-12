@@ -2,7 +2,6 @@ package org.cx4a.rsense.typing.runtime;
 
 import java.lang.ref.SoftReference;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.ruby.IRubyObject;
 import org.cx4a.rsense.ruby.RubyModule;
-import org.cx4a.rsense.ruby.DynamicMethod;
 import org.cx4a.rsense.ruby.Block;
 import org.cx4a.rsense.ruby.Visibility;
 import org.cx4a.rsense.typing.Graph;

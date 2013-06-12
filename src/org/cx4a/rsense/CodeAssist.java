@@ -1,7 +1,5 @@
 package org.cx4a.rsense;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,7 +24,6 @@ import org.jrubyparser.ast.Node;
 import org.jrubyparser.ast.NodeType;
 import org.jrubyparser.parser.ParserConfiguration;
 import org.jrubyparser.CompatVersion;
-import org.jrubyparser.Parser;
 
 import org.cx4a.rsense.CodeCompletionResult.CompletionCandidate;
 import org.cx4a.rsense.ruby.Block;

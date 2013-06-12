@@ -1,7 +1,5 @@
 package org.cx4a.rsense.ruby;
 
-import org.jrubyparser.ast.Node;
-
 import org.cx4a.rsense.util.SourceLocation;
 
 public interface DynamicMethod {

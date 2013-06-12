@@ -1,8 +1,5 @@
 package org.cx4a.rsense;
 
-import org.cx4a.rsense.ruby.RubyModule;
-import org.cx4a.rsense.typing.runtime.Method;
-
 public class WhereResult extends CodeAssistResult {
     private String name;
 

@@ -2,11 +2,9 @@ package org.cx4a.rsense.typing.runtime;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Arrays;
 
 import org.cx4a.rsense.ruby.Ruby;
-import org.cx4a.rsense.ruby.Context;
 import org.cx4a.rsense.ruby.IRubyObject;
 import org.cx4a.rsense.ruby.RubyClass;
 import org.cx4a.rsense.ruby.RubyModule;
@@ -21,7 +19,6 @@ import org.cx4a.rsense.typing.annotation.ClassType;
 import org.cx4a.rsense.typing.annotation.MethodType;
 import org.cx4a.rsense.typing.annotation.TypeIdentity;
 import org.cx4a.rsense.typing.annotation.TypeUnion;
-import org.cx4a.rsense.typing.annotation.TypeAny;
 import org.cx4a.rsense.typing.annotation.TypeOptional;
 import org.cx4a.rsense.typing.annotation.TypeTuple;
 import org.cx4a.rsense.typing.annotation.TypeSplat;

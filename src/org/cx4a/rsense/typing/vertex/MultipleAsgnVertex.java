@@ -1,7 +1,6 @@
 package org.cx4a.rsense.typing.vertex;
 
 import org.jrubyparser.ast.MultipleAsgnNode;
-import org.jrubyparser.ast.NodeType;
 
 import org.cx4a.rsense.typing.Propagation;
 

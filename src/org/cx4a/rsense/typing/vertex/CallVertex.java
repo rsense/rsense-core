@@ -1,6 +1,5 @@
 package org.cx4a.rsense.typing.vertex;
 
-import org.jruby.RubyClass;
 import org.jrubyparser.ast.Node;
 import org.jrubyparser.ast.INameNode;
 
