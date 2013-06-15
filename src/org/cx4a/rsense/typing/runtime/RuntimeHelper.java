@@ -293,7 +293,8 @@ public class RuntimeHelper {
         for (Node node: optArgs.childNodes()) {
             assign(graph, node, args[num + argsCount]);
             argsCount++;
-//            System.out.println("Debug: " + optArgs);
+            // TODO remove debugging
+            System.out.println("Debug: " + optArgs.getValue());
         }
         return argsCount;
     }

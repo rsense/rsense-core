@@ -5,7 +5,7 @@ File.open('foo.txt') {|f|
     a
   }
 }
-puts "Hello"
+"Hello"
 
 10.times {|num|
   puts "a"
