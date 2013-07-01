@@ -3,6 +3,7 @@
 
   <path id="build.class.path">
     <fileset file="build_lib/*.jar" />
+    <fileset file="../jruby-parser/lib/jruby-parser.jar"/>
     <fileset file="lib/*.jar" />
     <pathelement path="${classpath}" />
   </path>

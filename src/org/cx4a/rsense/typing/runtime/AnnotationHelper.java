@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jruby.util.ByteList;
 import org.jrubyparser.ast.CommentNode;
 
 import org.antlr.runtime.ANTLRStringStream;
@@ -53,9 +52,9 @@ public class AnnotationHelper {
         return annots;
     }
 
-    public static List<TypeAnnotation> parseAnnotations(List<ByteList> commentList, int lineno) {
+    public static List<TypeAnnotation> parseAnnotations(List<String> commentList, int lineno) {
         List<TypeAnnotation> annots = new ArrayList<TypeAnnotation>();
-        for (ByteList comment : commentList) {
+        for (String comment : commentList) {
             TypeAnnotation annot = parseAnnotation(comment.toString(), lineno);
             if (annot != null) {
                 annots.add(annot);

@@ -59,10 +59,6 @@ import org.cx4a.rsense.typing.annotation.ClassType;
 import org.cx4a.rsense.typing.annotation.MethodType;
 import org.cx4a.rsense.typing.annotation.TypeAnnotation;
 import org.cx4a.rsense.typing.annotation.TypeVariable;
-import org.cx4a.rsense.typing.runtime.AnnotationHelper;
-import org.cx4a.rsense.typing.runtime.ClassTag;
-import org.cx4a.rsense.typing.runtime.Method;
-import org.cx4a.rsense.typing.runtime.TypeVarMap;
 import org.cx4a.rsense.typing.vertex.CallVertex;
 import org.cx4a.rsense.typing.vertex.MultipleAsgnVertex;
 import org.cx4a.rsense.typing.vertex.PassThroughVertex;
@@ -1172,7 +1168,7 @@ public class RuntimeHelper {
         SourcePosition pos = new SourcePosition("(generated)", 0, 0);
         graph.createVertex(new DefnNode(pos,
                                         new MethodNameNode(pos, name),
-                                        new ArgsNode(pos, null, null, null, null, null),
+                                        new ArgsNode(pos, null, null, null, null, null, null, null),
                                         new LocalStaticScope(null),
                                         new InstVarNode(pos, "@" + name)));
     }
@@ -1181,7 +1177,7 @@ public class RuntimeHelper {
         SourcePosition pos = new SourcePosition("(generated)", 0, 0);
         graph.createVertex(new DefnNode(pos,
                                         new MethodNameNode(pos, name + "="),
-                                        new ArgsNode(pos, new ListNode(null, new ArgumentNode(null, name)), null, null, null, null),
+                                        new ArgsNode(pos, new ListNode(null, new ArgumentNode(null, name)), null, null, null, null, null, null),
                                         new LocalStaticScope(null),
                                         new InstAsgnNode(pos, "@" + name, new LocalVarNode(null, 0, name))));
     }

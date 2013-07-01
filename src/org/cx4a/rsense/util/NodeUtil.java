@@ -139,5 +139,36 @@ public class NodeUtil {
             hashCode = hashCode * 13 + n;
             return this;
         }
+
+        // FIXME: I don't know this fits into the grand scheme of things...Let's see about test coverage.
+        @Override
+        public Object visitArgumentNode(ArgumentNode an) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitKeywordArgNode(KeywordArgNode kan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitKeywordRestArgNode(KeywordRestArgNode kran) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitListNode(ListNode ln) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitMethodNameNode(MethodNameNode mnn) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitOptArgNode(OptArgNode oan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
 }

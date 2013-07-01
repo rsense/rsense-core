@@ -769,7 +769,7 @@ public class CodeAssist {
 
     public Node parseFileContents(File file, String string) {
         StringReader in = new StringReader(string);
-        CompatVersion version = CompatVersion.BOTH;
+        CompatVersion version = CompatVersion.RUBY1_8;
         CompatVersion versionTwo = CompatVersion.RUBY1_9;
         ParserConfiguration config = new ParserConfiguration(0, version);
         return rubyParser.parse(file.getPath(), in, config);
