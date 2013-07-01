@@ -154,6 +154,9 @@ import org.cx4a.rsense.typing.vertex.YieldVertex;
 import org.cx4a.rsense.util.Logger;
 import org.cx4a.rsense.util.NodeDiff;
 import org.cx4a.rsense.util.SourceLocation;
+import org.jrubyparser.ast.KeywordArgNode;
+import org.jrubyparser.ast.KeywordRestArgNode;
+import org.jrubyparser.ast.MethodNameNode;
 
 public class Graph implements NodeVisitor {
     public interface EventListener {
@@ -1223,6 +1226,22 @@ public class Graph implements NodeVisitor {
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
+    
+    @Override
+    public Object visitKeywordArgNode(KeywordArgNode node) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Object visitKeywordRestArgNode(KeywordRestArgNode node) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Object visitMethodNameNode(MethodNameNode node) { // Earlier versions of jruby-parser had this an ArgsNode
+        unsupportedNode(node);
+        return Vertex.EMPTY;
+    }    
 
     public Object visitListNode(ListNode node) {
         Vertex vertex = createEmptyVertex(node);

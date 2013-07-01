@@ -2,3 +2,6 @@ weird.md
 notes.md
 *.sublime*
 .ruby-version
+/build/
+src/org/cx4a/rsense/parser/TypeAnnotationLexer.java
+src/org/cx4a/rsense/parser/TypeAnnotationParser.java
