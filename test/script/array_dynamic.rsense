@@ -1,0 +1,5 @@
+type-inference --test=Array.DynamicAccess1 --should-be=Fixnum
+a = []
+a << 1
+a[0]_|_
+EOF
