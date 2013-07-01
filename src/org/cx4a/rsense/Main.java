@@ -12,8 +12,14 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.cx4a.rsense.ruby.IRubyObject;
@@ -262,6 +268,8 @@ public class Main {
 
         return options;
     }
+    
+    static HashMap map = new HashMap();
 
     private void script(Options options) {
         if (options.getRestArgs().isEmpty()) {
@@ -269,20 +277,16 @@ public class Main {
         } else {
             try {
                 for (String filename : options.getRestArgs()) {
-                    File file;
-                    if (currentDir == null || !(file = new File(currentDir, filename)).exists()) {
-                        // Load from current directory if possible
-                        file = new File(filename);
-                    }
-
-                    File oldCurrentDir = currentDir;
-                    currentDir = file.getParentFile();
-                    InputStream in = new FileInputStream(file);
-                    try {
-                        runScript(in, options, true);
-                    } finally {
-                        in.close();
-                        currentDir = oldCurrentDir;
+                    if (filename.contains("*")) {
+                        PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + filename);
+                        for (String file: currentDir.list()) {
+                            if (matcher.matches(new File(file).toPath()) && map.get(file) == null) {
+                                map.put(file, true);
+                                runFileScript(file, options);
+                            }
+                        }
+                    } else {
+                        runFileScript(filename, options);
                     }
                 }
             } catch (IOException e) {
@@ -291,6 +295,25 @@ public class Main {
         }
     }
 
+
+    private void runFileScript(String filename, Options options) throws FileNotFoundException, IOException {
+        File file;
+        if (currentDir == null || !(file = new File(currentDir, filename)).exists()) {
+            // Load from current directory if possible
+            file = new File(filename);
+        }
+
+        File oldCurrentDir = currentDir;
+        currentDir = file.getParentFile();
+        InputStream in = new FileInputStream(file);
+        try {
+            runScript(in, options, true);
+        } finally {
+            in.close();
+            currentDir = oldCurrentDir;
+        }
+    }
+    
     private void runScript(InputStream in, Options options, boolean noprompt) {
         String prompt = options.getPrompt();
         if (prompt == null) {
