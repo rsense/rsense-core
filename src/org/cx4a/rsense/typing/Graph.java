@@ -1237,12 +1237,6 @@ public class Graph implements NodeVisitor {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public Object visitMethodNameNode(MethodNameNode node) { // Earlier versions of jruby-parser had this an ArgsNode
-        unsupportedNode(node);
-        return Vertex.EMPTY;
-    }    
-
     public Object visitListNode(ListNode node) {
         Vertex vertex = createEmptyVertex(node);
         return vertex;
@@ -1262,9 +1256,10 @@ public class Graph implements NodeVisitor {
         return holder != null ? holder.getVertex() : Vertex.EMPTY;
     }
 
-    public Object visitMethodNameNode(MethodNameNode node) {
-        Vertex vertex = createEmptyVertex(node);
-        return vertex;
+    @Override
+    public Object visitMethodNameNode(MethodNameNode node) { // Earlier versions of jruby-parser had this an ArgsNode
+        unsupportedNode(node);
+        return Vertex.EMPTY;
     }
 
     public Object visitMultipleAsgnNode(MultipleAsgnNode node) {

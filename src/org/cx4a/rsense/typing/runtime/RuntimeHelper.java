@@ -289,8 +289,7 @@ public class RuntimeHelper {
         for (Node node: optArgs.childNodes()) {
             assign(graph, node, args[num + argsCount]);
             argsCount++;
-            // TODO remove debugging
-            System.out.println("Debug: " + optArgs.getValue());
+//            System.out.println("Debug: " + optArgs);
         }
         return argsCount;
     }
@@ -665,6 +664,7 @@ public class RuntimeHelper {
         setFrameTemplate(context.getCurrentFrame(), template);
 
         AnnotationResolver.Result result = AnnotationHelper.resolveMethodAnnotation(graph, template);
+        System.out.println("Result: " + result);
         if (result == AnnotationResolver.Result.UNRESOLVED) {
             Logger.warn(SourceLocation.of(vertex), "annotation unmatched: %s", method);
         }

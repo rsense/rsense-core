@@ -34,8 +34,8 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="JRubyParser" level="project" />
     <orderEntry type="library" name="org.jruby:jruby-complete:1.7.4" level="project" />
+    <orderEntry type="library" name="jruby-parser" level="project" />
   </component>
 </module>
 

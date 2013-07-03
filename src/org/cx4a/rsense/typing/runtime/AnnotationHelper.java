@@ -21,8 +21,8 @@ public class AnnotationHelper {
     private AnnotationHelper() {}
 
     public static TypeAnnotation parseAnnotation(String annot, int lineno) {
-        if (annot.startsWith("#%")) {
-            ANTLRStringStream in = new ANTLRStringStream(annot.substring(2));
+        if (annot.startsWith("##%")) {
+            ANTLRStringStream in = new ANTLRStringStream(annot.substring(3));
             in.setLine(lineno);
             TypeAnnotationLexer lex = new TypeAnnotationLexer(in);
             CommonTokenStream tokens = new CommonTokenStream(lex);
