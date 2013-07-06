@@ -664,7 +664,7 @@ public class RuntimeHelper {
         setFrameTemplate(context.getCurrentFrame(), template);
 
         AnnotationResolver.Result result = AnnotationHelper.resolveMethodAnnotation(graph, template);
-        System.out.println("Result: " + result);
+
         if (result == AnnotationResolver.Result.UNRESOLVED) {
             Logger.warn(SourceLocation.of(vertex), "annotation unmatched: %s", method);
         }
