@@ -148,6 +148,11 @@ public class NodeUtil {
         public Object visitBlockArg18Node(BlockArg18Node node) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+        
+        @Override
+        public Object visitCommentNode(CommentNode node) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
 
         @Override
         public Object visitKeywordArgNode(KeywordArgNode kan) {
@@ -178,5 +183,11 @@ public class NodeUtil {
         public Object visitOptArgNode(OptArgNode oan) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+        
+        @Override
+        public Object visitSyntaxNode(SyntaxNode node) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
     }
 }

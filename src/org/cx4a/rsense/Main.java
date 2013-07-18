@@ -114,7 +114,7 @@ public class Main {
         inReader = new InputStreamReader(in);
 
         properties = new Properties();
-        properties.load(this.getClass().getResourceAsStream("rsense.properties"));
+//        properties.load(this.getClass().getResourceAsStream("rsense.properties"));
 
         if (args.length == 0 || args[0].equals("help")) {
             usage();

@@ -9,113 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import org.jrubyparser.ast.AliasNode;
-import org.jrubyparser.ast.AndNode;
-import org.jrubyparser.ast.ArgsCatNode;
-import org.jrubyparser.ast.ArgsNode;
-import org.jrubyparser.ast.ArgsPushNode;
-import org.jrubyparser.ast.ArgumentNode;
-import org.jrubyparser.ast.ArrayNode;
-import org.jrubyparser.ast.AttrAssignNode;
-import org.jrubyparser.ast.BackRefNode;
-import org.jrubyparser.ast.BeginNode;
-import org.jrubyparser.ast.BignumNode;
-import org.jrubyparser.ast.BlockArg18Node;
-import org.jrubyparser.ast.BlockArgNode;
-import org.jrubyparser.ast.BlockNode;
-import org.jrubyparser.ast.BlockPassNode;
-import org.jrubyparser.ast.BreakNode;
-import org.jrubyparser.ast.CallNode;
-import org.jrubyparser.ast.CaseNode;
-import org.jrubyparser.ast.ClassNode;
-import org.jrubyparser.ast.ClassVarAsgnNode;
-import org.jrubyparser.ast.ClassVarDeclNode;
-import org.jrubyparser.ast.ClassVarNode;
-import org.jrubyparser.ast.Colon2Node;
-import org.jrubyparser.ast.Colon3Node;
-import org.jrubyparser.ast.ConstDeclNode;
-import org.jrubyparser.ast.ConstNode;
-import org.jrubyparser.ast.DAsgnNode;
-import org.jrubyparser.ast.DRegexpNode;
-import org.jrubyparser.ast.DStrNode;
-import org.jrubyparser.ast.DSymbolNode;
-import org.jrubyparser.ast.DVarNode;
-import org.jrubyparser.ast.DXStrNode;
-import org.jrubyparser.ast.DefinedNode;
-import org.jrubyparser.ast.DefnNode;
-import org.jrubyparser.ast.DefsNode;
-import org.jrubyparser.ast.DotNode;
-import org.jrubyparser.ast.EncodingNode;
-import org.jrubyparser.ast.EnsureNode;
-import org.jrubyparser.ast.EvStrNode;
-import org.jrubyparser.ast.FCallNode;
-import org.jrubyparser.ast.FalseNode;
-import org.jrubyparser.ast.FixnumNode;
-import org.jrubyparser.ast.FlipNode;
-import org.jrubyparser.ast.FloatNode;
-import org.jrubyparser.ast.ForNode;
-import org.jrubyparser.ast.GlobalAsgnNode;
-import org.jrubyparser.ast.GlobalVarNode;
-import org.jrubyparser.ast.HashNode;
-import org.jrubyparser.ast.IfNode;
-import org.jrubyparser.ast.InstAsgnNode;
-import org.jrubyparser.ast.InstVarNode;
-import org.jrubyparser.ast.IterNode;
-import org.jrubyparser.ast.LiteralNode;
-import org.jrubyparser.ast.LocalAsgnNode;
-import org.jrubyparser.ast.LocalVarNode;
-import org.jrubyparser.ast.Match2Node;
-import org.jrubyparser.ast.Match3Node;
-import org.jrubyparser.ast.MatchNode;
-import org.jrubyparser.ast.MethodDefNode;
-import org.jrubyparser.ast.MethodNameNode;
-import org.jrubyparser.ast.ModuleNode;
-import org.jrubyparser.ast.MultipleAsgn19Node;
-import org.jrubyparser.ast.MultipleAsgnNode;
-import org.jrubyparser.ast.NewlineNode;
-import org.jrubyparser.ast.NextNode;
-import org.jrubyparser.ast.NilNode;
-import org.jrubyparser.ast.NotNode;
-import org.jrubyparser.ast.NthRefNode;
-import org.jrubyparser.ast.OpAsgnAndNode;
-import org.jrubyparser.ast.OpAsgnNode;
-import org.jrubyparser.ast.OpAsgnOrNode;
-import org.jrubyparser.ast.OpElementAsgnNode;
-import org.jrubyparser.ast.OptArgNode;
-import org.jrubyparser.ast.OrNode;
-import org.jrubyparser.ast.PostExeNode;
-import org.jrubyparser.ast.PreExeNode;
-import org.jrubyparser.ast.RedoNode;
-import org.jrubyparser.ast.RegexpNode;
-import org.jrubyparser.ast.RescueBodyNode;
-import org.jrubyparser.ast.RescueNode;
-import org.jrubyparser.ast.RestArgNode;
-import org.jrubyparser.ast.RetryNode;
-import org.jrubyparser.ast.ReturnNode;
-import org.jrubyparser.ast.RootNode;
-import org.jrubyparser.ast.SClassNode;
-import org.jrubyparser.ast.SValueNode;
-import org.jrubyparser.ast.SelfNode;
-import org.jrubyparser.ast.SplatNode;
-import org.jrubyparser.ast.StrNode;
-import org.jrubyparser.ast.SuperNode;
-import org.jrubyparser.ast.SymbolNode;
-import org.jrubyparser.ast.ToAryNode;
-import org.jrubyparser.ast.TrueNode;
-import org.jrubyparser.ast.UndefNode;
-import org.jrubyparser.ast.UntilNode;
-import org.jrubyparser.ast.VAliasNode;
-import org.jrubyparser.ast.VCallNode;
-import org.jrubyparser.ast.WhenNode;
-import org.jrubyparser.ast.WhileNode;
-import org.jrubyparser.ast.XStrNode;
-import org.jrubyparser.ast.YieldNode;
-import org.jrubyparser.ast.ZArrayNode;
-import org.jrubyparser.ast.ZSuperNode;
+import org.jrubyparser.ast.*;
 
 import org.jrubyparser.NodeVisitor;
-import org.jrubyparser.ast.ListNode;
-import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.ruby.Block;
 import org.cx4a.rsense.ruby.Context;
@@ -154,9 +50,6 @@ import org.cx4a.rsense.typing.vertex.YieldVertex;
 import org.cx4a.rsense.util.Logger;
 import org.cx4a.rsense.util.NodeDiff;
 import org.cx4a.rsense.util.SourceLocation;
-import org.jrubyparser.ast.KeywordArgNode;
-import org.jrubyparser.ast.KeywordRestArgNode;
-import org.jrubyparser.ast.MethodNameNode;
 
 public class Graph implements NodeVisitor {
     public interface EventListener {
@@ -889,6 +782,10 @@ public class Graph implements NodeVisitor {
         }
         return Vertex.EMPTY;
     }
+    
+    public Object visitCommentNode(CommentNode node) {
+        return Vertex.EMPTY;
+    }
 
     public Object visitConstDeclNode(ConstDeclNode node) {
         return RuntimeHelper.constDeclaration(this, node);
@@ -971,7 +868,8 @@ public class Graph implements NodeVisitor {
             context.popScope();
             context.popFrame();
 
-            RuntimeHelper.setClassTag(klass, node.getBody(), AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
+            RuntimeHelper.setClassTag(klass, node.getBody(), 
+                    AnnotationHelper.parseAnnotations(node.getPreviousComments(), node.getPosition().getStartLine()));
 
             notifyClassEvent(node, klass);
         }
@@ -1075,7 +973,8 @@ public class Graph implements NodeVisitor {
         IRubyObject receiver = newInstanceOf((klass instanceof RubyClass) ? (RubyClass) klass : runtime.getObject());
 
         RuntimeHelper.methodPartialUpdate(this, node, newMethod, oldMethod, receiver);
-        RuntimeHelper.setMethodTag(newMethod, node, AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
+        RuntimeHelper.setMethodTag(newMethod, node, 
+                AnnotationHelper.parseAnnotations(node.getPreviousComments(), node.getPosition().getStartLine()));
 
         dummyCallQueue.offer(new DummyCall(node, newMethod, oldMethod, receiver));
 
@@ -1104,7 +1003,8 @@ public class Graph implements NodeVisitor {
                 rubyClass.addMethod(name, newMethod);
 
                 RuntimeHelper.methodPartialUpdate(this, node, newMethod, oldMethod, receiver);
-                RuntimeHelper.setMethodTag(newMethod, node, AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
+                RuntimeHelper.setMethodTag(newMethod, node, 
+                        AnnotationHelper.parseAnnotations(node.getPreviousComments(), node.getPosition().getStartLine()));
 
                 dummyCallQueue.offer(new DummyCall(node, newMethod, oldMethod, receiver));
 
@@ -1151,8 +1051,18 @@ public class Graph implements NodeVisitor {
     }
 
     public Object visitFCallNode(FCallNode node) {
-        Vertex[] argVertices = RuntimeHelper.setupCallArgs(this, node.getArgs());
-        Block block = RuntimeHelper.setupCallBlock(this, node.getIter());
+        Vertex[] argVertices;
+        Block block;
+
+        if (node.getArgs() != null && node.getArgs().getNodeType() == NodeType.BLOCKPASSNODE) {
+            BlockPassNode block_pass = (BlockPassNode) node.getArgs();
+            argVertices = RuntimeHelper.setupCallArgs(this, block_pass.getArgs());
+            block = RuntimeHelper.setupCallBlock(this, block_pass);
+            } else {
+                argVertices = RuntimeHelper.setupCallArgs(this, node.getArgs());
+                block = RuntimeHelper.setupCallBlock(this, node.getIter());
+            }
+
         CallVertex vertex = new CallVertex(node, createFreeSingleTypeVertex(context.getFrameSelf()), argVertices, block);
         vertex.setPrivateVisibility(true);
         return RuntimeHelper.call(this, vertex);
@@ -1306,7 +1216,8 @@ public class Graph implements NodeVisitor {
             context.popScope();
             context.popFrame();
 
-            RuntimeHelper.setClassTag(module, node.getBody(), AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
+            RuntimeHelper.setClassTag(module, node.getBody(), 
+                    AnnotationHelper.parseAnnotations(node.getPreviousComments(), node.getPosition().getStartLine()));
 
             notifyModuleEvent(node, module);
         }
@@ -1539,6 +1450,10 @@ public class Graph implements NodeVisitor {
 
     public Object visitStrNode(StrNode node) {
         return createSingleTypeVertex(node, newInstanceOf(runtime.getString()));
+    }
+    
+    public Object visitSyntaxNode(SyntaxNode node) {
+        return Vertex.EMPTY;
     }
 
     public Object visitSuperNode(SuperNode node) {
