@@ -50,7 +50,6 @@ import org.cx4a.rsense.typing.vertex.YieldVertex;
 import org.cx4a.rsense.util.Logger;
 import org.cx4a.rsense.util.NodeDiff;
 import org.cx4a.rsense.util.SourceLocation;
-import org.jrubyparser.ast.MethodNameNode;
 
 public class Graph implements NodeVisitor {
     public interface EventListener {
@@ -784,6 +783,10 @@ public class Graph implements NodeVisitor {
         return Vertex.EMPTY;
     }
 
+    public Object visitCommentNode(CommentNode node) {
+        return Vertex.EMPTY;
+    }
+
     public Object visitConstDeclNode(ConstDeclNode node) {
         return RuntimeHelper.constDeclaration(this, node);
     }
@@ -865,7 +868,8 @@ public class Graph implements NodeVisitor {
             context.popScope();
             context.popFrame();
 
-            RuntimeHelper.setClassTag(klass, node.getBody(), AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
+            RuntimeHelper.setClassTag(klass, node.getBody(),
+                    AnnotationHelper.parseAnnotations(node.getPreviousComments(), node.getPosition().getStartLine()));
 
             notifyClassEvent(node, klass);
         }
@@ -969,7 +973,8 @@ public class Graph implements NodeVisitor {
         IRubyObject receiver = newInstanceOf((klass instanceof RubyClass) ? (RubyClass) klass : runtime.getObject());
 
         RuntimeHelper.methodPartialUpdate(this, node, newMethod, oldMethod, receiver);
-        RuntimeHelper.setMethodTag(newMethod, node, AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
+        RuntimeHelper.setMethodTag(newMethod, node,
+                AnnotationHelper.parseAnnotations(node.getPreviousComments(), node.getPosition().getStartLine()));
 
         dummyCallQueue.offer(new DummyCall(node, newMethod, oldMethod, receiver));
 
@@ -998,7 +1003,8 @@ public class Graph implements NodeVisitor {
                 rubyClass.addMethod(name, newMethod);
 
                 RuntimeHelper.methodPartialUpdate(this, node, newMethod, oldMethod, receiver);
-                RuntimeHelper.setMethodTag(newMethod, node, AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
+                RuntimeHelper.setMethodTag(newMethod, node,
+                        AnnotationHelper.parseAnnotations(node.getPreviousComments(), node.getPosition().getStartLine()));
 
                 dummyCallQueue.offer(new DummyCall(node, newMethod, oldMethod, receiver));
 
@@ -1130,7 +1136,7 @@ public class Graph implements NodeVisitor {
         unsupportedNode(node);
         return Vertex.EMPTY;
     }
-    
+
     @Override
     public Object visitKeywordArgNode(KeywordArgNode node) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -1210,7 +1216,8 @@ public class Graph implements NodeVisitor {
             context.popScope();
             context.popFrame();
 
-            RuntimeHelper.setClassTag(module, node.getBody(), AnnotationHelper.parseAnnotations(node.getComments(), node.getPosition().getStartLine()));
+            RuntimeHelper.setClassTag(module, node.getBody(),
+                    AnnotationHelper.parseAnnotations(node.getPreviousComments(), node.getPosition().getStartLine()));
 
             notifyModuleEvent(node, module);
         }
@@ -1443,6 +1450,10 @@ public class Graph implements NodeVisitor {
 
     public Object visitStrNode(StrNode node) {
         return createSingleTypeVertex(node, newInstanceOf(runtime.getString()));
+    }
+
+    public Object visitSyntaxNode(SyntaxNode node) {
+        return Vertex.EMPTY;
     }
 
     public Object visitSuperNode(SuperNode node) {

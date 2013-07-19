@@ -772,6 +772,7 @@ public class CodeAssist {
         CompatVersion version = CompatVersion.RUBY1_8;
         CompatVersion versionTwo = CompatVersion.RUBY1_9;
         ParserConfiguration config = new ParserConfiguration(0, version);
+        config.setSyntax(ParserConfiguration.SyntaxGathering.COMMENTS);
         return rubyParser.parse(file.getPath(), in, config);
     }
 }

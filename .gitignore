@@ -3,5 +3,7 @@ notes.md
 *.sublime*
 .ruby-version
 /build/
+nbproject/private/*
 src/org/cx4a/rsense/parser/TypeAnnotationLexer.java
 src/org/cx4a/rsense/parser/TypeAnnotationParser.java
+
