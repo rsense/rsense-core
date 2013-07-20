@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import org.cx4a.rsense.util.SourceLocation;
+import org.cx4a.rsense.ruby.Ruby;
 
 public class RubyClass extends RubyModule {
     protected RubyClass superClass;

@@ -552,7 +552,11 @@ public class Graph implements NodeVisitor {
     }
 
     public Vertex createVertex(Node node) {
-        return (Vertex) node.accept(this);
+        if (node != null) {
+            return (Vertex) node.accept(this);
+        } else {
+            return null;
+        }
     }
 
     public Vertex createFreeVertex() {

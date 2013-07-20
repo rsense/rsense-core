@@ -460,21 +460,6 @@ type-inference --test=Method.Yield.Template.Change --keep-env --should-be=Fixnum
 f {|y| y_|_}
 EOF
 
-type-inference --test=Method.PartialUpdate1 --should-be=Fixnum
-def f(x) x_|_ end
-f(1)
-EOF
-
-type-inference --test=Method.PartialUpdate2 --keep-env --should-be=Fixnum
-def f(x) x_|_ end
-f(1)
-EOF
-
-type-inference --test=Method.Partialupdate3 --keep-env --should-be=Fixnum
-def f(x) 1; x_|_ end
-f(1)
-EOF
-
 type-inference --test=Module.Attr1 --should-be=Fixnum
 class C
   attr :foo
@@ -832,7 +817,7 @@ EOF
 
 type-inference --test=Proc.HigherOrder1 --should-be=Fixnum,Bignum
 def set(&block)
-  $block = block  
+  $block = block
 end
 set {|a| a + 1}
 $block.call(1)_|_

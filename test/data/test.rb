@@ -1,5 +1,7 @@
 def f(&b)
+
   g('', &b)
+
 end
 def g(a, &b)
   b.call(a)
