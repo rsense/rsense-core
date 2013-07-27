@@ -580,24 +580,6 @@ end
 C.new._|_
 EOF
 
-type-inference --test=Class.PartialUpdate1 --should-be=Fixnum
-class C
-  1_|_
-end
-EOF
-
-type-inference --test=Class.PartialUpdate2 --keep-env --should-be=Fixnum
-class C
-  1_|_
-end
-EOF
-
-type-inference --test=Class.PartialUpdate3 --keep-env --should-be=Float
-class C
-  2.3_|_
-end
-EOF
-
 type-inference --test=Class.Method1 --should-be=Fixnum
 class C
   def foo() 1 end
@@ -629,58 +611,6 @@ class C
   alias_method(:g, :f)
 end
 C.new.g_|_
-EOF
-
-type-inference --test=Class.Method.PartialUpdate1 --should-be=Fixnum
-class C
-  def f(x) x_|_ end
-end
-C.new.f(1)
-EOF
-
-type-inference --test=Class.Method.PartialUpdate2 --keep-env --should-be=Fixnum
-class C
-  def f(x) x_|_ end
-end
-C.new.f(1)
-EOF
-
-type-inference --test=Class.Method.PartialUpdate3 --keep-env --should-be=Fixnum
-class C
-  def f(x) 1; x_|_ end
-end
-C.new.f(1)
-EOF
-
-
-type-inference --test=Class.Method.PartialUpdate4 --should-be=Fixnum
-class C
-  def self.f(x) D.new.f(x) end
-  class D
-    def f(x) x_|_ end
-  end
-end
-C.f(1)
-EOF
-
-type-inference --test=Class.Method.PartialUpdate5 --keep-env --should-be=Fixnum
-class C
-  def self.f(x) D.new.f(x) end
-  class D
-    def f(x) x_|_ end
-  end
-end
-C.f(1)
-EOF
-
-type-inference --test=Class.Method.PartialUpdate6 --keep-env --should-be=Fixnum
-class C
-  def self.f(x) D.new.f(x) end
-  class D
-    def f(x) 1; x_|_ end
-  end
-end
-C.f(1)
 EOF
 
 type-inference --test=Class.SingletonMethod1 --should-be=Fixnum

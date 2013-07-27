@@ -1,0 +1,17 @@
+type-inference --test=Class.PartialUpdate1 --should-be=Fixnum
+class C
+  1_|_
+end
+EOF
+
+type-inference --test=Class.PartialUpdate2 --keep-env --should-be=Fixnum
+class C
+  1_|_
+end
+EOF
+
+type-inference --test=Class.PartialUpdate3 --keep-env --should-be=Float
+class C
+  2.3_|_
+end
+EOF
