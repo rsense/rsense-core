@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import org.cx4a.rsense.CodeAssist;
 import org.jrubyparser.ast.*;
 
 import org.jrubyparser.NodeVisitor;
@@ -529,20 +530,20 @@ public class Graph implements NodeVisitor {
     public void load(Node newAST, Node oldAST) {
         context.pushMain();
 
-        List<Node> partialDiff = null;
-        if (oldAST != null && nodeDiff != null) {
-            partialDiff = nodeDiff.diff(newAST, oldAST);
-            if (partialDiff != null) {
-                Logger.debug("partial load: %s", partialDiff.size());
-                for (Node dirty : partialDiff) {
-                    createVertex(dirty);
-                }
-            }
-        }
-        if (partialDiff == null) {
-            createVertex(newAST);
-        }
-
+//        List<Node> partialDiff = null;
+//        if (oldAST != null && nodeDiff != null) {
+//            partialDiff = nodeDiff.diff(newAST, oldAST);
+//            if (partialDiff != null) {
+//                Logger.debug("partial load: %s", partialDiff.size());
+//                for (Node dirty : partialDiff) {
+//                    createVertex(dirty);
+//                }
+//            }
+//        }
+//        if (partialDiff == null) {
+//            createVertex(newAST);
+//        }
+        createVertex(newAST);
         DummyCall entry;
         while ((entry = dummyCallQueue.poll()) != null) {
             entry.force(this);
@@ -714,8 +715,7 @@ public class Graph implements NodeVisitor {
     }
 
     public Object visitArgumentNode(ArgumentNode node) {
-        Vertex vertex = createEmptyVertex(node);
-        return vertex;
+        return createEmptyVertex(node);
     }
 
     public Object visitArrayNode(ArrayNode node) {
@@ -777,10 +777,18 @@ public class Graph implements NodeVisitor {
         Frame frame = context.getCurrentFrame();
         LoopTag loopTag = RuntimeHelper.getFrameLoopTag(frame);
         if (loopTag != null) {
-            Vertex vertex = createVertex(node.getValueNode());
+            Vertex vertex;
+            if (node.getValue() != null) {
+                vertex = createVertex(node.getValue());
+            } else {
+                vertex = createEmptyVertex(node);
+            }
+
             if (loopTag.getYieldVertex() != null)
                 addEdgeAndPropagate(vertex, loopTag.getYieldVertex());
             else
+
+
                 Logger.debug("no yield vertex");
             return vertex;
         }
@@ -1111,6 +1119,12 @@ public class Graph implements NodeVisitor {
         return RuntimeHelper.createHashVertex(this, node, RuntimeHelper.toVertices(this, node.getListNode()));
     }
 
+    @Override
+    public Object visitImplicitNilNode(ImplicitNilNode node) {
+        Vertex vertex = createEmptyVertex(node);
+        return vertex;
+    }
+
     public Object visitInstAsgnNode(InstAsgnNode node) {
         return RuntimeHelper.instanceAssign(this, node);
     }
@@ -1149,6 +1163,12 @@ public class Graph implements NodeVisitor {
     @Override
     public Object visitKeywordRestArgNode(KeywordRestArgNode node) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Object visitLambdaNode(LambdaNode node) {
+        Vertex vertex = createEmptyVertex(node);
+        return vertex;
     }
 
     public Object visitListNode(ListNode node) {
@@ -1237,7 +1257,13 @@ public class Graph implements NodeVisitor {
         Frame frame = context.getCurrentFrame();
         LoopTag loopTag = RuntimeHelper.getFrameLoopTag(frame);
         if (loopTag != null && loopTag.getYieldVertex() != null) {
-            Vertex vertex = createVertex(node.getValueNode());
+            Vertex vertex;
+            if (node.getValue() != null) {
+                vertex = createVertex(node.getValue());
+            } else {
+                vertex = createEmptyVertex(node);
+            }
+
             if (loopTag.getYieldVertex() != null)
                 addEdgeAndPropagate(vertex, loopTag.getYieldVertex());
             else
@@ -1332,7 +1358,7 @@ public class Graph implements NodeVisitor {
     public Object visitOptArgNode(OptArgNode node) {
         Vertex vertex = createEmptyVertex(node);
         return vertex;
-    };
+    }
 
     public Object visitOrNode(OrNode node) {
         Vertex vertex = createEmptyVertex(node);
@@ -1395,7 +1421,14 @@ public class Graph implements NodeVisitor {
         Frame frame = context.getCurrentFrame();
         Template template = RuntimeHelper.getFrameTemplate(frame);
         if (template != null) {
-            Vertex vertex = createVertex(node.getValue());
+
+            Vertex vertex;
+            if (node.getValue() != null) {
+                vertex = createVertex(node.getValue());
+            } else {
+                vertex = createEmptyVertex(node);
+            }
+
             addEdgeAndPropagate(vertex, template.getReturnVertex());
             return vertex;
         }
@@ -1496,6 +1529,11 @@ public class Graph implements NodeVisitor {
 
     public Object visitTrueNode(TrueNode node) {
         return createSingleTypeVertex(node, runtime.getTrue());
+    }
+
+    @Override
+    public Object visitUnaryCallNode(UnaryCallNode node) {
+        return createVertex(node.getReceiver());
     }
 
     public Object visitUndefNode(UndefNode node) {

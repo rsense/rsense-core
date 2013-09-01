@@ -401,11 +401,11 @@ public class RuntimeHelper {
         }
 
         int valLen = array != null ? array.length() : 256; // magic number
-        int varLen = node.getHead() == null ? 0 : node.getHead().size();
+        int varLen = node.getPre() == null ? 0 : node.getPre().size();
 
         int j = 0;
         for (; j < valLen && j < varLen; j++) {
-            assign(graph, node.getHead().get(j), array != null ? array.getElement(j) : element);
+            assign(graph, node.getPre().get(j), array != null ? array.getElement(j) : element);
         }
 
         Node argsNode = node.getRest();
@@ -424,7 +424,7 @@ public class RuntimeHelper {
         }
 
         while (j < varLen) {
-            assign(graph, node.getHead().get(j++), element);
+            assign(graph, node.getPre().get(j++), element);
         }
     }
 
@@ -796,10 +796,10 @@ public class RuntimeHelper {
             noargblock = true;
         } else if (varNode instanceof MultipleAsgnNode) {
             masgn = (MultipleAsgnNode) varNode;
-            preCount = masgn.getHead().size();
+            preCount = masgn.getPre().size();
             isRest = masgn.getRest() != null;
             rest = masgn.getRest();
-            pre = masgn.getHead();
+            pre = masgn.getPre();
         }
 
         if (args != null && !args.isEmpty()) {

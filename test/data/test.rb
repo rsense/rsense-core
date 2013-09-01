@@ -1,9 +1,12 @@
-def f(&b)
 
-  g('', &b)
+#require 'pathname'
+#
+#pth = Pathname.new('foo.rb')
+#pth
 
-end
-def g(a, &b)
-  b.call(a)
-end
-f {|x| x_|_}
+#File.open('foo.txt') { |f|
+#  f.each { |line|
+#    line
+#  }
+#}
+

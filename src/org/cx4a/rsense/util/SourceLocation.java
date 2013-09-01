@@ -47,7 +47,13 @@ public class SourceLocation {
 
     public static SourceLocation of(Node node) {
         SourcePosition pos = node.getPosition();
-        if (pos != null && pos != SourcePosition.INVALID_POSITION) {
+        //TODO : find out about SourcePosition.INVALID_POSITION
+//        if (pos != null && pos != SourcePosition.INVALID_POSITION) {
+//            return new SourceLocation(pos.getFile(), pos.getStartLine() + 1);
+//        } else {
+//            return null;
+//        }
+        if (pos != null) {
             return new SourceLocation(pos.getFile(), pos.getStartLine() + 1);
         } else {
             return null;

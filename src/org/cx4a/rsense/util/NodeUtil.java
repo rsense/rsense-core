@@ -155,6 +155,11 @@ public class NodeUtil {
         }
 
         @Override
+        public Object visitImplicitNilNode(ImplicitNilNode kan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
         public Object visitKeywordArgNode(KeywordArgNode kan) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
@@ -162,6 +167,11 @@ public class NodeUtil {
         @Override
         public Object visitKeywordRestArgNode(KeywordRestArgNode kran) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitLambdaNode(LambdaNode node) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -188,6 +198,12 @@ public class NodeUtil {
         public Object visitSyntaxNode(SyntaxNode node) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
+
+        @Override
+        public Object visitUnaryCallNode(UnaryCallNode kan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
         
     }
 }
