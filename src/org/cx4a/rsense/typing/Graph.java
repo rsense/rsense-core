@@ -49,7 +49,6 @@ import org.cx4a.rsense.typing.vertex.TypeVarVertex;
 import org.cx4a.rsense.typing.vertex.Vertex;
 import org.cx4a.rsense.typing.vertex.YieldVertex;
 import org.cx4a.rsense.util.Logger;
-import org.cx4a.rsense.util.NodeDiff;
 import org.cx4a.rsense.util.SourceLocation;
 
 public class Graph implements NodeVisitor {
@@ -110,7 +109,6 @@ public class Graph implements NodeVisitor {
     protected Ruby runtime;
     protected Context context;
     protected Map<String, SpecialMethod> specialMethods;
-    protected NodeDiff nodeDiff;
     protected Queue<DummyCall> dummyCallQueue = new LinkedList<DummyCall>();
     protected List<EventListener> eventListeners;
 
@@ -137,14 +135,6 @@ public class Graph implements NodeVisitor {
 
     public void addSpecialMethod(String name, SpecialMethod method) {
         specialMethods.put(name, method);
-    }
-
-    public NodeDiff getNodeDiff() {
-        return nodeDiff;
-    }
-
-    public void setNodeDiff(NodeDiff nodeDiff) {
-        this.nodeDiff = nodeDiff;
     }
 
     public void addEventListener(EventListener eventListener) {

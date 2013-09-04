@@ -41,7 +41,6 @@ import org.cx4a.rsense.typing.runtime.VertexHolder;
 import org.cx4a.rsense.typing.vertex.CallVertex;
 import org.cx4a.rsense.typing.vertex.Vertex;
 import org.cx4a.rsense.util.Logger;
-import org.cx4a.rsense.util.NodeDiff;
 import org.cx4a.rsense.util.SourceLocation;
 
 public class CodeAssist {
@@ -149,39 +148,6 @@ public class CodeAssist {
             this.main = false;
             this.feature = null;
             this.loadPathLevel = 0;
-        }
-    }
-
-    private static class NodeDiffForTypeInference extends NodeDiff {
-        @Override
-        protected boolean isSameNode(Node a, Node b) {
-            if (!super.isSameNode(a, b)) {
-                return false;
-            }
-
-            if (a.getNodeType() == NodeType.CALLNODE) {
-                String name = ((INameNode) a).getName();
-                if (name.equals(TYPE_INFERENCE_METHOD_NAME)
-                    || name.startsWith(FIND_DEFINITION_METHOD_NAME_PREFIX)) {
-                    // scratch!
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        @Override
-        protected Node getNextNode(Iterator<Node> ite, boolean newNode) {
-            while (ite.hasNext()) {
-                Node node = ite.next();
-                if (isStatementNode(node)) {
-                    return node;
-                }
-                if (newNode) {
-                    diff.add(node);
-                }
-            }
-            return null;
         }
     }
 
@@ -705,7 +671,6 @@ public class CodeAssist {
         graph.addSpecialMethod(TYPE_INFERENCE_METHOD_NAME, typeInferenceMethod);
         graph.addSpecialMethod("require", requireMethod);
         graph.addSpecialMethod("require_next", requireNextMethod);
-        graph.setNodeDiff(new NodeDiffForTypeInference());
 
         require(project, "_builtin", "UTF-8");
     }

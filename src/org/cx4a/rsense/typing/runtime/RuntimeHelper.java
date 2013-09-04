@@ -615,7 +615,6 @@ public class RuntimeHelper {
                 ArrayList<Node> partialDiff = addToUndiff(bodyNode, oldTag.getBodyNode());
 
 
-                // List<Node> partialDiff = nodeDiff.diff(bodyNode, oldTag.getBodyNode());
                 if ((partialDiff != null) && !(partialDiff.isEmpty())) {
                     Logger.debug(SourceLocation.of(bodyNode), "class partial update: %s %s", klass, partialDiff.size());
                     for (Node dirty : partialDiff) {
