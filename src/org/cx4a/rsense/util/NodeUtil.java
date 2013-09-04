@@ -5,22 +5,12 @@ import org.jrubyparser.ast.*;
 
 
 public class NodeUtil {
-    private static NodeDiff diff = new NodeDiff();
 
     private NodeUtil() {}
 
     public static int nodeHashCode(Node node) {
         if (node == null) return 0;
         return new NodeHashCodeCalculator(node).getHashCode();
-    }
-
-    public static boolean nodeEquals(Node a, Node b) {
-        if ((a == null) ^ (b == null)) {
-            return false;
-        } else if (a == null) {
-            return true;
-        }
-        return diff.noDiff(a, b);
     }
 
     private static class NodeHashCodeCalculator implements NodeVisitor {
