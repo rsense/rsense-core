@@ -44,10 +44,14 @@ import org.cx4a.rsense.typing.vertex.TypeVarVertex;
 import org.cx4a.rsense.typing.vertex.Vertex;
 import org.cx4a.rsense.typing.vertex.YieldVertex;
 import org.cx4a.rsense.util.Logger;
-import org.cx4a.rsense.util.NodeDiff;
 import org.cx4a.rsense.util.SourceLocation;
+import org.jrubyparser.util.diff.Change;
+import org.jrubyparser.util.diff.IsJunk;
 
 public class RuntimeHelper {
+    public static final String TYPE_INFERENCE_METHOD_NAME = "__rsense_type_inference__";
+    public static final String FIND_DEFINITION_METHOD_NAME_PREFIX = "__rsense_find_definition__";
+
     private RuntimeHelper() {}
 
     public static Vertex assign(Graph graph, Node node) {
@@ -552,27 +556,67 @@ public class RuntimeHelper {
         if (newMethod instanceof Method && oldMethod instanceof Method) {
             Method newmeth = (Method) newMethod;
             Method oldmeth = (Method) oldMethod;
-            NodeDiff nodeDiff = graph.getNodeDiff();
 
-            if (nodeDiff != null
-                && nodeDiff.noDiff(node.getArgs(), oldmeth.getArgsNode())
-                && nodeDiff.noDiff(node.getBody(), oldmeth.getBodyNode())) { // XXX nested class, defn
-                // FIXME annotation diff
-                newmeth.shareTemplates(oldmeth);
-            } else {
+             if (shouldShare(node, oldmeth)) {
+                 newmeth.shareTemplates(oldmeth);
+             } else {
                 Logger.debug(SourceLocation.of(node), "templates not shared: %s", newmeth);
             }
+
+        }
+    }
+
+    public static boolean shouldShare(MethodDefNode node, Method oldmeth) {
+
+        if ((node.getArgs() != null && oldmeth.getArgsNode() != null) && (node.getBody() != null && oldmeth.getBodyNode() != null)) {
+            Node nodeArgs = node.getArgs();
+            Node omethArgs = oldmeth.getArgsNode();
+            Node nodeBody = skipNewLines(node.getBody());
+            Node omethBody = skipNewLines(oldmeth.getBodyNode());
+
+            if ((isRsenseCallNode(nodeArgs)) || (isRsenseCallNode(nodeBody))) {
+                return false;
+            }
+
+            if ((nodeArgs.isSame(omethArgs)) && (nodeBody.isSame(omethBody))) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+    public static boolean isRsenseCallNode(Node a) {
+        if (a.getNodeType() == NodeType.CALLNODE) {
+            String name = ((INameNode) a).getName();
+            if (name.equals(TYPE_INFERENCE_METHOD_NAME)
+                    || name.startsWith(FIND_DEFINITION_METHOD_NAME_PREFIX)) {
+                // scratch!
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static Node skipNewLines(Node node) {
+        if (node.getNodeType() == NodeType.NEWLINENODE) {
+            return ((NewlineNode) node).getNextNode();
+        } else {
+            return node;
         }
     }
 
     public static void classPartialUpdate(Graph graph, RubyModule klass, Node bodyNode) {
-        NodeDiff nodeDiff = graph.getNodeDiff();
 
         if (bodyNode != null) {
             ClassTag oldTag = getClassTag(klass);
-            if (nodeDiff != null && oldTag != null) {
-                List<Node> partialDiff = nodeDiff.diff(bodyNode, oldTag.getBodyNode());
-                if (partialDiff != null) {
+            if (oldTag != null) {
+                ArrayList<Node> partialDiff = addToUndiff(bodyNode, oldTag.getBodyNode());
+
+
+                // List<Node> partialDiff = nodeDiff.diff(bodyNode, oldTag.getBodyNode());
+                if ((partialDiff != null) && !(partialDiff.isEmpty())) {
                     Logger.debug(SourceLocation.of(bodyNode), "class partial update: %s %s", klass, partialDiff.size());
                     for (Node dirty : partialDiff) {
                         graph.createVertex(dirty);
@@ -584,6 +628,37 @@ public class RuntimeHelper {
                 graph.createVertex(bodyNode);
             }
         }
+    }
+
+    public static ArrayList<Node> addToUndiff(Node node, Node tagNode) {
+        if ((node == null) || (tagNode == null)) return null;
+
+        ArrayList<Node> undiff = new ArrayList<Node>();
+
+        List<Node> nkids = node.childNodes();
+        List<Node> tkids = tagNode.childNodes();
+
+        if ((nkids.isEmpty()) || (tkids.isEmpty())) return null;
+
+        if (nkids.size() == tkids.size()) {
+            for (int i = 0; i < nkids.size(); i++) {
+                Node nchild = nkids.get(i);
+                Node tchild = tkids.get(i);
+
+                if ((nchild == null) || (tchild == null)) continue;
+
+                if ((nchild instanceof ILocalScope && !(nchild instanceof RootNode))) {
+                    if (nchild.isSame(tchild)) {
+                        undiff.add(nchild);
+                    }
+                }
+
+            }
+        }
+
+        return undiff;
+
+
     }
 
     public static void dummyCall(Graph graph, MethodDefNode node, Method method, IRubyObject receiver) {
