@@ -13,8 +13,7 @@ end
 adder(1).call(2)_|_
 EOF
 
-# TODO fix
-type-inference --keep-env --test=Proc.HigherOrder.Bug --should-be=Object
+type-inference --keep-env --test=Proc.HigherOrder.Bug --should-be=Fixnum,Bignum
 def adder(a)
   proc {|b| a + b }
 end
