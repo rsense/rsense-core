@@ -70,32 +70,6 @@ type-inference --test=Array.StaticAccess2 --should-be=Float
 [1, 2.3][1]_|_
 EOF
 
-type-inference --test=Array.DynamicAccess1 --should-be=Fixnum
-a = []
-a << 1
-a[0]_|_
-EOF
-
-type-inference --test=Array.DynamicAccess2 --should-be=Fixnum,String
-a = []
-a << 1
-a << ''
-a[0]_|_
-EOF
-
-type-inference --test=Array.DynamicAccess3 --should-be=Fixnum,String
-a = ['']
-a << 1
-a[0]_|_
-EOF
-
-type-inference --test=Array.DynamicAccess4 --should-be=Fixnum
-a = []
-b = a[0]
-a << 1
-b_|_
-EOF
-
 type-inference --test=Array.Max --should-be=Fixnum,String
 a = ['']
 a << 1
@@ -281,25 +255,11 @@ end
 f_|_
 EOF
 
-type-inference --test=Method.Arg.OneArg --should-be=Fixnum
-def f(x)
-  x
-end
-f(1)_|_
-EOF
-
 type-inference --test=Method.Arg.TwoArg --should-be=Float
 def f(x, y)
   y
 end
 f(1, 2.3)_|_
-EOF
-
-type-inference --test=Method.Arg.Optional --should-be=Fixnum
-def f(x = 1)
-  x
-end
-f_|_
 EOF
 
 type-inference --test=Method.Arg.Optional.Overwrite --should-be=String
@@ -406,42 +366,6 @@ def f
 end
 f {|x|
   x_|_
-}
-EOF
-
-type-inference --test=Method.Yield.ArrayArg --should-be=Array
-def f
-  yield [1]
-end
-f {|x|
-  x_|_
-}
-EOF
-
-type-inference --test=Method.Yield.ArrayArg.Expand --should-be=Float
-def f
-  yield [1, 2.3]
-end
-f {|x, y|
-  y_|_
-}
-EOF
-
-type-inference --test=Method.Yield.ArrayArg.Splat1 --should-be=Array
-def f
-  yield [1, 2.3]
-end
-f {|x, *y|
-  y_|_
-}
-EOF
-
-type-inference --test=Method.Yield.ArrayArg.Splat2 --should-be=String
-def f
-  yield [1, 2.3, '']
-end
-f {|x, *y|
-  y[1]_|_
 }
 EOF
 

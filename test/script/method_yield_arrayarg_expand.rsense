@@ -1,0 +1,8 @@
+type-inference --test=Method.Yield.ArrayArg.Expand --should-be=Float
+def f
+  yield [1, 2.3]
+end
+f {|x, y|
+  y_|_
+}
+EOF

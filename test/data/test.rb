@@ -1,3 +1,10 @@
+require 'homesick'
+hs = Homesick.new
+hs_|_
+
+#require 'pry'
+#pried = Pry.new
+#pried
 
 #require 'pathname'
 #

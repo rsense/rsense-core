@@ -127,6 +127,8 @@ public class Main {
 
         String command = args[0];
         Options options = parseOptions(args, 1);
+        System.out.println("Command: " + command);
+        System.out.println("\nOptions: " + options);
 
         Logger.getInstance().setLevel(options.getLogLevel());
         init(options);

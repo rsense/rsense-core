@@ -9,6 +9,15 @@
       <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
     </src_description>
   </component>
+  <component name="FacetManager">
+    <facet type="JRUBY" name="JRuby">
+      <configuration>
+        <JRUBY_FACET_CONFIG_ID NAME="JRUBY_SDK_NAME" VALUE="" />
+        <LOAD_PATH number="0" />
+        <I18N_FOLDERS number="0" />
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -36,6 +45,8 @@
     </orderEntry>
     <orderEntry type="library" name="org.jruby:jruby-complete:1.7.4" level="project" />
     <orderEntry type="library" name="jruby-parser" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="rbenv: jruby-1.7.6 facet library" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.3.5, rbenv: jruby-1.7.6) [gem]" level="application" />
   </component>
 </module>
 

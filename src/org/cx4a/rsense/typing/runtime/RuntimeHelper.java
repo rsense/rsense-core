@@ -104,18 +104,38 @@ public class RuntimeHelper {
         return dynamicAssign(graph, node, null);
     }
 
-    public static Vertex dynamicAssign(Graph graph, DAsgnNode node, Vertex src) {
+    public static Vertex dynamicAssign(Graph graph, Node node, Vertex src) {
         Scope scope = graph.getRuntime().getContext().getCurrentScope();
-        VertexHolder holder = (VertexHolder) scope.getValue(node.getName());
-        if (src == null) {
-            src = graph.createVertex(node.getValue());
+        if (node.getNodeType() == NodeType.DASGNNODE) {
+            DAsgnNode dAsgnNode = (DAsgnNode) node;
+
+            VertexHolder holder = (VertexHolder) scope.getValue(dAsgnNode.getName());
+            if (src == null) {
+                src = graph.createVertex(dAsgnNode.getValue());
+            }
+            if (holder == null) {
+                holder = graph.createFreeVertexHolder();
+                scope.setValue(dAsgnNode.getName(), holder);
+            }
+            graph.addEdgeAndPropagate(src, holder.getVertex());
+            return src;
+
+        } else {
+            ArgumentNode argumentNode = (ArgumentNode) node;
+
+            VertexHolder holder = (VertexHolder) scope.getValue(argumentNode.getName());
+            if (src == null) {
+                src = graph.createVertex(null);
+            }
+            if (holder == null) {
+                holder = graph.createFreeVertexHolder();
+                scope.setValue(argumentNode.getName(), holder);
+            }
+            graph.addEdgeAndPropagate(src, holder.getVertex());
+            return src;
+
         }
-        if (holder == null) {
-            holder = graph.createFreeVertexHolder();
-            scope.setValue(node.getName(), holder);
-        }
-        graph.addEdgeAndPropagate(src, holder.getVertex());
-        return src;
+
     }
 
 
@@ -347,6 +367,9 @@ public class RuntimeHelper {
                 }
             }
             for (int i = 0; j < optArgs.size(); i++, j++) {
+                if (optArgs.get(j).getNodeType() == NodeType.OPTARGNODE) {
+                    graph.createVertex(optArgs.get(j).childNodes().get(0));
+                }
                 graph.createVertex(optArgs.get(j));
             }
         }
@@ -384,6 +407,52 @@ public class RuntimeHelper {
         MultipleAsgnVertex vertex = new MultipleAsgnVertex(node, src);
         graph.addEdgeAndPropagate(src, vertex);
         return src;
+    }
+
+    public static void multiAssignfromArgsNode(Graph graph, ArgsNode node, IRubyObject object) {
+        boolean isArray = object instanceof Array;
+        Array array = null;
+        Vertex element = Vertex.EMPTY;
+
+        if (isArray) {
+            array = (Array) object;
+            if (array.isModified()) {
+                return;
+            }
+        } else {
+            TypeVarMap tvmap = getTypeVarMap(object);
+            TypeVariable var = TypeVariable.valueOf("t");
+            if (tvmap != null && tvmap.containsKey(var)) {
+                element = tvmap.get(var);
+            }
+        }
+
+        int valLen = array != null ? array.length() : 256; // magic number
+        int varLen = node.getPre() == null ? 0 : node.getPre().size();
+
+        int j = 0;
+        for (; j < valLen && j < varLen; j++) {
+            dynamicAssign(graph, node.getPre().get(j), array != null ? array.getElement(j) : element);
+        }
+
+        Node argsNode = node.getRest();
+        if (argsNode != null) {
+            if (argsNode.getNodeType() == NodeType.STARNODE) {
+                // no check for '*'
+            } else if (varLen < valLen && array != null) {
+                assign(graph, argsNode, createArrayVertex(graph, null, array.getElements(), varLen, valLen - varLen));
+            } else {
+                Vertex[] elements = null;
+                if (element != null) {
+                    elements = new Vertex[] { element };
+                }
+                assign(graph, argsNode, createArrayVertex(graph, null, elements));
+            }
+        }
+
+        while (j < varLen) {
+            assign(graph, node.getPre().get(j++), element);
+        }
     }
 
     public static void multipleAssign(Graph graph, MultipleAsgnNode node, IRubyObject object) {
@@ -859,6 +928,7 @@ public class RuntimeHelper {
         Node varNode = block.getVarNode();
 
         boolean noargblock = false;
+        boolean multiAssign = false;
         MultipleAsgnNode masgn = null;
         int preCount = 0;
         boolean isRest = false;
@@ -870,6 +940,7 @@ public class RuntimeHelper {
             noargblock = true;
         } else if (varNode instanceof MultipleAsgnNode) {
             masgn = (MultipleAsgnNode) varNode;
+            multiAssign = true;
             preCount = masgn.getPre().size();
             isRest = masgn.getRest() != null;
             rest = masgn.getRest();
@@ -882,21 +953,13 @@ public class RuntimeHelper {
                 context.pushScope(block.getScope());
 
                 if (noargblock) {}
-                else if (masgn != null) {
+                else if (multiAssign) {
                     Array array;
                     if (!expanded) {
-                        // FIXME to_ary
-                        if (value instanceof Array) {
-                            array = (Array) value;
-                        } else {
-                            array = createArray(graph, new Vertex[] { graph.createFreeSingleTypeVertex(value) });
-                        }
+                        array = to_ary(value, graph);
+
                     } else {
-                        if (value instanceof Array) {
-                            array = (Array) value;
-                        } else {
-                            array = createArray(graph, new Vertex[] { graph.createFreeSingleTypeVertex(value) });
-                        }
+                        array = to_ary(value, graph);
                     }
                     multipleAssign(graph, masgn, array);
                 } else {
@@ -904,7 +967,21 @@ public class RuntimeHelper {
                     if (varNode.getNodeType() == NodeType.ARGSNODE ) {
                         //debug
                         ArgsNode argsFromBlock = (ArgsNode) varNode;
-                        argsAssign(graph, argsFromBlock, new Vertex[]{graph.createFreeSingleTypeVertex(value)}, block);
+
+                        if (argsFromBlock.getPre() != null) {
+                            isRest = argsFromBlock.getRest() != null;
+                            rest = argsFromBlock.getRest();
+                            pre = argsFromBlock.getPre();
+                            preCount = pre.size();
+                            if (preCount > 1 || isRest) {
+                                multiAssignfromArgsNode(graph, argsFromBlock, to_ary(value, graph));
+                            } else {
+                                dynamicAssign(graph, pre.get(0), graph.createFreeSingleTypeVertex(value));
+                            }
+
+                        } else {
+                            argsAssign(graph, argsFromBlock, new Vertex[]{graph.createFreeSingleTypeVertex(value)}, block);
+                        }
 
                     } else {
                         assign(graph, varNode, graph.createFreeSingleTypeVertex(value));
@@ -987,6 +1064,18 @@ public class RuntimeHelper {
             }
         }
         return typeSet;
+    }
+
+    public static Array to_ary(IRubyObject value, Graph graph) {
+        Array array;
+
+        if (value instanceof Array) {
+            array = (Array) value;
+        } else {
+            array = createArray(graph, new Vertex[] { graph.createFreeSingleTypeVertex(value) });
+        }
+        return array;
+
     }
 
     public static void aValueSplat(Graph graph, SValueVertex vertex) {

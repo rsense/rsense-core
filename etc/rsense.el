@@ -20,9 +20,10 @@
 
 ;;; Commentary:
 
-;; 
+;;
 
 ;;; Code:
+(require 'cl)
 
 (defcustom rsense-home nil
   "Home directory of RSense.")
@@ -194,7 +195,7 @@ Nil means proper socket will be selected.")
                               (cons (if (equal (car loc) rsense-temp-file) (buffer-file-name) (car loc))
                                     (cdr loc)))
                             locations))
-    
+
     (let (loc)
       (if (and (> (length locations) 1)
                (featurep 'popup))

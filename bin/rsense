@@ -16,7 +16,7 @@ module Win32
     def self.set_proc(proc)
       @@proc = proc
     end
-    
+
     def service_main
       @@proc.call method(:running?)
     end
@@ -65,8 +65,8 @@ class RSense
     @pid_file ||= IS_WIN ? File.join(@rsense_home, 'rsense-pid') : '/tmp/rsense-pid'
 
     @service_log ||= File.join(@rsense_home, 'rsense-service.log') if IS_WIN
-    
-    @classpath ||= '.' + ['', 'rsense.jar', 'antlr-runtime-3.2.jar', 'jruby.jar'].join(File.join(File::PATH_SEPARATOR + @rsense_home, 'lib', ''))
+
+    @classpath ||= '.' + ['', 'rsense.jar', 'antlr-runtime-3.2.jar', 'jruby.jar', 'JRubyParser.jar'].join(File.join(File::PATH_SEPARATOR + @rsense_home, 'lib', ''))
 
     @config ||= File.join(ENV['HOME'], '.rsense')
   end
@@ -176,7 +176,7 @@ class RSense
     else
       # already started
       return if File.exists? @pid_file
-      
+
       die "Server daemon is not supported in Windows.\nRegister service instead like:
 
     > ruby #{$0} service create
