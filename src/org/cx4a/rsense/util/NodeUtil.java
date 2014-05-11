@@ -1,11 +1,10 @@
 package org.cx4a.rsense.util;
 
-import org.jruby.ast.*;
-import org.jruby.ast.types.INameNode;
-import org.jruby.ast.visitor.NodeVisitor;
+import org.jrubyparser.NodeVisitor;
+import org.jrubyparser.ast.*;
+
 
 public class NodeUtil {
-    private static NodeDiff diff = new NodeDiff();
 
     private NodeUtil() {}
 
@@ -14,18 +13,9 @@ public class NodeUtil {
         return new NodeHashCodeCalculator(node).getHashCode();
     }
 
-    public static boolean nodeEquals(Node a, Node b) {
-        if ((a == null) ^ (b == null)) {
-            return false;
-        } else if (a == null) {
-            return true;
-        }
-        return diff.noDiff(a, b);
-    }
-
     private static class NodeHashCodeCalculator implements NodeVisitor {
         private int hashCode;
-        
+
         public NodeHashCodeCalculator(Node node) {
             hashCode = 0;
             node.accept(this);
@@ -88,7 +78,6 @@ public class NodeUtil {
         public Object visitLocalAsgnNode(LocalAsgnNode node) { return update(50); }
         public Object visitLocalVarNode(LocalVarNode node) { return update(51); }
         public Object visitMultipleAsgnNode(MultipleAsgnNode node) { return update(52); }
-        public Object visitMultipleAsgnNode(MultipleAsgn19Node node) { return update(53); }
         public Object visitMatch2Node(Match2Node node) { return update(54); }
         public Object visitMatch3Node(Match3Node node) { return update(55); }
         public Object visitMatchNode(MatchNode node) { return update(56); }
@@ -137,5 +126,73 @@ public class NodeUtil {
             hashCode = hashCode * 13 + n;
             return this;
         }
+
+        // FIXME: I don't know this fits into the grand scheme of things...Let's see about test coverage.
+        @Override
+        public Object visitArgumentNode(ArgumentNode an) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitBlockArg18Node(BlockArg18Node node) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitCommentNode(CommentNode node) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public Object visitImplicitNilNode(ImplicitNilNode kan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitKeywordArgNode(KeywordArgNode kan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitKeywordRestArgNode(KeywordRestArgNode kran) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitLambdaNode(LambdaNode node) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public Object visitLiteralNode(LiteralNode node) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitListNode(ListNode ln) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitMethodNameNode(MethodNameNode mnn) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitOptArgNode(OptArgNode oan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public Object visitSyntaxNode(SyntaxNode node) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public Object visitUnaryCallNode(UnaryCallNode kan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+
     }
 }

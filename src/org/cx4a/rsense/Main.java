@@ -1,11 +1,8 @@
 package org.cx4a.rsense;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Collection;
-import java.util.Arrays;
 import java.util.Properties;
 
 import java.io.File;
@@ -15,18 +12,19 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.Map;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.util.HashMap;
-
-import org.jruby.Ruby;
-import org.jruby.ast.Node;
+import java.util.Map;
 
 import org.cx4a.rsense.ruby.IRubyObject;
 import org.cx4a.rsense.util.Logger;
 import org.cx4a.rsense.util.StringUtil;
-import org.cx4a.rsense.util.HereDocReader;
 import org.cx4a.rsense.util.SourceLocation;
 
 public class Main {
@@ -105,7 +103,7 @@ public class Main {
     private CodeAssist codeAssist;
     private TestStats testStats;
     private ProgressMonitor progressMonitor;
-    
+
     public static void main(String[] args) throws Exception {
         new Main().run(args);
     }
@@ -116,7 +114,8 @@ public class Main {
         inReader = new InputStreamReader(in);
 
         properties = new Properties();
-        properties.load(this.getClass().getResourceAsStream("rsense.properties"));
+        InputStream stream = this.getClass().getResourceAsStream("rsense.properties");
+        if (stream != null) properties.load(stream);
 
         if (args.length == 0 || args[0].equals("help")) {
             usage();
@@ -128,6 +127,8 @@ public class Main {
 
         String command = args[0];
         Options options = parseOptions(args, 1);
+        System.out.println("Command: " + command);
+        System.out.println("\nOptions: " + options);
 
         Logger.getInstance().setLevel(options.getLogLevel());
         init(options);
@@ -270,6 +271,8 @@ public class Main {
 
         return options;
     }
+    
+    static HashMap map = new HashMap();
 
     private void script(Options options) {
         if (options.getRestArgs().isEmpty()) {
@@ -277,20 +280,16 @@ public class Main {
         } else {
             try {
                 for (String filename : options.getRestArgs()) {
-                    File file;
-                    if (currentDir == null || !(file = new File(currentDir, filename)).exists()) {
-                        // Load from current directory if possible
-                        file = new File(filename);
-                    }
-
-                    File oldCurrentDir = currentDir;
-                    currentDir = file.getParentFile();
-                    InputStream in = new FileInputStream(file);
-                    try {
-                        runScript(in, options, true);
-                    } finally {
-                        in.close();
-                        currentDir = oldCurrentDir;
+                    if (filename.contains("*")) {
+                        PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + filename);
+                        for (String file: currentDir.list()) {
+                            if (matcher.matches(new File(file).toPath()) && map.get(file) == null) {
+                                map.put(file, true);
+                                runFileScript(file, options);
+                            }
+                        }
+                    } else {
+                        runFileScript(filename, options);
                     }
                 }
             } catch (IOException e) {
@@ -299,6 +298,25 @@ public class Main {
         }
     }
 
+
+    private void runFileScript(String filename, Options options) throws FileNotFoundException, IOException {
+        File file;
+        if (currentDir == null || !(file = new File(currentDir, filename)).exists()) {
+            // Load from current directory if possible
+            file = new File(filename);
+        }
+
+        File oldCurrentDir = currentDir;
+        currentDir = file.getParentFile();
+        InputStream in = new FileInputStream(file);
+        try {
+            runScript(in, options, true);
+        } finally {
+            in.close();
+            currentDir = oldCurrentDir;
+        }
+    }
+    
     private void runScript(InputStream in, Options options, boolean noprompt) {
         String prompt = options.getPrompt();
         if (prompt == null) {
@@ -325,7 +343,7 @@ public class Main {
                     // comment
                     continue;
                 }
-                
+
                 String[] argv = StringUtil.shellwords(line);
                 if (argv.length > 0) {
                     String command = argv[0];
@@ -347,7 +365,7 @@ public class Main {
             this.inReader = oldInReader;
         }
     }
-    
+
     private void command(String command, Options options) {
         long start = System.currentTimeMillis();
         Logger.info("command: %s", command);
@@ -478,7 +496,7 @@ public class Main {
             if (options.isPrintAST()) {
                 Logger.debug("AST:\n%s", result.getAST());
             }
-            
+
             if (options.isTest()) {
                 Set<String> data = new HashSet<String>();
                 for (IRubyObject klass : result.getTypeSet()) {
@@ -535,7 +553,7 @@ public class Main {
             if (options.isPrintAST()) {
                 Logger.debug("AST:\n%s", result.getAST());
             }
-            
+
             if (options.isTest()) {
                 Set<String> data = new HashSet<String>();
                 for (SourceLocation location : result.getLocations()) {
@@ -637,7 +655,7 @@ public class Main {
             if (options.isPrintAST()) {
                 Logger.debug("AST:\n%s", result.getAST());
             }
-            
+
             if (options.isEmacsFormat()) {
                 out.print("(");
                 codeAssistError(result, options);
@@ -669,7 +687,7 @@ public class Main {
         for (Map.Entry<String, Project> entry : codeAssist.getProjects().entrySet()) {
             String name = entry.getKey();
             Project project = entry.getValue();
-            
+
             if (verbose) {
                 if (!first) {
                     out.println();
@@ -725,7 +743,7 @@ public class Main {
             out.println("  - " + path);
         }
     }
-    
+
     private void commandHelp(Options options) {
         if (options.isEmacsFormat()) {
             out.print("\"");
@@ -794,7 +812,7 @@ public class Main {
     private void testSuccess(Options options) {
         testSuccess(options, null);
     }
-    
+
     private void testSuccess(Options options, String format, Object... args) {
         if (testStats == null) {
             testStats = new TestStats();
@@ -816,7 +834,7 @@ public class Main {
     private void testFailure(Options options) {
         testFailure(options, null);
     }
-    
+
     private void testFailure(Options options, String format, Object... args) {
         if (testStats == null) {
             testStats = new TestStats();

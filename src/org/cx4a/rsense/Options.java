@@ -10,11 +10,9 @@ import java.io.IOException;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.Collection;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -39,7 +37,7 @@ public class Options extends HashMap<String, List<String>> {
     public void addOption(String name) {
         addOption(name, null);
     }
-    
+
     public void addOption(String name, String value) {
         List<String> list = get(name);
         if (list == null) {
@@ -61,7 +59,7 @@ public class Options extends HashMap<String, List<String>> {
             list.addAll(value);
         }
     }
-        
+
     public boolean hasOption(String name) {
         return containsKey(name);
     }
@@ -194,7 +192,7 @@ public class Options extends HashMap<String, List<String>> {
         String sep = File.separator;
         String psep = File.pathSeparator;
         loadPath.add(0, getRsenseHome() + sep + "stubs" + sep + "1.8");
-        
+
         return loadPath;
     }
 
@@ -336,7 +334,7 @@ public class Options extends HashMap<String, List<String>> {
         }
         return result;
     }
-    
+
     public static String defaultFormat() {
         return "plain";
     }

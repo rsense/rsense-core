@@ -1,17 +1,11 @@
-<project name="rsense" default="build" basedir=".">
+<project name="rsense" default="init" basedir=".">
   <property file="src/resources/org/cx4a/rsense/rsense.properties" />
 
   <path id="build.class.path">
     <fileset file="build_lib/*.jar" />
-    <fileset file="lib/*.jar" />
+    <fileset file="lib/jars/*.jar" />
     <pathelement path="${classpath}" />
   </path>
-  <path id="exec.class.path">
-    <fileset file="dist/lib/*.jar" />
-    <pathelement path="${classpath}" />
-  </path>
-
-  <property name="dist.dir" value="rsense-${rsense.version}" />
 
   <target name="init">
     <mkdir dir="build" />
@@ -22,45 +16,6 @@
       <arg value="-make" />
       <arg file="src/org/cx4a/rsense/parser/TypeAnnotation.g" />
     </java>
-  </target>
-
-  <target name="build" depends="antlr">
-    <javac fork="true" source="1.5" target="1.5" debug="true" deprecation="true"
-           srcdir="src" destdir="build"
-           classpathref="build.class.path">
-      <compilerarg value="-Xlint:all" />
-    </javac>
-    <jar jarfile="lib/rsense.jar" basedir="build">
-      <fileset dir="src/resources" />
-    </jar>
-  </target>
-
-  <target name="dist" depends="build">
-    <copy todir="${dist.dir}" preservelastmodified="true" includeEmptyDirs="true">
-      <fileset dir=".">
-        <include name="README.txt" />
-        <include name="bin/**/*" />
-        <include name="doc/**/*" />
-        <include name="etc/**/*" />
-        <include name="lib/**/*" />
-        <include name="stubs/**/*" />
-        <include name="src/**/*" />
-      </fileset>
-    </copy>
-  </target>
-
-  <target name="zip" depends="dist">
-    <zip destfile="${dist.dir}.zip">
-      <zipfileset dir="${dist.dir}" prefix="${dist.dir}" />
-    </zip>
-  </target>
-
-  <target name="tar.bz2" depends="dist">
-    <exec executable="tar">
-      <arg value="cjf" />
-      <arg value="${dist.dir}.tar.bz2" />
-      <arg value="${dist.dir}" />
-    </exec>
   </target>
 
   <target name="test">
@@ -105,7 +60,7 @@
     </antcall>
   </target>
 
-  <target name="dotest" depends="build">
+  <target name="dotest">
     <java fork="true" classpathref="build.class.path" classname="org.cx4a.rsense.Main">
       <arg value="script" /><arg file="test/script/${name}.rsense" />
       <arg value="--log-level=error" />
@@ -113,30 +68,9 @@
     </java>
   </target>
 
-  <target name="doc">
-    <exec executable="bluefeather">
-      <arg value="-f" /><arg value="d" />
-      <arg file="doc/*.txt" />
-    </exec>
-  </target>
-
-  <target name="jruby-diff">
-    <exec executable="diff" output="etc/jruby-1.4.0.patch">
-      <arg value="-ruN" />
-      <arg value="-x" /><arg value="ri" />
-      <arg value="-x" /><arg value="cache" />
-      <arg value="-x" /><arg value="DefaultRubyParser.java" />
-      <arg value="-x" /><arg value="YyTables.java" />
-      <arg value="-x" /><arg value="PATH" />
-      <arg value="../jruby-1.4.0-orig" />
-      <arg value="../jruby-1.4.0" />
-    </exec>
-  </target>
-  
   <target name="clean">
     <delete quiet="true" includeEmptyDirs="true">
       <fileset dir="build" />
-      <fileset dir="${dist.dir}" />
       <fileset file="rsense-*.tar.bz2" />
       <fileset file="rsense-*.zip" />
       <fileset file="hs_err_pid*.log" />

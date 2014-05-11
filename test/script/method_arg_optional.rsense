@@ -1,0 +1,7 @@
+type-inference --test=Method.Arg.Optional --should-be=Fixnum
+def f(x = 1)
+  x
+end
+f_|_
+EOF
+

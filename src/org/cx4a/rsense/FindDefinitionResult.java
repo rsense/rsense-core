@@ -3,8 +3,6 @@ package org.cx4a.rsense;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.cx4a.rsense.ruby.RubyModule;
-import org.cx4a.rsense.typing.runtime.Method;
 import org.cx4a.rsense.util.SourceLocation;
 
 public class FindDefinitionResult extends CodeAssistResult {

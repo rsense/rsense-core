@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.jruby.ast.Node;
+import org.jrubyparser.ast.Node;
 
 public class CodeAssistResult {
     private Node ast;

@@ -1,6 +1,6 @@
 package org.cx4a.rsense.typing.vertex;
 
-import org.jruby.ast.Node;
+import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.ruby.Block;
 import org.cx4a.rsense.typing.Propagation;
@@ -26,11 +26,11 @@ public class YieldVertex extends Vertex {
     public Template getTemplate() {
         return template;
     }
-    
+
     public Block getBlock() {
         return block;
     }
-    
+
     public Vertex getArgsVertex() {
         return argsVertex;
     }

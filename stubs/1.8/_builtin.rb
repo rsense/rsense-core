@@ -366,7 +366,7 @@ module Enumerable
   ##% any?() {t -> ?} -> Boolean
   def any?() yield self; BOOLEAN end
   ##% collect<v>() {t -> v} -> Array<v>
-  def collect() [yield self] end
+  def collect() [yield(self)] end
   alias :map :collect
   ##% count() -> Integer
   ##% count(a) -> Integer
@@ -515,7 +515,7 @@ class File
   PATH_SEPARATOR = ''
   SEPARATOR = ''
   Separator = ''
-  
+
   include File::Constants
 
   ##% self.atime(String or IO) -> Time
@@ -968,7 +968,7 @@ end
 ##% Hash<k, v, z | (k, v) <= t>
 class Hash
   include Enumerable
-  
+
   # FIXME
   ##% self.[](Hash<k', v', z'>) -> Hash<k', v', z'>
   ##% self.[](?k1, ?v1, ?k2, ?v2, ?k3, ?v3, ?k4, ?v4, ?k5, ?v5) -> Hash<k1 or k2 or k3 or k4 or k5, v1 or v2 or v3 or v4 or v5>
@@ -1124,7 +1124,7 @@ class IO
   def self.select(reads, writes = [], excepts = [], timeout = nil) [[IO.new(0)], [IO.new(0)], [IO.new(0)]] end
   ##% self.sysopen(String, ?a, ?Integer) -> Integer
   def self.sysopen(path, mode = 'r', perm = 0666) 0 end
-  
+
   # FIXME to_s
   ##% "<<"(a) -> self
   def <<(object) self end
@@ -1450,7 +1450,7 @@ module Kernel
   $deferr = $stderr
   $stdin = IO.new(0)
   $~ = MatchData
-  
+
   ### Module Methods
   # FIXME to_ary
   ##% Array<a | a <= Array>(a) -> a
@@ -1652,7 +1652,7 @@ module Math
   PI = 0.0
 
   module_function
-  
+
   ##% acos(Integer or Float) -> Float
   def acos(x) 0.0 end
   ##% acosh(Integer or Float) -> Float
@@ -1779,7 +1779,7 @@ class Module
   def public_instance_methods(inherited_too = true) [''] end
   ##% public_method_defined?(String or Symbol) -> Boolean
   def public_method_defined?(name) BOOLEAN end
-    
+
   private
   ##% alias_method(String or Symbol, String or Symbol) -> self
   def alias_method(new, original) self end
@@ -2081,7 +2081,7 @@ module Process
   RLIM_SAVED_MAX  =  0
   WNOHANG         =  0
   WUNTRACED       =  0
-  
+
   ##% self.abort(?String) -> ?
   def self.abort(message = '') end
   ##% self.detach(Integer) -> Thread
@@ -2312,7 +2312,7 @@ class Regexp
   EXTENDED = 0
   IGNORECASE = 0
   MULTILINE = 0
-  
+
   ##% self.compile(String, Fixnum or Boolean, String) -> Regexp
   def self.compile(string, option = nil, code = nil) Regexp.new end
   ##% self.escape(String, ?String) -> String
@@ -2363,7 +2363,7 @@ end
 class String
   include Enumerable
   include Comparable
-  
+
   ##% self.new(?String) -> String
   def self.new(string = '') '' end
 
@@ -2701,7 +2701,7 @@ class Time
   def self.now() Time.new end
   ##% self.times() -> Struct::Tms
   def self.times() Struct::Tms.new end
-  
+
   ##% +(Integer) -> Time
   def +(other) Time.new end
   ##% -(Integer or Time) -> Time

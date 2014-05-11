@@ -1,87 +1,57 @@
 package org.cx4a.rsense.typing.runtime;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Collections;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import org.jruby.ast.Node;
-import org.jruby.ast.ArgsNode;
-import org.jruby.ast.ArgsNoArgNode;
-import org.jruby.ast.ArgsPreOneArgNode;
-import org.jruby.ast.ArgumentNode;
-import org.jruby.ast.ListNode;
-import org.jruby.ast.LocalVarNode;
-import org.jruby.ast.LocalAsgnNode;
-import org.jruby.ast.DAsgnNode;
-import org.jruby.ast.ClassVarDeclNode;
-import org.jruby.ast.ClassVarAsgnNode;
-import org.jruby.ast.ClassVarNode;
-import org.jruby.ast.InstAsgnNode;
-import org.jruby.ast.InstVarNode;
-import org.jruby.ast.ConstDeclNode;
-import org.jruby.ast.GlobalAsgnNode;
-import org.jruby.ast.GlobalVarNode;
-import org.jruby.ast.MultipleAsgnNode;
-import org.jruby.ast.Colon2Node;
-import org.jruby.ast.Colon2ImplicitNode;
-import org.jruby.ast.Colon3Node;
-import org.jruby.ast.AssignableNode;
-import org.jruby.ast.IterNode;
-import org.jruby.ast.YieldNode;
-import org.jruby.ast.ZeroArgNode;
-import org.jruby.ast.MethodDefNode;
-import org.jruby.ast.DefnNode;
-import org.jruby.ast.BlockArgNode;
-import org.jruby.ast.NodeType;
-import org.jruby.ast.types.INameNode;
-import org.jruby.parser.LocalStaticScope;
-import org.jruby.lexer.yacc.ISourcePosition;
-import org.jruby.lexer.yacc.SimpleSourcePosition;
+import org.jrubyparser.LocalStaticScope;
+import org.jrubyparser.SourcePosition;
+import org.jrubyparser.ast.*;
 
-import org.cx4a.rsense.ruby.Ruby;
-import org.cx4a.rsense.ruby.Context;
-import org.cx4a.rsense.ruby.Scope;
-import org.cx4a.rsense.ruby.DynamicScope;
-import org.cx4a.rsense.ruby.LocalScope;
 import org.cx4a.rsense.ruby.Block;
-import org.cx4a.rsense.ruby.Frame;
-import org.cx4a.rsense.ruby.Visibility;
-import org.cx4a.rsense.ruby.RubyModule;
-import org.cx4a.rsense.ruby.RubyClass;
-import org.cx4a.rsense.ruby.MetaClass;
-import org.cx4a.rsense.ruby.IRubyObject;
+import org.cx4a.rsense.ruby.Context;
 import org.cx4a.rsense.ruby.DynamicMethod;
-import org.cx4a.rsense.util.Logger;
-import org.cx4a.rsense.util.NodeDiff;
-import org.cx4a.rsense.util.SourceLocation;
-import org.cx4a.rsense.typing.TypeSet;
+import org.cx4a.rsense.ruby.DynamicScope;
+import org.cx4a.rsense.ruby.Frame;
+import org.cx4a.rsense.ruby.IRubyObject;
+import org.cx4a.rsense.ruby.LocalScope;
+import org.cx4a.rsense.ruby.MetaClass;
+import org.cx4a.rsense.ruby.Ruby;
+import org.cx4a.rsense.ruby.RubyClass;
+import org.cx4a.rsense.ruby.RubyModule;
+import org.cx4a.rsense.ruby.Scope;
+import org.cx4a.rsense.ruby.Visibility;
+import org.cx4a.rsense.typing.Graph;
 import org.cx4a.rsense.typing.Template;
 import org.cx4a.rsense.typing.TemplateAttribute;
-import org.cx4a.rsense.typing.Graph;
-import org.cx4a.rsense.typing.runtime.TypeVarMap;
-import org.cx4a.rsense.typing.runtime.AnnotationHelper;
-import org.cx4a.rsense.typing.runtime.ClassTag;
-import org.cx4a.rsense.typing.runtime.Method;
+import org.cx4a.rsense.typing.TypeSet;
+import org.cx4a.rsense.typing.annotation.ClassType;
+import org.cx4a.rsense.typing.annotation.MethodType;
 import org.cx4a.rsense.typing.annotation.TypeAnnotation;
 import org.cx4a.rsense.typing.annotation.TypeExpression;
 import org.cx4a.rsense.typing.annotation.TypeVariable;
-import org.cx4a.rsense.typing.annotation.ClassType;
-import org.cx4a.rsense.typing.annotation.MethodType;
-import org.cx4a.rsense.typing.vertex.Vertex;
 import org.cx4a.rsense.typing.vertex.CallVertex;
 import org.cx4a.rsense.typing.vertex.MultipleAsgnVertex;
-import org.cx4a.rsense.typing.vertex.ToAryVertex;
-import org.cx4a.rsense.typing.vertex.SplatVertex;
-import org.cx4a.rsense.typing.vertex.SValueVertex;
-import org.cx4a.rsense.typing.vertex.YieldVertex;
 import org.cx4a.rsense.typing.vertex.PassThroughVertex;
+import org.cx4a.rsense.typing.vertex.SValueVertex;
+import org.cx4a.rsense.typing.vertex.SplatVertex;
+import org.cx4a.rsense.typing.vertex.ToAryVertex;
 import org.cx4a.rsense.typing.vertex.TypeVarVertex;
+import org.cx4a.rsense.typing.vertex.Vertex;
+import org.cx4a.rsense.typing.vertex.YieldVertex;
+import org.cx4a.rsense.util.Logger;
+import org.cx4a.rsense.util.SourceLocation;
+import org.jrubyparser.util.diff.Change;
+import org.jrubyparser.util.diff.IsJunk;
 
 public class RuntimeHelper {
+    public static final String TYPE_INFERENCE_METHOD_NAME = "__rsense_type_inference__";
+    public static final String FIND_DEFINITION_METHOD_NAME_PREFIX = "__rsense_find_definition__";
+
     private RuntimeHelper() {}
 
     public static Vertex assign(Graph graph, Node node) {
@@ -107,9 +77,11 @@ public class RuntimeHelper {
             return argumentAssign(graph, (ArgumentNode) node, src);
         }
         Logger.error("unknown assignable node: %s", node);
-        return Vertex.EMPTY;
+        Logger.message("Type: %s", node.getNodeType());
+        throw new RuntimeException("Unknown: " + node);
+//        return Vertex.EMPTY;
     }
-    
+
     public static Vertex localAssign(Graph graph, LocalAsgnNode node) {
         return localAssign(graph, node, null);
     }
@@ -118,7 +90,7 @@ public class RuntimeHelper {
         Scope scope = graph.getRuntime().getContext().getCurrentScope();
         VertexHolder holder = (VertexHolder) scope.getValue(node.getName());
         if (src == null) {
-            src = graph.createVertex(node.getValueNode());
+            src = graph.createVertex(node.getValue());
         }
         if (holder == null) {
             holder = graph.createFreeVertexHolder();
@@ -132,18 +104,38 @@ public class RuntimeHelper {
         return dynamicAssign(graph, node, null);
     }
 
-    public static Vertex dynamicAssign(Graph graph, DAsgnNode node, Vertex src) {
+    public static Vertex dynamicAssign(Graph graph, Node node, Vertex src) {
         Scope scope = graph.getRuntime().getContext().getCurrentScope();
-        VertexHolder holder = (VertexHolder) scope.getValue(node.getName());
-        if (src == null) {
-            src = graph.createVertex(node.getValueNode());
+        if (node.getNodeType() == NodeType.DASGNNODE) {
+            DAsgnNode dAsgnNode = (DAsgnNode) node;
+
+            VertexHolder holder = (VertexHolder) scope.getValue(dAsgnNode.getName());
+            if (src == null) {
+                src = graph.createVertex(dAsgnNode.getValue());
+            }
+            if (holder == null) {
+                holder = graph.createFreeVertexHolder();
+                scope.setValue(dAsgnNode.getName(), holder);
+            }
+            graph.addEdgeAndPropagate(src, holder.getVertex());
+            return src;
+
+        } else {
+            ArgumentNode argumentNode = (ArgumentNode) node;
+
+            VertexHolder holder = (VertexHolder) scope.getValue(argumentNode.getName());
+            if (src == null) {
+                src = graph.createVertex(null);
+            }
+            if (holder == null) {
+                holder = graph.createFreeVertexHolder();
+                scope.setValue(argumentNode.getName(), holder);
+            }
+            graph.addEdgeAndPropagate(src, holder.getVertex());
+            return src;
+
         }
-        if (holder == null) {
-            holder = graph.createFreeVertexHolder();
-            scope.setValue(node.getName(), holder);
-        }
-        graph.addEdgeAndPropagate(src, holder.getVertex());
-        return src;
+
     }
 
 
@@ -155,7 +147,7 @@ public class RuntimeHelper {
         IRubyObject self = graph.getRuntime().getContext().getFrameSelf();
         VertexHolder holder = (VertexHolder) self.getInstVar(node.getName());
         if (src == null) {
-            src = graph.createVertex(node.getValueNode());
+            src = graph.createVertex(node.getValue());
         }
         if (holder == null) {
             holder = graph.createFreeVertexHolder();
@@ -179,11 +171,11 @@ public class RuntimeHelper {
     public static Vertex classVarDeclaration(Graph graph, ClassVarDeclNode node) {
         return classVarDeclaration(graph, node, null);
     }
-    
+
     public static Vertex classVarDeclaration(Graph graph, ClassVarDeclNode node, Vertex src) {
         RubyModule klass = graph.getRuntime().getContext().getFrameModule();
         if (src == null) {
-            src = graph.createVertex(node.getValueNode());
+            src = graph.createVertex(node.getValue());
         }
         VertexHolder holder = (VertexHolder) klass.getClassVar(node.getName());
         if (holder == null) {
@@ -203,7 +195,7 @@ public class RuntimeHelper {
     public static Vertex classVarAssign(Graph graph, ClassVarAsgnNode node, Vertex src) {
         RubyModule klass = graph.getRuntime().getContext().getFrameModule();
         if (src == null) {
-            src = graph.createVertex(node.getValueNode());
+            src = graph.createVertex(node.getValue());
         }
         VertexHolder holder = (VertexHolder) klass.getClassVar(node.getName());
         if (holder == null) {
@@ -229,7 +221,7 @@ public class RuntimeHelper {
     public static Vertex constDeclaration(Graph graph, ConstDeclNode node) {
         return constDeclaration(graph, node, null);
     }
-    
+
     public static Vertex constDeclaration(Graph graph, ConstDeclNode node, Vertex src) {
         RubyModule module = null;
         String name = null;
@@ -254,7 +246,7 @@ public class RuntimeHelper {
         }
 
         if (src == null) {
-            src = graph.createVertex(node.getValueNode());
+            src = graph.createVertex(node.getValue());
         }
         if (module != null && name != null) {
             module.setConstant(name, graph.createVertexHolder(src));
@@ -271,7 +263,7 @@ public class RuntimeHelper {
         Ruby runtime = graph.getRuntime();
         VertexHolder holder = (VertexHolder) runtime.getGlobalVar(node.getName());
         if (src == null) {
-            src = graph.createVertex(node.getValueNode());
+            src = graph.createVertex(node.getValue());
         }
         if (holder == null) {
             holder = graph.createFreeVertexHolder();
@@ -293,7 +285,7 @@ public class RuntimeHelper {
         return holder.getVertex();
     }
 
-    public static void aliasGlobalVaraibles(Graph graph, String newName, String oldName) {
+    public static void aliasGlobalVariables(Graph graph, String newName, String oldName) {
         Ruby runtime = graph.getRuntime();
         VertexHolder holder = (VertexHolder) runtime.getGlobalVar(oldName);
         if (holder == null) {
@@ -306,7 +298,7 @@ public class RuntimeHelper {
     public static void blockAssign(Graph graph, BlockArgNode node, Block block) {
         if (block == null)
             return;
-        
+
         Scope scope = graph.getRuntime().getContext().getCurrentScope();
         VertexHolder holder = (VertexHolder) scope.getValue(node.getName());
         if (holder == null) {
@@ -314,6 +306,16 @@ public class RuntimeHelper {
             scope.setValue(node.getName(), holder);
         }
         holder.getVertex().addType((Proc) block);
+    }
+
+    public static int handleOptArgs(OptArgNode optArgs, Graph graph, Vertex[] args, Block block, int num) {
+        int argsCount = 0;
+        for (Node node: optArgs.childNodes()) {
+            assign(graph, node, args[num + argsCount]);
+            argsCount++;
+//            System.out.println("Debug: " + optArgs);
+        }
+        return argsCount;
     }
 
     public static void argsAssign(Graph graph, ArgsNode argsNode, Vertex[] args, Block block) {
@@ -348,17 +350,26 @@ public class RuntimeHelper {
         }
 
         int index = preCount;
-        ListNode optArgs = argsNode.getOptArgs();
-        int restArg = argsNode.getRestArg();
-        Node restArgNode = argsNode.getRestArgNode();
+        ListNode optArgs = argsNode.getOptional();
+        Node restArgNode = argsNode.getRest();
+        int restArg = argsNode.getRest() == null ? -1 : argsNode.getRest().getIndex();
         int givenArgsCount = preCount;
         if (optArgs != null) {
             int j = 0;
             for (int i = preCount; i < args.length - postCount && j < optArgs.size(); i++, j++) {
-                assign(graph, optArgs.get(j), args[i]);
-                givenArgsCount++;
+                if (optArgs.get(j).getNodeType() == NodeType.OPTARGNODE) {
+                    int plusCount = handleOptArgs((OptArgNode)optArgs.get(j), graph, args, block, i);
+                    givenArgsCount+= plusCount;
+                }
+                else {
+                    assign(graph, optArgs.get(j), args[i]);
+                    givenArgsCount++;
+                }
             }
             for (int i = 0; j < optArgs.size(); i++, j++) {
+                if (optArgs.get(j).getNodeType() == NodeType.OPTARGNODE) {
+                    graph.createVertex(optArgs.get(j).childNodes().get(0));
+                }
                 graph.createVertex(optArgs.get(j));
             }
         }
@@ -388,14 +399,60 @@ public class RuntimeHelper {
     public static Vertex multipleAssign(Graph graph, MultipleAsgnNode node) {
         return multipleAssign(graph, node, (Vertex) null);
     }
-    
+
     public static Vertex multipleAssign(Graph graph, MultipleAsgnNode node, Vertex src) {
         if (src == null) {
-            src = graph.createVertex(node.getValueNode());
+            src = graph.createVertex(node.getValue());
         }
         MultipleAsgnVertex vertex = new MultipleAsgnVertex(node, src);
         graph.addEdgeAndPropagate(src, vertex);
         return src;
+    }
+
+    public static void multiAssignfromArgsNode(Graph graph, ArgsNode node, IRubyObject object) {
+        boolean isArray = object instanceof Array;
+        Array array = null;
+        Vertex element = Vertex.EMPTY;
+
+        if (isArray) {
+            array = (Array) object;
+            if (array.isModified()) {
+                return;
+            }
+        } else {
+            TypeVarMap tvmap = getTypeVarMap(object);
+            TypeVariable var = TypeVariable.valueOf("t");
+            if (tvmap != null && tvmap.containsKey(var)) {
+                element = tvmap.get(var);
+            }
+        }
+
+        int valLen = array != null ? array.length() : 256; // magic number
+        int varLen = node.getPre() == null ? 0 : node.getPre().size();
+
+        int j = 0;
+        for (; j < valLen && j < varLen; j++) {
+            dynamicAssign(graph, node.getPre().get(j), array != null ? array.getElement(j) : element);
+        }
+
+        Node argsNode = node.getRest();
+        if (argsNode != null) {
+            if (argsNode.getNodeType() == NodeType.STARNODE) {
+                // no check for '*'
+            } else if (varLen < valLen && array != null) {
+                assign(graph, argsNode, createArrayVertex(graph, null, array.getElements(), varLen, valLen - varLen));
+            } else {
+                Vertex[] elements = null;
+                if (element != null) {
+                    elements = new Vertex[] { element };
+                }
+                assign(graph, argsNode, createArrayVertex(graph, null, elements));
+            }
+        }
+
+        while (j < varLen) {
+            assign(graph, node.getPre().get(j++), element);
+        }
     }
 
     public static void multipleAssign(Graph graph, MultipleAsgnNode node, IRubyObject object) {
@@ -415,16 +472,16 @@ public class RuntimeHelper {
                 element = tvmap.get(var);
             }
         }
-        
+
         int valLen = array != null ? array.length() : 256; // magic number
-        int varLen = node.getHeadNode() == null ? 0 : node.getHeadNode().size();
+        int varLen = node.getPre() == null ? 0 : node.getPre().size();
 
         int j = 0;
         for (; j < valLen && j < varLen; j++) {
-            assign(graph, node.getHeadNode().get(j), array != null ? array.getElement(j) : element);
+            assign(graph, node.getPre().get(j), array != null ? array.getElement(j) : element);
         }
 
-        Node argsNode = node.getArgsNode();
+        Node argsNode = node.getRest();
         if (argsNode != null) {
             if (argsNode.getNodeType() == NodeType.STARNODE) {
                 // no check for '*'
@@ -440,7 +497,7 @@ public class RuntimeHelper {
         }
 
         while (j < varLen) {
-            assign(graph, node.getHeadNode().get(j++), element);
+            assign(graph, node.getPre().get(j++), element);
         }
     }
 
@@ -480,7 +537,7 @@ public class RuntimeHelper {
             case ITERNODE: {
                 IterNode inode = (IterNode) iterNode;
                 DynamicScope scope = new DynamicScope(context.getCurrentScope().getModule(), context.getCurrentScope());
-                block = new Proc(graph.getRuntime(), inode.getVarNode(), inode.getBodyNode(), context.getCurrentFrame(), scope);
+                block = new Proc(graph.getRuntime(), inode.getVar(), inode.getBody(), context.getCurrentFrame(), scope);
                 break;
             }
             case BLOCKPASSNODE:
@@ -490,7 +547,7 @@ public class RuntimeHelper {
         }
         return block;
     }
-        
+
     public static Vertex call(Graph graph, CallVertex vertex) {
         return call(graph, vertex, false);
     }
@@ -498,7 +555,7 @@ public class RuntimeHelper {
     public static Vertex callSuper(Graph graph, CallVertex vertex) {
         return call(graph, vertex, true);
     }
-    
+
     private static Vertex call(Graph graph, CallVertex vertex, boolean callSuper) {
         if (vertex.isApplicable() && vertex.isChanged()) {
             vertex.markUnchanged();
@@ -568,27 +625,66 @@ public class RuntimeHelper {
         if (newMethod instanceof Method && oldMethod instanceof Method) {
             Method newmeth = (Method) newMethod;
             Method oldmeth = (Method) oldMethod;
-            NodeDiff nodeDiff = graph.getNodeDiff();
 
-            if (nodeDiff != null
-                && nodeDiff.noDiff(node.getArgsNode(), oldmeth.getArgsNode())
-                && nodeDiff.noDiff(node.getBodyNode(), oldmeth.getBodyNode())) { // XXX nested class, defn
-                // FIXME annotation diff
-                newmeth.shareTemplates(oldmeth);
-            } else {
+             if (shouldShare(node, oldmeth)) {
+                 newmeth.shareTemplates(oldmeth);
+             } else {
                 Logger.debug(SourceLocation.of(node), "templates not shared: %s", newmeth);
             }
+
+        }
+    }
+
+    public static boolean shouldShare(MethodDefNode node, Method oldmeth) {
+
+        if ((node.getArgs() != null && oldmeth.getArgsNode() != null) && (node.getBody() != null && oldmeth.getBodyNode() != null)) {
+            Node nodeArgs = node.getArgs();
+            Node omethArgs = oldmeth.getArgsNode();
+            Node nodeBody = skipNewLines(node.getBody());
+            Node omethBody = skipNewLines(oldmeth.getBodyNode());
+
+            if ((isRsenseCallNode(nodeArgs)) || (isRsenseCallNode(nodeBody))) {
+                return false;
+            }
+
+            if ((nodeArgs.isSame(omethArgs)) && (nodeBody.isSame(omethBody))) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+    public static boolean isRsenseCallNode(Node a) {
+        if (a.getNodeType() == NodeType.CALLNODE) {
+            String name = ((INameNode) a).getName();
+            if (name.equals(TYPE_INFERENCE_METHOD_NAME)
+                    || name.startsWith(FIND_DEFINITION_METHOD_NAME_PREFIX)) {
+                // scratch!
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static Node skipNewLines(Node node) {
+        if (node.getNodeType() == NodeType.NEWLINENODE) {
+            return ((NewlineNode) node).getNextNode();
+        } else {
+            return node;
         }
     }
 
     public static void classPartialUpdate(Graph graph, RubyModule klass, Node bodyNode) {
-        NodeDiff nodeDiff = graph.getNodeDiff();
 
         if (bodyNode != null) {
             ClassTag oldTag = getClassTag(klass);
-            if (nodeDiff != null && oldTag != null) {
-                List<Node> partialDiff = nodeDiff.diff(bodyNode, oldTag.getBodyNode());
-                if (partialDiff != null) {
+            if (oldTag != null) {
+                ArrayList<Node> partialDiff = addToUndiff(bodyNode, oldTag.getBodyNode());
+
+
+                if ((partialDiff != null) && !(partialDiff.isEmpty())) {
                     Logger.debug(SourceLocation.of(bodyNode), "class partial update: %s %s", klass, partialDiff.size());
                     for (Node dirty : partialDiff) {
                         graph.createVertex(dirty);
@@ -602,12 +698,43 @@ public class RuntimeHelper {
         }
     }
 
+    public static ArrayList<Node> addToUndiff(Node node, Node tagNode) {
+        if ((node == null) || (tagNode == null)) return null;
+
+        ArrayList<Node> undiff = new ArrayList<Node>();
+
+        List<Node> nkids = node.childNodes();
+        List<Node> tkids = tagNode.childNodes();
+
+        if ((nkids.isEmpty()) || (tkids.isEmpty())) return null;
+
+        if (nkids.size() == tkids.size()) {
+            for (int i = 0; i < nkids.size(); i++) {
+                Node nchild = nkids.get(i);
+                Node tchild = tkids.get(i);
+
+                if ((nchild == null) || (tchild == null)) continue;
+
+                if ((nchild instanceof ILocalScope && !(nchild instanceof RootNode))) {
+                    if (nchild.isSame(tchild)) {
+                        undiff.add(nchild);
+                    }
+                }
+
+            }
+        }
+
+        return undiff;
+
+
+    }
+
     public static void dummyCall(Graph graph, MethodDefNode node, Method method, IRubyObject receiver) {
-        if (node.getBodyNode() != null) {
+        if (node.getBody() != null) {
             Context context = graph.getRuntime().getContext();
             context.pushFrame(context.getFrameModule(), node.getName(), receiver, null, Visibility.PUBLIC);
             context.pushScope(new LocalScope(method.getModule()));
-            graph.createVertex(node.getBodyNode());
+            graph.createVertex(node.getBody());
             context.popScope();
             context.popFrame();
         }
@@ -680,6 +807,7 @@ public class RuntimeHelper {
         setFrameTemplate(context.getCurrentFrame(), template);
 
         AnnotationResolver.Result result = AnnotationHelper.resolveMethodAnnotation(graph, template);
+
         if (result == AnnotationResolver.Result.UNRESOLVED) {
             Logger.warn(SourceLocation.of(vertex), "annotation unmatched: %s", method);
         }
@@ -789,16 +917,18 @@ public class RuntimeHelper {
     public static Vertex yield(Graph graph, Block block, IRubyObject[] args, boolean expanded, Vertex returnVertex) {
         return yield(graph, block, Arrays.asList(args), expanded, returnVertex);
     }
-    
+
     public static Vertex yield(Graph graph, Block block, Collection<IRubyObject> args, boolean expanded, Vertex returnVertex) {
         if (block == null) {
             return Vertex.EMPTY;
         }
         Ruby runtime = graph.getRuntime();
         Context context = runtime.getContext();
-        
+
         Node varNode = block.getVarNode();
+
         boolean noargblock = false;
+        boolean multiAssign = false;
         MultipleAsgnNode masgn = null;
         int preCount = 0;
         boolean isRest = false;
@@ -810,37 +940,52 @@ public class RuntimeHelper {
             noargblock = true;
         } else if (varNode instanceof MultipleAsgnNode) {
             masgn = (MultipleAsgnNode) varNode;
-            preCount = masgn.getPreCount();
+            multiAssign = true;
+            preCount = masgn.getPre().size();
             isRest = masgn.getRest() != null;
             rest = masgn.getRest();
             pre = masgn.getPre();
         }
-        
+
         if (args != null && !args.isEmpty()) {
             for (IRubyObject value : args) {
                 pushLoopFrame(context, block.getFrame(), returnVertex, vertex);
                 context.pushScope(block.getScope());
 
                 if (noargblock) {}
-                else if (masgn != null) {
+                else if (multiAssign) {
                     Array array;
                     if (!expanded) {
-                        // FIXME to_ary
-                        if (value instanceof Array) {
-                            array = (Array) value;
-                        } else {
-                            array = createArray(graph, new Vertex[] { graph.createFreeSingleTypeVertex(value) });
-                        }
+                        array = to_ary(value, graph);
+
                     } else {
-                        if (value instanceof Array) {
-                            array = (Array) value;
-                        } else {
-                            array = createArray(graph, new Vertex[] { graph.createFreeSingleTypeVertex(value) });
-                        }
+                        array = to_ary(value, graph);
                     }
                     multipleAssign(graph, masgn, array);
                 } else {
-                    assign(graph, varNode, graph.createFreeSingleTypeVertex(value));
+                    // TODO what do we do here?
+                    if (varNode.getNodeType() == NodeType.ARGSNODE ) {
+                        //debug
+                        ArgsNode argsFromBlock = (ArgsNode) varNode;
+
+                        if (argsFromBlock.getPre() != null) {
+                            isRest = argsFromBlock.getRest() != null;
+                            rest = argsFromBlock.getRest();
+                            pre = argsFromBlock.getPre();
+                            preCount = pre.size();
+                            if (preCount > 1 || isRest) {
+                                multiAssignfromArgsNode(graph, argsFromBlock, to_ary(value, graph));
+                            } else {
+                                dynamicAssign(graph, pre.get(0), graph.createFreeSingleTypeVertex(value));
+                            }
+
+                        } else {
+                            argsAssign(graph, argsFromBlock, new Vertex[]{graph.createFreeSingleTypeVertex(value)}, block);
+                        }
+
+                    } else {
+                        assign(graph, varNode, graph.createFreeSingleTypeVertex(value));
+                    }
                 }
 
                 if (block.getBodyNode() != null) {
@@ -859,7 +1004,7 @@ public class RuntimeHelper {
                 Vertex v = graph.createVertex(block.getBodyNode());
                 graph.addEdgeAndPropagate(v, vertex);
             }
-            
+
             context.popScope();
             popLoopFrame(context);
         }
@@ -889,7 +1034,7 @@ public class RuntimeHelper {
         returnVertex = yield(graph, block, (argsVertex != null ? argsVertex.getTypeSet() : TypeSet.EMPTY), vertex.getExpandArguments(), returnVertex);
         if (returnVertex != null)
             graph.addEdgeAndUpdate(returnVertex, vertex);
-        
+
         return vertex;
     }
 
@@ -919,6 +1064,18 @@ public class RuntimeHelper {
             }
         }
         return typeSet;
+    }
+
+    public static Array to_ary(IRubyObject value, Graph graph) {
+        Array array;
+
+        if (value instanceof Array) {
+            array = (Array) value;
+        } else {
+            array = createArray(graph, new Vertex[] { graph.createFreeSingleTypeVertex(value) });
+        }
+        return array;
+
     }
 
     public static void aValueSplat(Graph graph, SValueVertex vertex) {
@@ -990,7 +1147,7 @@ public class RuntimeHelper {
     public static void pushLoopFrame(Context context, Vertex returnVertex, Vertex yieldVertex) {
         pushLoopFrame(context, context.getCurrentFrame(), returnVertex, yieldVertex);
     }
-    
+
     public static void pushLoopFrame(Context context, Frame prev, Vertex returnVertex, Vertex yieldVertex) {
         Frame frame = context.pushFrame(prev.getModule(), prev.getName(), prev.getSelf(), prev.getBlock(), prev.getVisibility());
         frame.setTag(new LoopTag(returnVertex, yieldVertex));
@@ -1018,7 +1175,7 @@ public class RuntimeHelper {
         ClassTag tag = getClassTag(klass);
         return tag != null ? tag.getType() : null;
     }
-    
+
     public static void setClassTag(RubyModule klass, Node node, List<TypeAnnotation> annotations) {
         if (getClassAnnotation(klass) == null) {
             ClassType type = null;
@@ -1135,7 +1292,7 @@ public class RuntimeHelper {
                                     module.getSingletonClass().addMethod(name, method);
                                 }
                             }
-                        }                        
+                        }
                     }
                 }
             }
@@ -1163,19 +1320,19 @@ public class RuntimeHelper {
     }
 
     public static void defineAttrReader(Graph graph, String name) {
-        ISourcePosition pos = new SimpleSourcePosition("(generated)", 0);
+        SourcePosition pos = new SourcePosition("(generated)", 0, 0);
         graph.createVertex(new DefnNode(pos,
-                                        new ArgumentNode(pos, name),
-                                        new ArgsNoArgNode(pos),
+                                        new MethodNameNode(pos, name),
+                                        new ArgsNode(pos, null, null, null, null, null, null, null),
                                         new LocalStaticScope(null),
                                         new InstVarNode(pos, "@" + name)));
     }
 
     public static void defineAttrWriter(Graph graph, String name) {
-        ISourcePosition pos = new SimpleSourcePosition("(generated)", 0);
+        SourcePosition pos = new SourcePosition("(generated)", 0, 0);
         graph.createVertex(new DefnNode(pos,
-                                        new ArgumentNode(pos, name + "="),
-                                        new ArgsPreOneArgNode(pos, new ListNode(null, new ArgumentNode(null, name))),
+                                        new MethodNameNode(pos, name + "="),
+                                        new ArgsNode(pos, new ListNode(null, new ArgumentNode(null, name)), null, null, null, null, null, null),
                                         new LocalStaticScope(null),
                                         new InstAsgnNode(pos, "@" + name, new LocalVarNode(null, 0, name))));
     }

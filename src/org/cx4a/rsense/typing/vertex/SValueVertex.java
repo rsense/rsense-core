@@ -1,6 +1,6 @@
 package org.cx4a.rsense.typing.vertex;
 
-import org.jruby.ast.Node;
+import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.typing.Propagation;
 

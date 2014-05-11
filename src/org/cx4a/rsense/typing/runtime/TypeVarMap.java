@@ -3,7 +3,6 @@ package org.cx4a.rsense.typing.runtime;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Collections;
 
 import org.cx4a.rsense.ruby.IRubyObject;
 import org.cx4a.rsense.typing.TypeSet;

@@ -1,0 +1,52 @@
+type-inference --test=Class.Method.PartialUpdate1 --should-be=Fixnum
+class C
+  def f(x) x_|_ end
+end
+C.new.f(1)
+EOF
+
+type-inference --test=Class.Method.PartialUpdate2 --keep-env --should-be=Fixnum
+class C
+  def f(x) x_|_ end
+end
+C.new.f(1)
+EOF
+
+type-inference --test=Class.Method.PartialUpdate3 --keep-env --should-be=Fixnum
+class C
+  def f(x) 1; x_|_ end
+end
+C.new.f(1)
+EOF
+
+
+type-inference --test=Class.Method.PartialUpdate4 --should-be=Fixnum
+class C
+  def self.f(x) D.new.f(x) end
+  class D
+    def f(x) x_|_ end
+  end
+end
+C.f(1)
+EOF
+
+type-inference --test=Class.Method.PartialUpdate5 --keep-env --should-be=Fixnum
+class C
+  def self.f(x) D.new.f(x) end
+  class D
+    def f(x) x_|_ end
+  end
+end
+C.f(1)
+EOF
+
+type-inference --test=Class.Method.PartialUpdate6 --keep-env --should-be=Fixnum
+class C
+  def self.f(x) D.new.f(x) end
+  class D
+    def f(x) 1; x_|_ end
+  end
+end
+C.f(1)
+EOF
+

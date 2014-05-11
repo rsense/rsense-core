@@ -1,46 +1,46 @@
 package org.cx4a.rsense;
 
 import java.io.File;
-import java.io.InputStream;
 import java.io.FileInputStream;
-import java.io.Reader;
-import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.jruby.ast.Node;
-import org.jruby.ast.NodeType;
-import org.jruby.ast.types.INameNode;
+import org.jrubyparser.ast.INameNode;
+import org.jrubyparser.ast.Node;
+import org.jrubyparser.ast.NodeType;
+import org.jrubyparser.parser.ParserConfiguration;
+import org.jrubyparser.CompatVersion;
 
+import org.cx4a.rsense.CodeCompletionResult.CompletionCandidate;
+import org.cx4a.rsense.ruby.Block;
+import org.cx4a.rsense.ruby.DynamicMethod;
+import org.cx4a.rsense.ruby.IRubyObject;
+import org.cx4a.rsense.ruby.MetaClass;
 import org.cx4a.rsense.ruby.Ruby;
 import org.cx4a.rsense.ruby.RubyClass;
 import org.cx4a.rsense.ruby.RubyModule;
-import org.cx4a.rsense.ruby.MetaClass;
-import org.cx4a.rsense.ruby.IRubyObject;
-import org.cx4a.rsense.ruby.Block;
-import org.cx4a.rsense.ruby.DynamicMethod;
 import org.cx4a.rsense.typing.Graph;
 import org.cx4a.rsense.typing.TypeSet;
-import org.cx4a.rsense.typing.vertex.Vertex;
-import org.cx4a.rsense.typing.vertex.CallVertex;
-import org.cx4a.rsense.typing.runtime.VertexHolder;
-import org.cx4a.rsense.typing.runtime.SpecialMethod;
 import org.cx4a.rsense.typing.runtime.Method;
-import org.cx4a.rsense.CodeCompletionResult.CompletionCandidate;
+import org.cx4a.rsense.typing.runtime.SpecialMethod;
+import org.cx4a.rsense.typing.runtime.VertexHolder;
+import org.cx4a.rsense.typing.vertex.CallVertex;
+import org.cx4a.rsense.typing.vertex.Vertex;
 import org.cx4a.rsense.util.Logger;
-import org.cx4a.rsense.util.NodeDiff;
 import org.cx4a.rsense.util.SourceLocation;
 
 public class CodeAssist {
@@ -151,39 +151,6 @@ public class CodeAssist {
         }
     }
 
-    private static class NodeDiffForTypeInference extends NodeDiff {
-        @Override
-        protected boolean isSameNode(Node a, Node b) {
-            if (!super.isSameNode(a, b)) {
-                return false;
-            }
-
-            if (a.getNodeType() == NodeType.CALLNODE) {
-                String name = ((INameNode) a).getName();
-                if (name.equals(TYPE_INFERENCE_METHOD_NAME)
-                    || name.startsWith(FIND_DEFINITION_METHOD_NAME_PREFIX)) {
-                    // scratch!
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        @Override
-        protected Node getNextNode(Iterator<Node> ite, boolean newNode) {
-            while (ite.hasNext()) {
-                Node node = ite.next();
-                if (isStatementNode(node)) {
-                    return node;
-                }
-                if (newNode) {
-                    diff.add(node);
-                }
-            }
-            return null;
-        }
-    }
-
     private class WhereEventListener implements Project.EventListener {
         private int line;
         private int closest;
@@ -277,7 +244,7 @@ public class CodeAssist {
         }
     }
 
-    private org.jruby.Ruby rubyRuntime;
+    private org.jrubyparser.Parser rubyParser;
     private final Options options;
     private final Context context;
     private Map<String, Project> projects;
@@ -415,13 +382,13 @@ public class CodeAssist {
     public LoadResult load(Project project, File file, String encoding) {
         return load(project, file, encoding, true);
     }
-    
+
     private LoadResult load(Project project, File file, String encoding, boolean prepare) {
         if (project.isLoaded(file.getPath())) {
             return LoadResult.alreadyLoaded();
         }
         project.setLoaded(file.getPath());
-        
+
         try {
             InputStream in = new FileInputStream(file);
             try {
@@ -437,7 +404,7 @@ public class CodeAssist {
     public LoadResult load(Project project, File file, Reader reader) {
         return load(project, file, reader, true);
     }
-    
+
     private LoadResult load(Project project, File file, Reader reader, boolean prepare) {
         boolean oldMain = context.main;
         try {
@@ -472,7 +439,7 @@ public class CodeAssist {
         if (File.pathSeparator.equals(";")) { // Windows?
             feature = feature.replace('/', '\\');
         }
-        
+
         List<File> loadPath = project.getLoadPath();
         int loadPathLen = loadPath.size();
         for (int i = loadPathLevel; i < loadPathLen; i++) {
@@ -517,7 +484,7 @@ public class CodeAssist {
                 context.loadPathLevel = oldLoadPathLevel;
             }
         }
-        
+
         Logger.warn("cannot require: %s", feature);
         return LoadResult.failWithNotFound();
     }
@@ -532,7 +499,7 @@ public class CodeAssist {
             }
         } catch (IOException e) {
             return TypeInferenceResult.failWithException("Cannot open file", e);
-        } 
+        }
     }
 
     public TypeInferenceResult typeInference(Project project, File file, Reader reader, Location loc) {
@@ -564,7 +531,7 @@ public class CodeAssist {
             }
         } catch (IOException e) {
             return CodeCompletionResult.failWithException("Cannot open file", e);
-        } 
+        }
     }
 
     public CodeCompletionResult codeCompletion(Project project, File file, Reader reader, Location loc) {
@@ -621,7 +588,7 @@ public class CodeAssist {
             }
         } catch (IOException e) {
             return WhereResult.failWithException("Cannot open file", e);
-        } 
+        }
     }
 
     public WhereResult where(Project project, File file, Reader reader, int line) {
@@ -640,7 +607,7 @@ public class CodeAssist {
             WhereResult result = new WhereResult();
             result.setAST(ast);
             result.setName(whereListener.getName());
-            
+
             return result;
         } catch (IOException e) {
             return WhereResult.failWithException("Cannot read file", e);
@@ -657,7 +624,7 @@ public class CodeAssist {
             }
         } catch (IOException e) {
             return FindDefinitionResult.failWithException("Cannot open file", e);
-        } 
+        }
     }
 
     public FindDefinitionResult findDefinition(Project project, File file, Reader reader, Location loc) {
@@ -684,7 +651,7 @@ public class CodeAssist {
     }
 
     public void clear() {
-        this.rubyRuntime = org.jruby.Ruby.newInstance(); // for parse
+        this.rubyParser = new org.jrubyparser.Parser(); // for parse
         this.context.clear();
         this.projects = new HashMap<String, Project>();
         this.sandbox = new Project("(sandbox)", new File("."));
@@ -704,7 +671,6 @@ public class CodeAssist {
         graph.addSpecialMethod(TYPE_INFERENCE_METHOD_NAME, typeInferenceMethod);
         graph.addSpecialMethod("require", requireMethod);
         graph.addSpecialMethod("require_next", requireNextMethod);
-        graph.setNodeDiff(new NodeDiffForTypeInference());
 
         require(project, "_builtin", "UTF-8");
     }
@@ -767,7 +733,12 @@ public class CodeAssist {
     }
 
     public Node parseFileContents(File file, String string) {
-        ByteArrayInputStream in = new ByteArrayInputStream(string.getBytes());
-        return rubyRuntime.parseFromMain(in, file.getPath());
+        StringReader in = new StringReader(string);
+        CompatVersion version = CompatVersion.RUBY1_8;
+        //CompatVersion versionTwo = CompatVersion.RUBY1_9;
+        CompatVersion versionTwo = CompatVersion.RUBY2_0;
+        ParserConfiguration config = new ParserConfiguration(0, versionTwo);
+        config.setSyntax(ParserConfiguration.SyntaxGathering.COMMENTS);
+        return rubyParser.parse(file.getPath(), in, config);
     }
 }

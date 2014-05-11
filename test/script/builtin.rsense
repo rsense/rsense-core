@@ -70,32 +70,6 @@ type-inference --test=Array.StaticAccess2 --should-be=Float
 [1, 2.3][1]_|_
 EOF
 
-type-inference --test=Array.DynamicAccess1 --should-be=Fixnum
-a = []
-a << 1
-a[0]_|_
-EOF
-
-type-inference --test=Array.DynamicAccess2 --should-be=Fixnum,String
-a = []
-a << 1
-a << ''
-a[0]_|_
-EOF
-
-type-inference --test=Array.DynamicAccess3 --should-be=Fixnum,String
-a = ['']
-a << 1
-a[0]_|_
-EOF
-
-type-inference --test=Array.DynamicAccess4 --should-be=Fixnum
-a = []
-b = a[0]
-a << 1
-b_|_
-EOF
-
 type-inference --test=Array.Max --should-be=Fixnum,String
 a = ['']
 a << 1
@@ -281,25 +255,11 @@ end
 f_|_
 EOF
 
-type-inference --test=Method.Arg.OneArg --should-be=Fixnum
-def f(x)
-  x
-end
-f(1)_|_
-EOF
-
 type-inference --test=Method.Arg.TwoArg --should-be=Float
 def f(x, y)
   y
 end
 f(1, 2.3)_|_
-EOF
-
-type-inference --test=Method.Arg.Optional --should-be=Fixnum
-def f(x = 1)
-  x
-end
-f_|_
 EOF
 
 type-inference --test=Method.Arg.Optional.Overwrite --should-be=String
@@ -409,42 +369,6 @@ f {|x|
 }
 EOF
 
-type-inference --test=Method.Yield.ArrayArg --should-be=Array
-def f
-  yield [1]
-end
-f {|x|
-  x_|_
-}
-EOF
-
-type-inference --test=Method.Yield.ArrayArg.Expand --should-be=Float
-def f
-  yield [1, 2.3]
-end
-f {|x, y|
-  y_|_
-}
-EOF
-
-type-inference --test=Method.Yield.ArrayArg.Splat1 --should-be=Array
-def f
-  yield [1, 2.3]
-end
-f {|x, *y|
-  y_|_
-}
-EOF
-
-type-inference --test=Method.Yield.ArrayArg.Splat2 --should-be=String
-def f
-  yield [1, 2.3, '']
-end
-f {|x, *y|
-  y[1]_|_
-}
-EOF
-
 type-inference --test=Method.Yield.Template --should-be=Fixnum
 def f
   yield 1
@@ -458,21 +382,6 @@ EOF
 
 type-inference --test=Method.Yield.Template.Change --keep-env --should-be=Fixnum
 f {|y| y_|_}
-EOF
-
-type-inference --test=Method.PartialUpdate1 --should-be=Fixnum
-def f(x) x_|_ end
-f(1)
-EOF
-
-type-inference --test=Method.PartialUpdate2 --keep-env --should-be=Fixnum
-def f(x) x_|_ end
-f(1)
-EOF
-
-type-inference --test=Method.Partialupdate3 --keep-env --should-be=Fixnum
-def f(x) 1; x_|_ end
-f(1)
 EOF
 
 type-inference --test=Module.Attr1 --should-be=Fixnum
@@ -595,24 +504,6 @@ end
 C.new._|_
 EOF
 
-type-inference --test=Class.PartialUpdate1 --should-be=Fixnum
-class C
-  1_|_
-end
-EOF
-
-type-inference --test=Class.PartialUpdate2 --keep-env --should-be=Fixnum
-class C
-  1_|_
-end
-EOF
-
-type-inference --test=Class.PartialUpdate3 --keep-env --should-be=Float
-class C
-  2.3_|_
-end
-EOF
-
 type-inference --test=Class.Method1 --should-be=Fixnum
 class C
   def foo() 1 end
@@ -644,58 +535,6 @@ class C
   alias_method(:g, :f)
 end
 C.new.g_|_
-EOF
-
-type-inference --test=Class.Method.PartialUpdate1 --should-be=Fixnum
-class C
-  def f(x) x_|_ end
-end
-C.new.f(1)
-EOF
-
-type-inference --test=Class.Method.PartialUpdate2 --keep-env --should-be=Fixnum
-class C
-  def f(x) x_|_ end
-end
-C.new.f(1)
-EOF
-
-type-inference --test=Class.Method.PartialUpdate3 --keep-env --should-be=Fixnum
-class C
-  def f(x) 1; x_|_ end
-end
-C.new.f(1)
-EOF
-
-
-type-inference --test=Class.Method.PartialUpdate4 --should-be=Fixnum
-class C
-  def self.f(x) D.new.f(x) end
-  class D
-    def f(x) x_|_ end
-  end
-end
-C.f(1)
-EOF
-
-type-inference --test=Class.Method.PartialUpdate5 --keep-env --should-be=Fixnum
-class C
-  def self.f(x) D.new.f(x) end
-  class D
-    def f(x) x_|_ end
-  end
-end
-C.f(1)
-EOF
-
-type-inference --test=Class.Method.PartialUpdate6 --keep-env --should-be=Fixnum
-class C
-  def self.f(x) D.new.f(x) end
-  class D
-    def f(x) 1; x_|_ end
-  end
-end
-C.f(1)
 EOF
 
 type-inference --test=Class.SingletonMethod1 --should-be=Fixnum
@@ -828,29 +667,6 @@ b = proc {|p|
   p.call(p)_|_
 }
 b.call(b)
-EOF
-
-type-inference --test=Proc.HigherOrder1 --should-be=Fixnum,Bignum
-def set(&block)
-  $block = block  
-end
-set {|a| a + 1}
-$block.call(1)_|_
-EOF
-
-type-inference --test=Proc.HigherOrder2 --should-be=Fixnum,Bignum
-def adder(a)
-  proc {|b| a + b }
-end
-adder(1).call(2)_|_
-EOF
-
-# TODO fix
-type-inference --keep-env --test=Proc.HigherOrder.Bug --should-be=Object
-def adder(a)
-  proc {|b| a + b }
-end
-adder(1).call(2)_|_
 EOF
 
 type-inference --test=Lambda.HigherOrder --should-be=Fixnum,Bignum

@@ -1,0 +1,17 @@
+type-inference --test=Method.Yield.ArrayArg.Splat1 --should-be=Array
+def f
+  yield [1, 2.3]
+end
+f {|x, *y|
+  y_|_
+}
+EOF
+
+type-inference --test=Method.Yield.ArrayArg.Splat2 --should-be=String
+def f
+  yield [1, 2.3, '']
+end
+f {|x, *y|
+  y[1]_|_
+}
+EOF

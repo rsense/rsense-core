@@ -1,8 +1,7 @@
 package org.cx4a.rsense.typing.vertex;
 
-import org.jruby.RubyClass;
-import org.jruby.ast.Node;
-import org.jruby.ast.types.INameNode;
+import org.jrubyparser.ast.Node;
+import org.jrubyparser.ast.INameNode;
 
 import org.cx4a.rsense.ruby.Block;
 import org.cx4a.rsense.typing.Propagation;
@@ -70,7 +69,7 @@ public class CallVertex extends Vertex {
         if (receiverVertex == null || receiverVertex.isEmpty()) {
             return false;
         }
-        
+
         boolean applicable = true;
         if (argVertices != null) {
             for (Vertex v : argVertices) {

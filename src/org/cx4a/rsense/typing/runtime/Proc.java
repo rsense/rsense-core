@@ -4,21 +4,15 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Collections;
 
-import org.jruby.ast.Node;
+import org.jrubyparser.ast.Node;
 
 import org.cx4a.rsense.ruby.Ruby;
-import org.cx4a.rsense.ruby.RubyClass;
 import org.cx4a.rsense.ruby.Block;
 import org.cx4a.rsense.ruby.Frame;
 import org.cx4a.rsense.ruby.Scope;
 import org.cx4a.rsense.ruby.RubyObject;
-import org.cx4a.rsense.ruby.IRubyObject;
-import org.cx4a.rsense.typing.vertex.Vertex;
-import org.cx4a.rsense.typing.vertex.TypeVarVertex;
 import org.cx4a.rsense.typing.vertex.YieldVertex;
-import org.cx4a.rsense.typing.annotation.TypeVariable;
 import org.cx4a.rsense.util.NodeUtil;
-import org.cx4a.rsense.util.Logger;
 
 public class Proc extends RubyObject implements Block {
     private Node varNode;
@@ -27,7 +21,7 @@ public class Proc extends RubyObject implements Block {
     private Scope scope;
     private Set<YieldVertex> yields;
     private int varNodeHashCode, bodyNodeHashCode;
-    
+
     public Proc(Ruby runtime, Node varNode, Node bodyNode, Frame frame, Scope scope) {
         super(runtime, runtime.getProc());
         this.varNode = varNode;

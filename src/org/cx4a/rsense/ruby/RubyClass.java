@@ -3,10 +3,9 @@ package org.cx4a.rsense.ruby;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.cx4a.rsense.util.SourceLocation;
+import org.cx4a.rsense.ruby.Ruby;
 
 public class RubyClass extends RubyModule {
     protected RubyClass superClass;

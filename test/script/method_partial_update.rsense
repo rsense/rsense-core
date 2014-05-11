@@ -1,0 +1,14 @@
+type-inference --test=Method.PartialUpdate1 --should-be=Fixnum
+def f(x) x_|_ end
+f(1)
+EOF
+
+type-inference --test=Method.PartialUpdate2 --keep-env --should-be=Fixnum
+def f(x) x_|_ end
+f(1)
+EOF
+
+type-inference --test=Method.Partialupdate3 --keep-env --should-be=Fixnum
+def f(x) 1; x_|_ end
+f(1)
+EOF
