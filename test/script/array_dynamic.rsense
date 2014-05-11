@@ -1,0 +1,25 @@
+type-inference --test=Array.DynamicAccess1 --should-be=Fixnum
+a = []
+a << 1
+a[0]_|_
+EOF
+
+type-inference --test=Array.DynamicAccess2 --should-be=Fixnum,String
+a = []
+a << 1
+a << ''
+a[0]_|_
+EOF
+
+type-inference --test=Array.DynamicAccess3 --should-be=Fixnum,String
+a = ['']
+a << 1
+a[0]_|_
+EOF
+
+type-inference --test=Array.DynamicAccess4 --should-be=Fixnum
+a = []
+b = a[0]
+a << 1
+b_|_
+EOF

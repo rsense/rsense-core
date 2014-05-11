@@ -1,0 +1,7 @@
+type-inference --test=Block.Nested --should-be=String
+File.open("~/txt.txt") do |file|
+  file.each do |line|
+    line_|_
+  end
+end
+EOF

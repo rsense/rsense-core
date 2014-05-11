@@ -1,0 +1,8 @@
+type-inference --test=Method.Yield.ArrayArg --should-be=Array
+def f
+  yield [1]
+end
+f {|x|
+  x_|_
+}
+EOF
