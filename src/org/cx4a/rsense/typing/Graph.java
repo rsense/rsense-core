@@ -1190,11 +1190,6 @@ public class Graph implements NodeVisitor {
         return RuntimeHelper.multipleAssign(this, node);
     }
 
-    public Object visitMultipleAsgnNode(MultipleAsgn19Node node) {
-        unsupportedNode(node);
-        return Vertex.EMPTY;
-    }
-
     public Object visitMatch2Node(Match2Node node) {
         // FIXME speedup node
         return createSingleTypeVertex(node, newInstanceOf(runtime.getMatchData()));

@@ -78,7 +78,6 @@ public class NodeUtil {
         public Object visitLocalAsgnNode(LocalAsgnNode node) { return update(50); }
         public Object visitLocalVarNode(LocalVarNode node) { return update(51); }
         public Object visitMultipleAsgnNode(MultipleAsgnNode node) { return update(52); }
-        public Object visitMultipleAsgnNode(MultipleAsgn19Node node) { return update(53); }
         public Object visitMatch2Node(Match2Node node) { return update(54); }
         public Object visitMatch3Node(Match3Node node) { return update(55); }
         public Object visitMatchNode(MatchNode node) { return update(56); }
@@ -138,7 +137,7 @@ public class NodeUtil {
         public Object visitBlockArg18Node(BlockArg18Node node) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-        
+
         @Override
         public Object visitCommentNode(CommentNode node) {
             throw new UnsupportedOperationException("Not supported yet.");
@@ -183,7 +182,7 @@ public class NodeUtil {
         public Object visitOptArgNode(OptArgNode oan) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-        
+
         @Override
         public Object visitSyntaxNode(SyntaxNode node) {
             throw new UnsupportedOperationException("Not supported yet.");
@@ -194,6 +193,6 @@ public class NodeUtil {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
-        
+
     }
 }
