@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Eric West", "Tomohiro Matsuyama"]
   spec.email         = ["esw9999@gmail.com", "tomo@cx4a.org"]
   spec.summary       = %q{RSense knows your code.}
-  spec.description   = %q{RSense is a tool for doing static analysis of Ruby source code.}
+  spec.description   = %q{RSense is a tool for doing static analysis of Ruby source code. Rsense-core contains the "library" portion of rsense, as well as the stubs and other artefacts it needs to run.}
   spec.homepage      = ""
   spec.license       = "GPL"
 
