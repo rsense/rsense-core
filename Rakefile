@@ -56,3 +56,23 @@ task :rtests => [:build_jar] do
   end
 end
 
+desc "Test, Bump, Build"
+task :prepare_jar => [:set_version, :build_jar, :rtests] do
+  puts "Jar Prepared!"
+end
+
+desc "Build from scratch"
+task :build_scratch => [:prepare_jar, :build] do
+  puts "Built gem from scratch."
+end
+
+desc "Install locally from scratch"
+task :install_scratch => [:build_scratch, :install] do
+  puts "Installed from scratch."
+end
+
+desc "Cut a release from scratch."
+task :release_scratch => [:build_scratch, :release] do
+  puts "Release published from scratch."
+end
+
