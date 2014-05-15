@@ -71,8 +71,14 @@ task :install_scratch => [:build_scratch, :install] do
   puts "Installed from scratch."
 end
 
+desc "Commit rsense.jar"
+task :commit_jar do
+  sh "git add lib/rsense.jar"
+  sh "git commit -m 'Rebuilds rsense.jar'"
+end
+
 desc "Cut a release from scratch."
-task :release_scratch => [:build_scratch, :release] do
+task :release_scratch => [:build_scratch, :commit_jar,:release] do
   puts "Release published from scratch."
 end
 
