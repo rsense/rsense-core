@@ -65,6 +65,7 @@ public class RuntimeHelper {
         case DASGNNODE:
             return dynamicAssign(graph, (DAsgnNode) node, src);
         case INSTASGNNODE:
+        case ATTRASSIGNNODE:
             return instanceAssign(graph, (InstAsgnNode) node, src);
         case CONSTDECLNODE:
             return constDeclaration(graph, (ConstDeclNode) node, src);
