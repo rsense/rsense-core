@@ -65,7 +65,6 @@ public class RuntimeHelper {
         case DASGNNODE:
             return dynamicAssign(graph, (DAsgnNode) node, src);
         case INSTASGNNODE:
-        case ATTRASSIGNNODE:
             return instanceAssign(graph, (InstAsgnNode) node, src);
         case CONSTDECLNODE:
             return constDeclaration(graph, (ConstDeclNode) node, src);
@@ -74,8 +73,9 @@ public class RuntimeHelper {
         case CLASSVARDECLNODE:
             return classVarDeclaration(graph, (ClassVarDeclNode) node, src);
         case ARGUMENTNODE:
+        case ATTRASSIGNNODE:
         case RESTARG:
-            return argumentAssign(graph, (ArgumentNode) node, src);
+            return argumentAssign(graph, (INameNode) node, src);
         }
         Logger.error("unknown assignable node: %s", node);
         Logger.message("Type: %s", node.getNodeType());
@@ -387,7 +387,7 @@ public class RuntimeHelper {
         }
     }
 
-    public static Vertex argumentAssign(Graph graph, ArgumentNode node, Vertex src) {
+    public static Vertex argumentAssign(Graph graph, INameNode node, Vertex src) {
         Scope scope = graph.getRuntime().getContext().getCurrentScope();
         VertexHolder holder = graph.createFreeVertexHolder();
         scope.setValue(node.getName(), holder);
