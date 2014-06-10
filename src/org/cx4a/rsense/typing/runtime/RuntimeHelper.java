@@ -64,6 +64,8 @@ public class RuntimeHelper {
             return localAssign(graph, (LocalAsgnNode) node, src);
         case DASGNNODE:
             return dynamicAssign(graph, (DAsgnNode) node, src);
+        case MULTIPLEASGNNODE:
+            return dynamicAssign(graph, node, src);
         case INSTASGNNODE:
             return instanceAssign(graph, (InstAsgnNode) node, src);
         case CONSTDECLNODE:
