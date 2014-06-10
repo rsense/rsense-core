@@ -64,8 +64,6 @@ public class RuntimeHelper {
             return localAssign(graph, (LocalAsgnNode) node, src);
         case DASGNNODE:
             return dynamicAssign(graph, (DAsgnNode) node, src);
-        case MULTIPLEASGNNODE:
-            return dynamicAssign(graph, node, src);
         case INSTASGNNODE:
             return instanceAssign(graph, (InstAsgnNode) node, src);
         case CONSTDECLNODE:
@@ -78,11 +76,13 @@ public class RuntimeHelper {
         case ATTRASSIGNNODE:
         case RESTARG:
             return argumentAssign(graph, (INameNode) node, src);
+        case MULTIPLEASGNNODE:
+            return multipleAssign(graph, (MultipleAsgnNode) node, src);
         }
         Logger.error("unknown assignable node: %s", node);
         Logger.message("Type: %s", node.getNodeType());
-        throw new RuntimeException("Unknown: " + node);
-//        return Vertex.EMPTY;
+        //throw new RuntimeException("Unknown: " + node);
+        return Vertex.EMPTY;
     }
 
     public static Vertex localAssign(Graph graph, LocalAsgnNode node) {
