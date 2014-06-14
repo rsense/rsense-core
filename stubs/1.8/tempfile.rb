@@ -1,4 +1,4 @@
-
+require "etc"
 require 'fileutils'
 
 class Dir
