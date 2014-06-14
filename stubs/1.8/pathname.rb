@@ -26,6 +26,10 @@ class Pathname
 
   # :startdoc:
 
+  def expand_path
+    Pathname.new("")
+  end
+
   # chop_basename(path) -> [pre-basename, basename] or nil
   def chop_basename(path) # :nodoc:
     base = File.basename(path)
