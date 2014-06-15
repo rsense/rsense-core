@@ -17,11 +17,11 @@ public class RubyClass extends RubyModule {
     public static RubyClass newClassWithLocation(Ruby runtime, String baseName, RubyClass superClass, SourceLocation location) {
         return newClassWithLocation(runtime, baseName, superClass, null, location);
     }
-    
+
     public static RubyClass newClass(Ruby runtime, String baseName, RubyClass superClass, RubyModule parent) {
         return newClassWithLocation(runtime, baseName, superClass, parent, null);
     }
-    
+
     public static RubyClass newClassWithLocation(Ruby runtime, String baseName, RubyClass superClass, RubyModule parent, SourceLocation location) {
         if (superClass == null) {
             superClass = runtime.getObject();
@@ -42,7 +42,7 @@ public class RubyClass extends RubyModule {
     protected RubyClass(Ruby runtime, RubyClass superClass) {
         this(runtime, superClass, null);
     }
-    
+
     protected RubyClass(Ruby runtime, RubyClass superClass, RubyModule parent) {
         this(runtime, runtime.getClassClass(), superClass, parent, null);
     }
@@ -59,7 +59,7 @@ public class RubyClass extends RubyModule {
     public RubyClass getRealClass() {
         return this;
     }
-    
+
     public RubyClass getSuperClass() {
         return superClass;
     }

@@ -17,7 +17,7 @@ public class Ruby {
     private Context context;
     private ObjectAllocator allocator;
     private RubyModule kernelModule;
-    private RubyClass objectClass, moduleClass, classClass,
+    private RubyClass basicObjectClass, objectClass, moduleClass, classClass,
         numericClass, integerClass, fixnumClass, bignumClass,
         floatClass, stringClass, symbolClass,
         booleanClass, trueClass, falseClass, nilClass,
@@ -32,20 +32,24 @@ public class Ruby {
     public Ruby() {
         allocator = new DefaultObjectAllocator();
 
-        objectClass = RubyClass.newBootClass(this, "Object", null);
+        basicObjectClass = RubyClass.newBootClass(this, "BasicObject", null);
+        objectClass = RubyClass.newBootClass(this, "Object", basicObjectClass);
         moduleClass = RubyClass.newBootClass(this, "Module", objectClass);
         classClass = RubyClass.newBootClass(this, "Class", moduleClass);
 
+        basicObjectClass.setMetaClass(classClass);
         objectClass.setMetaClass(classClass);
         moduleClass.setMetaClass(classClass);
         classClass.setMetaClass(classClass);
 
         RubyClass metaClass;
+        metaClass = basicObjectClass.makeMetaClass(classClass);
         metaClass = objectClass.makeMetaClass(classClass);
         metaClass = moduleClass.makeMetaClass(metaClass);
         metaClass = classClass.makeMetaClass(metaClass);
 
         kernelModule = RubyModule.newModule(this, "Kernel", null);
+        basicObjectClass.includeModule(kernelModule);
         objectClass.includeModule(kernelModule);
         numericClass = RubyClass.newClass(this, "Numeric", objectClass);
         integerClass = RubyClass.newClass(this, "Integer", numericClass);
@@ -68,6 +72,7 @@ public class Ruby {
         fatalClass = RubyClass.newClass(this, "fatal", exceptionClass);
 
         objectClass.setConstant("Kernel", kernelModule);
+        objectClass.setConstant("BasicObject", basicObjectClass);
         objectClass.setConstant("Object", objectClass);
         objectClass.setConstant("Module", moduleClass);
         objectClass.setConstant("Class", classClass);
@@ -116,11 +121,11 @@ public class Ruby {
     public void setGlobalVar(String name, IRubyObject value) {
         globalVars.put(name, value);
     }
-    
+
     public IRubyObject newInstance(RubyClass klass) {
         return allocator.allocate(this, klass);
     }
-    
+
     public boolean isInstanceOf(IRubyObject object, RubyModule klass) {
         return object.getMetaClass() == klass;
     }
