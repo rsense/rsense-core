@@ -1920,6 +1920,52 @@ class Numeric
   def zero?() BOOLEAN end
 end
 
+class BasicObject
+      ##% ==(a) -> Boolean
+  def ==(other) BOOLEAN end
+  ##% ===(a) -> Boolean
+  def __id__() 0 end
+  alias :object_id :__id__
+
+  ##% send(String or Symbol, *a) -> Object
+  def send(name, *args) end
+  ##% eql?(a) -> Boolean
+  def eql?(other) BOOLEAN end
+  ##% equal?(a) -> Boolean
+  def equal?(other) BOOLEAN end
+  ##% instance_eval(String, ?String, ?Integer) -> Object
+  ##% instance_eval() {Object -> ?} -> Object
+  def instance_eval(expr, filename = "(eval)", lineno = 1) Object.new end
+  def method_missing(name, *args) end
+  ##% singleton_methods(?Boolean) -> Array<String>
+  def singleton_methods(inherited_too = true) [''] end
+  def self.new()
+      #This is a stub, used for indexing
+  end
+  def !=(other)
+    self == other ? false : true
+  end
+
+  def ! obj
+    if obj
+      true
+    else
+      false
+    end
+  end
+  
+  def singleton_method_added(name) end
+
+  def singleton_method_removed(name) end
+
+  def singleton_method_undefined(name) end
+
+  def instance_exec(*args)
+    Object.new
+  end
+end
+
+
 class Object
   ##% ==(a) -> Boolean
   def ==(other) BOOLEAN end
