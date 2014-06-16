@@ -62,7 +62,7 @@ class Tempfile
   ##% self.mtime(String or IO) -> Time
   def self.mtime(filename) Time.new end
   ##% self.new(String or Integer, ?a, ?Integer) -> File
-  def self.new(path, mode = 'r', perm = 0666) File.new('') end
+  def self.new(path, mode = 'r', perm = 0666) Tempfile.new('') end
   ##% self.open(String or Integer, ?a, ?Integer) -> File
   ##% self.open(String or Integer, ?a, ?Integer) {File -> a} -> a
   def self.open(path, mode = 'r', perm = 0666) File.new('') end
@@ -131,8 +131,6 @@ class Tempfile
   def truncate(length) 0 end
 
 
-  ##% self.new(Integer, ?a) -> IO
-  def self.new(fd, mode = 'r') IO.new(0) end
   ##% self.for_fd(Integer, ?a) -> IO
   def self.for_fd(fd, mode = 'r') IO.new(0) end
   ##% self.open(Integer, ?a) -> IO
