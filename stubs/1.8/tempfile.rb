@@ -141,33 +141,7 @@ class Tempfile < DelegateClass(File)
       end
     end
   end
-end
 
-def Tempfile.create(basename, *rest)
-  tmpfile = nil
-  Dir::Tmpname.create(basename, *rest) do |tmpname, n, opts|
-    mode = File::RDWR|File::CREAT|File::EXCL
-    perm = 0600
-    if opts
-      mode |= opts.delete(:mode) || 0
-      opts[:perm] = perm
-      perm = nil
-    else
-      opts = perm
-    end
-    tmpfile = File.open(tmpname, mode, opts)
-  end
-  if block_given?
-    begin
-      yield tmpfile
-    ensure
-      tmpfile.close if !tmpfile.closed?
-      File.unlink tmpfile
-    end
-  else
-    tmpfile
-  end
-end
 
 ALT_SEPARATOR = ''
 PATH_SEPARATOR = ''
@@ -445,6 +419,32 @@ def write(str) 0 end
 ##% write_nonblock(a) -> Integer
 def write_nonblock(str) 0 end
 
+end
+
+def Tempfile.create(basename, *rest)
+  tmpfile = nil
+  Dir::Tmpname.create(basename, *rest) do |tmpname, n, opts|
+    mode = File::RDWR|File::CREAT|File::EXCL
+    perm = 0600
+    if opts
+      mode |= opts.delete(:mode) || 0
+      opts[:perm] = perm
+      perm = nil
+    else
+      opts = perm
+    end
+    tmpfile = File.open(tmpname, mode, opts)
+  end
+  if block_given?
+    begin
+      yield tmpfile
+    ensure
+      tmpfile.close if !tmpfile.closed?
+      File.unlink tmpfile
+    end
+  else
+    tmpfile
+  end
 end
 
 if __FILE__ == $0
