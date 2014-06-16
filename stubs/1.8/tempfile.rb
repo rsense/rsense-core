@@ -167,6 +167,7 @@ def Tempfile.create(basename, *rest)
   else
     tmpfile
   end
+end
 
 ALT_SEPARATOR = ''
 PATH_SEPARATOR = ''
