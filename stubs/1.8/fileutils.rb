@@ -1,4 +1,4 @@
-require 'etc'
+require_relative './etc'
 
 module FileUtils
   def self.private_module_function(name)   #:nodoc:
