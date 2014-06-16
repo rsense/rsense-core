@@ -1,5 +1,3 @@
-
-require_relative './delegate'
 require_relative './tmpdir'
 require 'thread'
 
@@ -10,13 +8,6 @@ class Tempfile
   def initialize(*args)
     return
   end
-
-  ALT_SEPARATOR = ''
-  PATH_SEPARATOR = ''
-  SEPARATOR = ''
-  Separator = ''
-
-  include File::Constants
 
   ##% self.atime(String or IO) -> Time
   def self.atime(filename) Time.new end
