@@ -4,7 +4,7 @@ class Etc
   Passwd = Struct.new(:name, :passwd, :uid, :gid, :dir, :shell)
 
   @group = Group.new("foo", "bar", 1, ["foo", "bar"])
-  @passwd = Passwd.new("foo", "bar", 1, , 1, "foo", "bar")
+  @passwd = Passwd.new("foo", "bar", 1, 1, "foo", "bar")
 
   def endgrent(); end
 
