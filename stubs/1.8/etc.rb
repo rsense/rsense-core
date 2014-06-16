@@ -32,7 +32,9 @@ class Etc
 
   def setpwent(); end
 
-  def sysconfdir(); “/usr/local/etc”; end
+  def sysconfdir()
+    "/usr/local/etc"
+  end
 
   def systmpdir(); "/tmp"; end
 
