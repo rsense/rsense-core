@@ -2,7 +2,7 @@ require_relative './delegate'
 require_relative './tmpdir'
 require 'thread'
 
-class Tempfile < DelegateClass(File)
+class Tempfile < SimpleDelegator
   include Dir::Tmpname
 
   def initialize(basename, *rest)
