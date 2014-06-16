@@ -7,34 +7,9 @@ require 'thread'
 class Tempfile
   include Dir::Tmpname
 
-  def initialize(basename, *rest)
-    if block_given?
-      warn "Tempfile.new doesn't call the given block."
-    end
-    @data = []
-    @clean_proc = Remover.new(@data)
-    ObjectSpace.define_finalizer(self, @clean_proc)
-
-    ::Dir::Tmpname.create(basename, *rest) do |tmpname, n, opts|
-      mode = File::RDWR|File::CREAT|File::EXCL
-      perm = 0600
-      if opts
-        mode |= opts.delete(:mode) || 0
-        opts[:perm] = perm
-        perm = nil
-      else
-        opts = perm
-      end
-      @data[1] = @tmpfile = File.open(tmpname, mode, opts)
-      @data[0] = @tmpname = tmpname
-      @mode = mode & ~(File::CREAT|File::EXCL)
-      perm or opts.freeze
-      @opts = opts
-    end
-
-    super(@tmpfile)
+  def initialize(*args)
+    return
   end
-
 
   ALT_SEPARATOR = ''
   PATH_SEPARATOR = ''
