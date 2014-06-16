@@ -3,7 +3,7 @@ require 'delegate'
 require 'tmpdir'
 require 'thread'
 
-class Tempfile < DelegateClass(File)
+class Tempfile
   include Dir::Tmpname
 
   def initialize(basename, *rest)
