@@ -208,40 +208,20 @@ module FileUtils
   module_function :pwd
   module_function :getwd
   module_function :cd
-  module_function :chdir
   module_function :mkdir
   module_function :mkdir_p
-  module_function :mkpath
-  module_function :makedirs
   module_function :rmdir
   module_function :ln
-  module_function :link
   module_function :ln_s
-  module_function :symlink
   module_function :ln_sf
   module_function :cp
-  module_function :copy
   module_function :cp_r
-  module_function :copy_entry
-  module_function :copy_file
-  module_function :copy_stream
   module_function :mv
-  module_function :move
   module_function :rm
   module_function :remove
   module_function :rm_f
-  module_function :safe_unlink
   module_function :rm_r
   module_function :rm_rf
-  module_function :rmtree
-  module_function :remove_entry_secure
-  module_function :remove_entry
-  module_function :remove_file
-  module_function :remove_dir
-  module_function :compare_file
-  module_function :cmp
-  module_function :compare_stream
-  module_function :install
   module_function :chmod
   module_function :chmod_R
   module_function :chown
@@ -364,39 +344,36 @@ module FileUtils
   private_module_function :fu_output_message
 
     module StreamUtils_
-    private
+      private
 
-    def fu_windows?
-      /mswin|mingw|bccwin|emx/ =~ RUBY_PLATFORM
-    end
-
-    def fu_copy_stream0(src, dest, blksize = nil)   #:nodoc:
-      IO.copy_stream(src, dest)
-    end
-
-    def fu_stream_blksize(*streams)
-      streams.each do |s|
-        next unless s.respond_to?(:stat)
-        size = fu_blksize(s.stat)
-        return size if size
+      def fu_windows?
+        /mswin|mingw|bccwin|emx/ =~ RUBY_PLATFORM
       end
-      fu_default_blksize()
-    end
 
-    def fu_blksize(st)
-      s = st.blksize
-      return nil unless s
-      return nil if s == 0
-      s
-    end
+      def fu_copy_stream0(src, dest, blksize = nil)   #:nodoc:
+        IO.copy_stream(src, dest)
+      end
 
-    def fu_default_blksize
-      1024
-    end
-    end
+      def fu_stream_blksize(*streams)
+        streams.each do |s|
+          next unless s.respond_to?(:stat)
+          size = fu_blksize(s.stat)
+          return size if size
+        end
+        fu_default_blksize()
+      end
 
-    include StreamUtils_
-    extend StreamUtils_
+      def fu_blksize(st)
+        s = st.blksize
+        return nil unless s
+        return nil if s == 0
+        s
+      end
+
+      def fu_default_blksize
+        1024
+      end
+    end
 
     class Entry_   #:nodoc: internal use only
     include StreamUtils_
@@ -749,69 +726,13 @@ module FileUtils
     end
     end   # class Entry_
 
-    def fu_list(arg)   #:nodoc:
-    [arg].flatten.map {|path| File.path(path) }
-    end
-    private_module_function :fu_list
-
-    def fu_each_src_dest(src, dest)   #:nodoc:
-    fu_each_src_dest0(src, dest) do |s, d|
-      raise ArgumentError, "same file: #{s} and #{d}" if fu_same?(s, d)
-      yield s, d, File.stat(s)
-    end
-    end
-    private_module_function :fu_each_src_dest
-
-    def fu_each_src_dest0(src, dest)   #:nodoc:
-    if tmp = Array.try_convert(src)
-      tmp.each do |s|
-        s = File.path(s)
-        yield s, File.join(dest, File.basename(s))
-      end
-    else
-      src = File.path(src)
-      if File.directory?(dest)
-        yield src, File.join(dest, File.basename(src))
-      else
-        yield src, File.path(dest)
-      end
-    end
-    end
-    private_module_function :fu_each_src_dest0
-
     def fu_same?(a, b)   #:nodoc:
     File.identical?(a, b)
     end
     private_module_function :fu_same?
 
-    def fu_check_options(options, optdecl)   #:nodoc:
-    h = options.dup
-    optdecl.each do |opt|
-      h.delete opt
-    end
-    raise ArgumentError, "no such option: #{h.keys.join(' ')}" unless h.empty?
-    end
-    private_module_function :fu_check_options
-
-    def fu_update_option(args, new)   #:nodoc:
-    if tmp = Hash.try_convert(args.last)
-      args[-1] = tmp.dup.update(new)
-    else
-      args.push new
-    end
-    args
-    end
-    private_module_function :fu_update_option
-
     @fileutils_output = $stderr
     @fileutils_label  = ''
-
-    def fu_output_message(msg)   #:nodoc:
-    @fileutils_output ||= $stderr
-    @fileutils_label  ||= ''
-    @fileutils_output.puts @fileutils_label + msg
-    end
-    private_module_function :fu_output_message
 
     def FileUtils.commands
     OPT_TABLE.keys
@@ -908,5 +829,6 @@ end
 
 
 module FileUtils
-
+  include StreamUtils_
+  extend StreamUtils_
 end
