@@ -5,10 +5,6 @@ require 'thread'
 class Tempfile
   include Dir::Tmpname
 
-  def initialize(*args)
-    return
-  end
-
   ##% self.atime(String or IO) -> Time
   def self.atime(filename) Time.new end
   ##% self.basename(String, ?String) -> String
