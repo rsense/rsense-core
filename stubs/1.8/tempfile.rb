@@ -1,7 +1,8 @@
 
-require 'delegate'
-require 'tmpdir'
+require_relative './delegate'
+require_relative './tmpdir'
 require 'thread'
+
 
 class Tempfile
   include Dir::Tmpname

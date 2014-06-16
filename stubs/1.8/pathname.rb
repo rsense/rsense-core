@@ -528,7 +528,7 @@ class Pathname    # * Find *
   #
   def find # :yield: pathname
     return to_enum(__method__) unless block_given?
-    require 'find'
+    require_relative './find'
     if @path == '.'
       Find.find(@path) {|f| yield self.class.new(f.sub(%r{\A\./}, '')) }
     else
@@ -544,7 +544,7 @@ class Pathname    # * FileUtils *
   #
   # See FileUtils.mkpath and FileUtils.mkdir_p
   def mkpath
-    require 'fileutils'
+    require_relative './fileutils'
     FileUtils.mkpath(@path)
     nil
   end
@@ -555,7 +555,7 @@ class Pathname    # * FileUtils *
   def rmtree
     # The name "rmtree" is borrowed from File::Path of Perl.
     # File::Path provides "mkpath" and "rmtree".
-    require 'fileutils'
+    require_relative './fileutils'
     FileUtils.rm_r(@path)
     nil
   end
