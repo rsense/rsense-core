@@ -4,7 +4,7 @@
 # $Id: tmpdir.rb 40825 2013-05-19 03:10:21Z ktsj $
 #
 
-require 'fileutils'
+require_relative './fileutils'
 
 class Dir
 
