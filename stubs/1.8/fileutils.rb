@@ -362,10 +362,7 @@ module FileUtils
   end
 
   private_module_function :fu_output_message
-end
 
-
-module FileUtils
     module StreamUtils_
     private
 
@@ -396,12 +393,12 @@ module FileUtils
     def fu_default_blksize
       1024
     end
-  end
+    end
 
-  include StreamUtils_
-  extend StreamUtils_
+    include StreamUtils_
+    extend StreamUtils_
 
-  class Entry_   #:nodoc: internal use only
+    class Entry_   #:nodoc: internal use only
     include StreamUtils_
 
     def initialize(a, b = nil, deref = false)
@@ -750,22 +747,22 @@ module FileUtils
     def descendant_diretory?(descendant, ascendant)
       /\A(?#{SYSCASE}:#{Regexp.quote(ascendant)})#{DIRECTORY_TERM}/ =~ File.dirname(descendant)
     end
-  end   # class Entry_
+    end   # class Entry_
 
-  def fu_list(arg)   #:nodoc:
+    def fu_list(arg)   #:nodoc:
     [arg].flatten.map {|path| File.path(path) }
-  end
-  private_module_function :fu_list
+    end
+    private_module_function :fu_list
 
-  def fu_each_src_dest(src, dest)   #:nodoc:
+    def fu_each_src_dest(src, dest)   #:nodoc:
     fu_each_src_dest0(src, dest) do |s, d|
       raise ArgumentError, "same file: #{s} and #{d}" if fu_same?(s, d)
       yield s, d, File.stat(s)
     end
-  end
-  private_module_function :fu_each_src_dest
+    end
+    private_module_function :fu_each_src_dest
 
-  def fu_each_src_dest0(src, dest)   #:nodoc:
+    def fu_each_src_dest0(src, dest)   #:nodoc:
     if tmp = Array.try_convert(src)
       tmp.each do |s|
         s = File.path(s)
@@ -779,74 +776,74 @@ module FileUtils
         yield src, File.path(dest)
       end
     end
-  end
-  private_module_function :fu_each_src_dest0
+    end
+    private_module_function :fu_each_src_dest0
 
-  def fu_same?(a, b)   #:nodoc:
+    def fu_same?(a, b)   #:nodoc:
     File.identical?(a, b)
-  end
-  private_module_function :fu_same?
+    end
+    private_module_function :fu_same?
 
-  def fu_check_options(options, optdecl)   #:nodoc:
+    def fu_check_options(options, optdecl)   #:nodoc:
     h = options.dup
     optdecl.each do |opt|
       h.delete opt
     end
     raise ArgumentError, "no such option: #{h.keys.join(' ')}" unless h.empty?
-  end
-  private_module_function :fu_check_options
+    end
+    private_module_function :fu_check_options
 
-  def fu_update_option(args, new)   #:nodoc:
+    def fu_update_option(args, new)   #:nodoc:
     if tmp = Hash.try_convert(args.last)
       args[-1] = tmp.dup.update(new)
     else
       args.push new
     end
     args
-  end
-  private_module_function :fu_update_option
+    end
+    private_module_function :fu_update_option
 
-  @fileutils_output = $stderr
-  @fileutils_label  = ''
+    @fileutils_output = $stderr
+    @fileutils_label  = ''
 
-  def fu_output_message(msg)   #:nodoc:
+    def fu_output_message(msg)   #:nodoc:
     @fileutils_output ||= $stderr
     @fileutils_label  ||= ''
     @fileutils_output.puts @fileutils_label + msg
-  end
-  private_module_function :fu_output_message
+    end
+    private_module_function :fu_output_message
 
-  def FileUtils.commands
+    def FileUtils.commands
     OPT_TABLE.keys
-  end
+    end
 
-  def FileUtils.options
+    def FileUtils.options
     OPT_TABLE.values.flatten.uniq.map {|sym| sym.to_s }
-  end
+    end
 
-  def FileUtils.have_option?(mid, opt)
+    def FileUtils.have_option?(mid, opt)
     li = OPT_TABLE[mid.to_s] or raise ArgumentError, "no such method: #{mid}"
     li.include?(opt)
-  end
+    end
 
-  def FileUtils.options_of(mid)
+    def FileUtils.options_of(mid)
     OPT_TABLE[mid.to_s].map {|sym| sym.to_s }
-  end
+    end
 
-  def FileUtils.collect_method(opt)
+    def FileUtils.collect_method(opt)
     OPT_TABLE.keys.select {|m| OPT_TABLE[m].include?(opt) }
-  end
+    end
 
-  LOW_METHODS = singleton_methods(false) - collect_method(:noop).map(&:intern)
-  module LowMethods
+    LOW_METHODS = singleton_methods(false) - collect_method(:noop).map(&:intern)
+    module LowMethods
     module_eval("private\n" + ::FileUtils::LOW_METHODS.map {|name| "def #{name}(*)end"}.join("\n"),
                 __FILE__, __LINE__)
-  end
+    end
 
-  METHODS = singleton_methods() - [:private_module_function,
+    METHODS = singleton_methods() - [:private_module_function,
       :commands, :options, :have_option?, :options_of, :collect_method]
 
-  module Verbose
+    module Verbose
     include FileUtils
     @fileutils_output  = $stderr
     @fileutils_label   = ''
@@ -864,9 +861,9 @@ module FileUtils
         public m
       end
     end
-  end
+    end
 
-  module NoWrite
+    module NoWrite
     include FileUtils
     include LowMethods
     @fileutils_output  = $stderr
@@ -880,14 +877,14 @@ module FileUtils
       EOS
     end
     extend self
-    class << self
-      ::FileUtils::METHODS.each do |m|
-        public m
+      class << self
+        ::FileUtils::METHODS.each do |m|
+          public m
+        end
       end
     end
-  end
 
-  module DryRun
+    module DryRun
     include FileUtils
     include LowMethods
     @fileutils_output  = $stderr
@@ -907,5 +904,9 @@ module FileUtils
       end
     end
   end
+end
+
+
+module FileUtils
 
 end
