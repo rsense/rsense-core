@@ -61,8 +61,7 @@ class Tempfile
   def self.lstat(filename) File::Stat.new('') end
   ##% self.mtime(String or IO) -> Time
   def self.mtime(filename) Time.new end
-  ##% self.new(String or Integer, ?a, ?Integer) -> File
-  def self.new(path, mode = 'r', perm = 0666) Tempfile.new('') end
+
   ##% self.open(String or Integer, ?a, ?Integer) -> File
   ##% self.open(String or Integer, ?a, ?Integer) {File -> a} -> a
   def self.open(path, mode = 'r', perm = 0666) File.new('') end
