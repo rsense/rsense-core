@@ -32,7 +32,7 @@ public class AnnotationResolver {
     public enum Result {
         NOANNOT, UNRESOLVED, RESOLVED,
     };
-    
+
     private Graph graph;
     private Ruby runtime;
     private TypeVarMap env;
@@ -107,7 +107,7 @@ public class AnnotationResolver {
         return receiver == null
             || resolveClassConstraints(template, RuntimeHelper.getClassAnnotation(receiver.getMetaClass()), receiver);
     }
-    
+
     public boolean resolveMethodArg(Template template, ClassType classType, TypeExpression argType, IRubyObject receiver, IRubyObject[] args) {
         if (argType == null) {
             // arity check
@@ -295,7 +295,7 @@ public class AnnotationResolver {
         }
         return true;
     }
-    
+
     public boolean resolveMethodBlock(Template template, ClassType classType, MethodType.Block blockType, IRubyObject receiver) {
         Block block = template.getAttribute().getBlock();
 
@@ -354,7 +354,7 @@ public class AnnotationResolver {
 
         return args.toArray(new TypeSet[0]);
     }
-    
+
     public TypeSet processMethodReturn(Template template, ClassType classType, TypeExpression returnType, IRubyObject receiver) {
         if (returnType == null) { return TypeSet.EMPTY; }
 
@@ -454,7 +454,7 @@ public class AnnotationResolver {
         }
         return null;
     }
-    
+
     public boolean resolveMethodReturn(Template template, ClassType classType, TypeExpression returnType, IRubyObject receiver) {
         if (returnType == null) { return true; }
 

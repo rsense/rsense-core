@@ -1921,7 +1921,7 @@ class Numeric
 end
 
 class BasicObject
-      ##% ==(a) -> Boolean
+  ##% ==(a) -> Boolean
   def ==(other) BOOLEAN end
   ##% ===(a) -> Boolean
   def __id__() 0 end
@@ -1953,7 +1953,7 @@ class BasicObject
       false
     end
   end
-  
+
   def singleton_method_added(name) end
 
   def singleton_method_removed(name) end
