@@ -752,7 +752,7 @@ public class RuntimeHelper {
         Logger.debug(SourceLocation.of(node), "template dummy call: %s", method);
     }
 
-    private static Vertex applyTemplateAttribute(Graph graph, CallVertex vertex, String name, TemplateAttribute attr, boolean callSuper) {
+    public static Vertex applyTemplateAttribute(Graph graph, CallVertex vertex, String name, TemplateAttribute attr, boolean callSuper) {
         IRubyObject receiver = attr.getReceiver();
         IRubyObject[] args = attr.getArgs();
         RubyClass receiverType = null;
@@ -787,7 +787,7 @@ public class RuntimeHelper {
         return null;
     }
 
-    private static Template createTemplate(Graph graph, CallVertex vertex, String name, Method method, TemplateAttribute attr) {
+    public static Template createTemplate(Graph graph, CallVertex vertex, String name, Method method, TemplateAttribute attr) {
         IRubyObject receiver = attr.getReceiver();
         IRubyObject[] args = attr.getArgs();
         Vertex[] argVertices = new Vertex[args.length];
@@ -826,7 +826,7 @@ public class RuntimeHelper {
         return template;
     }
 
-    private static List<TemplateAttribute> generateTemplateAttributes(Collection<IRubyObject> receivers, List<Collection<IRubyObject>> args, Block block) {
+    public static List<TemplateAttribute> generateTemplateAttributes(Collection<IRubyObject> receivers, List<Collection<IRubyObject>> args, Block block) {
         int size = 1;
         for (Collection<IRubyObject> c : args) {
             size *= c.size();

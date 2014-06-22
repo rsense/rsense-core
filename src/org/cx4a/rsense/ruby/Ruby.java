@@ -149,6 +149,10 @@ public class Ruby {
         return kernelModule;
     }
 
+    public RubyClass getBasicObject() {
+      return basicObjectClass;
+    }
+
     public RubyClass getObject() {
         return objectClass;
     }
