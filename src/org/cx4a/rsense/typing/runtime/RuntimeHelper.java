@@ -812,7 +812,7 @@ public class RuntimeHelper {
         AnnotationResolver.Result result = AnnotationHelper.resolveMethodAnnotation(graph, template);
 
         if (result == AnnotationResolver.Result.UNRESOLVED) {
-            Logger.warn(SourceLocation.of(vertex), "annotation unmatched: %s", method);
+            Logger.debug(SourceLocation.of(vertex), "annotation unmatched: %s", method);
         }
 
         Vertex ret = method.call(graph, template, receiver, args, argVertices, block);
