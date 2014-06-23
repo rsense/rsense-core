@@ -26,7 +26,7 @@ end
 
 desc "Build RSense Jar"
 task :build_jar => [:antlr, :set_version] do
-  ant.javac(:fork => "true", :debug =>"true", :deprecation => "true", :srcdir => "src", :destdir => "build", :classpathref => "build.class.path") do
+  ant.javac(:fork => "true", :debug =>"true", :target => "1.6", :deprecation => "true", :srcdir => "src", :destdir => "build", :classpathref => "build.class.path") do
     compilerarg :value => "-Xlint:all"
   end
   ant.jar(:jarfile => "lib/rsense.jar", :basedir => "build") do
@@ -73,6 +73,7 @@ end
 
 desc "Commit rsense.jar"
 task :commit_jar do
+  sh "git add src/resources/org/cx4a/rsense/rsense.properties"
   sh "git add lib/rsense.jar"
   sh "git commit -m 'Rebuilds rsense.jar'"
 end
@@ -81,4 +82,3 @@ desc "Cut a release from scratch."
 task :release_scratch => [:build_scratch, :commit_jar,:release] do
   puts "Release published from scratch."
 end
-
