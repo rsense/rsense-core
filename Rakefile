@@ -2,7 +2,7 @@ require "bundler/gem_tasks"
 require "jruby-parser"
 require "ant"
 require "pathname"
-require "rsense"
+#require "rsense-core"
 
 ant_import
 
@@ -26,7 +26,7 @@ end
 
 desc "Build RSense Jar"
 task :build_jar => [:antlr, :set_version] do
-  ant.javac(:fork => "true", :debug =>"true", :target => "1.6", :deprecation => "true", :srcdir => "src", :destdir => "build", :classpathref => "build.class.path") do
+  ant.javac(:fork => "true", :debug =>"true", :source => "1.6",:target => "1.6", :deprecation => "true", :srcdir => "src", :destdir => "build", :classpathref => "build.class.path") do
     compilerarg :value => "-Xlint:all"
   end
   ant.jar(:jarfile => "lib/rsense.jar", :basedir => "build") do
