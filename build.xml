@@ -1,5 +1,7 @@
 <project name="rsense" default="init" basedir=".">
   <property file="src/resources/org/cx4a/rsense/rsense.properties" />
+<property environment="env" />
+<property name="java6.boot.classpath" value="${env.JAVA6_BOOTCLASSES}" />
 
   <path id="build.class.path">
     <fileset file="build_lib/*.jar" />
