@@ -78,6 +78,8 @@ public class RuntimeHelper {
             return argumentAssign(graph, (INameNode) node, src);
         case MULTIPLEASGNNODE:
             return multipleAssign(graph, (MultipleAsgnNode) node, src);
+        case GLOBALASGNNODE:
+            return globalAssign(graph, (GlobalAsgnNode) node, src);
         }
         Logger.error("unknown assignable node: %s", node);
         Logger.message("Type: %s", node.getNodeType());
@@ -762,8 +764,12 @@ public class RuntimeHelper {
         RubyClass receiverType = null;
         if (callSuper) {
             RubyModule module = graph.getRuntime().getContext().getFrameModule();
+            RubyModule scopeModule = graph.getRuntime().getContext().getCurrentScope().getModule();
             if (module instanceof RubyClass) {
                 RubyClass klass = (RubyClass) module;
+                receiverType = klass.getSuperClass();
+            } else if (scopeModule instanceof RubyClass) {
+                RubyClass klass = (RubyClass) scopeModule;
                 receiverType = klass.getSuperClass();
             } else {
                 Logger.error("Cannot call super in module");
