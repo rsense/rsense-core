@@ -123,6 +123,10 @@ public class RuntimeHelper {
             graph.addEdgeAndPropagate(src, holder.getVertex());
             return src;
 
+        } else if (node.getNodeType() == NodeType.MULTIPLEASGNNODE) {
+          MultipleAsgnNode mAsgnNode = (MultipleAsgnNode) node;
+
+          return multipleAssign(graph, mAsgnNode);
         } else {
             ArgumentNode argumentNode = (ArgumentNode) node;
 
