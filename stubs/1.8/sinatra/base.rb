@@ -235,10 +235,7 @@ module Sinatra
     # Set or retrieve the response body. When a block is given,
     # evaluation is deferred until the body is read with #each.
     def body(value = nil, &block)
-      if block_given?
-        def block.each; yield(call) end
-        response.body = block
-      elsif value
+      if value
         headers.delete 'Content-Length' unless request.head? || value.is_a?(Rack::File) || value.is_a?(Stream)
         response.body = value
       else
@@ -953,9 +950,9 @@ module Sinatra
     private
 
     # Run filters defined on the class and all superclasses.
-    def filter!(type, base = settings)
-      filter! type, base.superclass if base.superclass.respond_to?(:filters)
-      base.filters[type].each { |args| process_route(*args) }
+    def filter!(tpe, base = settings)
+      filter! tpe, base.superclass if base.superclass.respond_to?(:filters)
+      base.filters[tpe].each { |args| process_route(*args) }
     end
 
     # Run routes defined on the class and all superclasses.

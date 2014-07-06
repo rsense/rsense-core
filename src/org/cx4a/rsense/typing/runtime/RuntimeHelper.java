@@ -127,8 +127,12 @@ public class RuntimeHelper {
 
         } else if (node.getNodeType() == NodeType.MULTIPLEASGNNODE) {
           MultipleAsgnNode mAsgnNode = (MultipleAsgnNode) node;
+          if (src == null) {
+            return multipleAssign(graph, mAsgnNode);
+          } else {
+            return multipleAssign(graph, mAsgnNode, src);
+          }
 
-          return multipleAssign(graph, mAsgnNode);
         } else {
             ArgumentNode argumentNode = (ArgumentNode) node;
 
