@@ -499,6 +499,932 @@ Enumerable::Enumerator = Enumerator
 module Errno
 end
 
+class Encoding
+  def self.aliases
+    {"BINARY"=>"ASCII-8BIT",
+     "CP437"=>"IBM437",
+     "CP737"=>"IBM737",
+     "CP775"=>"IBM775",
+     "IBM850"=>"CP850",
+     "CP857"=>"IBM857",
+     "CP860"=>"IBM860",
+     "CP861"=>"IBM861",
+     "CP862"=>"IBM862",
+     "CP863"=>"IBM863",
+     "CP864"=>"IBM864",
+     "CP865"=>"IBM865",
+     "CP866"=>"IBM866",
+     "CP869"=>"IBM869",
+     "CP1258"=>"Windows-1258",
+     "Big5-HKSCS:2008"=>"Big5-HKSCS",
+     "eucJP"=>"EUC-JP",
+     "euc-jp-ms"=>"eucJP-ms",
+     "eucKR"=>"EUC-KR",
+     "eucTW"=>"EUC-TW",
+     "EUC-CN"=>"GB2312",
+     "eucCN"=>"GB2312",
+     "CP936"=>"GBK",
+     "ISO2022-JP"=>"ISO-2022-JP",
+     "ISO2022-JP2"=>"ISO-2022-JP-2",
+     "ISO8859-1"=>"ISO-8859-1",
+     "CP1252"=>"Windows-1252",
+     "ISO8859-2"=>"ISO-8859-2",
+     "CP1250"=>"Windows-1250",
+     "ISO8859-3"=>"ISO-8859-3",
+     "ISO8859-4"=>"ISO-8859-4",
+     "ISO8859-5"=>"ISO-8859-5",
+     "ISO8859-6"=>"ISO-8859-6",
+     "CP1256"=>"Windows-1256",
+     "ISO8859-7"=>"ISO-8859-7",
+     "CP1253"=>"Windows-1253",
+     "ISO8859-8"=>"ISO-8859-8",
+     "CP1255"=>"Windows-1255",
+     "ISO8859-9"=>"ISO-8859-9",
+     "CP1254"=>"Windows-1254",
+     "ISO8859-10"=>"ISO-8859-10",
+     "ISO8859-11"=>"ISO-8859-11",
+     "CP874"=>"Windows-874",
+     "ISO8859-13"=>"ISO-8859-13",
+     "CP1257"=>"Windows-1257",
+     "ISO8859-14"=>"ISO-8859-14",
+     "ISO8859-15"=>"ISO-8859-15",
+     "ISO8859-16"=>"ISO-8859-16",
+     "CP878"=>"KOI8-R",
+     "CP932"=>"Windows-31J",
+     "csWindows31J"=>"Windows-31J",
+     "SJIS"=>"Windows-31J",
+     "PCK"=>"Windows-31J",
+     "MacJapan"=>"MacJapanese",
+     "ASCII"=>"US-ASCII",
+     "ANSI_X3.4-1968"=>"US-ASCII",
+     "646"=>"US-ASCII",
+     "CP65000"=>"UTF-7",
+     "CP65001"=>"UTF-8",
+     "UTF-8-MAC"=>"UTF8-MAC",
+     "UTF-8-HFS"=>"UTF8-MAC",
+     "UCS-2BE"=>"UTF-16BE",
+     "UCS-4BE"=>"UTF-32BE",
+     "UCS-4LE"=>"UTF-32LE",
+     "CP1251"=>"Windows-1251",
+     "external"=>"UTF-8",
+     "locale"=>"UTF-8"}
+  end
+
+  def self.compatible?(obj1, obj2)
+    Encoding.new
+  end
+
+  def self.default_external
+    Encoding.new
+  end
+
+  def self.default_external=(enc)
+    enc
+  end
+
+  def self.default_internal()
+    Encoding.new
+  end
+
+  def self.default_internal=(enc)
+    enc
+  end
+
+  def self.find(str)
+    Encoding.new
+  end
+
+  def self.list
+    [
+      Encoding::KOI8_R,
+      Encoding::MacRoman,
+      Encoding::IBM857,
+      Encoding::ISO8859_2,
+      Encoding::UTF8_DoCoMo,
+      Encoding::ISO8859_3,
+      Encoding::IBM855,
+      Encoding::ISO8859_4,
+      Encoding::ISO8859_5,
+      Encoding::CP65000,
+      Encoding::CP65001,
+      Encoding::IBM852,
+      Encoding::KOI8_U,
+      Encoding::ISO8859_1,
+      Encoding::IBM861,
+      Encoding::IBM860,
+      Encoding::ISO_2022_JP_KDDI,
+      Encoding::UTF_16LE,
+      Encoding::UCS_4BE,
+      Encoding::ISO2022_JP2,
+      Encoding::CP775,
+      Encoding::IBM866,
+      Encoding::IBM869,
+      Encoding::CP878,
+      Encoding::IBM862,
+      Encoding::IBM863,
+      Encoding::IBM864,
+      Encoding::CP874,
+      Encoding::IBM865,
+      Encoding::UTF_8,
+      Encoding::BIG5_HKSCS,
+      Encoding::ConverterNotFoundError,
+      Encoding::EUC_JP_MS,
+      Encoding::IBM737,
+      Encoding::UTF8_DOCOMO,
+      Encoding::EUCJP_MS,
+      Encoding::ANSI_X3_4_1968,
+      Encoding::EUC_KR,
+      Encoding::Windows_874,
+      Encoding::MacJapan,
+      Encoding::STATELESS_ISO_2022_JP,
+      Encoding::BIG5_HKSCS_2008,
+      Encoding::WINDOWS_874,
+      Encoding::MacJapanese,
+      Encoding::EUCJP,
+      Encoding::Shift_JIS,
+      Encoding::MACROMANIA,
+      Encoding::SJIS_DOCOMO,
+      Encoding::EUC_JP,
+      Encoding::TIS_620,
+      Encoding::UTF_8_HFS,
+      Encoding::EUCKR,
+      Encoding::CP737,
+      Encoding::UTF8_SoftBank,
+      Encoding::GB1988,
+      Encoding::CP437,
+      Encoding::US_ASCII,
+      Encoding::EMACS_MULE,
+      Encoding::GB18030,
+      Encoding::UTF8_MAC,
+      Encoding::MACJAPANESE,
+      Encoding::UTF_7,
+      Encoding::WINDOWS_1250,
+      Encoding::CP863,
+      Encoding::WINDOWS_1251,
+      Encoding::CP864,
+      Encoding::CP932,
+      Encoding::WINDOWS_1252,
+      Encoding::CP865,
+      Encoding::WINDOWS_1253,
+      Encoding::CP866,
+      Encoding::MacThai,
+      Encoding::MACROMAN,
+      Encoding::WINDOWS_1254,
+      Encoding::SJIS_SOFTBANK,
+      Encoding::CP936,
+      Encoding::WINDOWS_1255,
+      Encoding::WINDOWS_1256,
+      Encoding::CP869,
+      Encoding::WINDOWS_1257,
+      Encoding::MACGREEK,
+      Encoding::UTF_16BE,
+      Encoding::EucJP,
+      Encoding::CP860,
+      Encoding::CP861,
+      Encoding::IBM775,
+      Encoding::CP862,
+      Encoding::GB2312,
+      Encoding::MacCroatian,
+      Encoding::CP855,
+      Encoding::CP852,
+      Encoding::MACICELAND,
+      Encoding::CP857,
+      Encoding::SJIS_DoCoMo,
+      Encoding::EucKR,
+      Encoding::Big5,
+      Encoding::UTF_32LE,
+      Encoding::CP850,
+      Encoding::MacTurkish,
+      Encoding::ISO8859_10,
+      Encoding::ISO8859_11,
+      Encoding::MACTHAI,
+      Encoding::CP949,
+      Encoding::STATELESS_ISO_2022_JP_KDDI,
+      Encoding::WINDOWS_1258,
+      Encoding::ISO8859_13,
+      Encoding::ISO8859_14,
+      Encoding::ISO8859_15,
+      Encoding::ISO8859_16,
+      Encoding::MacCyrillic,
+      Encoding::EUC_TW,
+      Encoding::CompatibilityError,
+      Encoding::CP950,
+      Encoding::CP951,
+      Encoding::MACUKRAINE,
+      Encoding::CP51932,
+      Encoding::GB12345,
+      Encoding::BIG5_UAO,
+      Encoding::WINDOWS_31J,
+      Encoding::MacCentEuro,
+      Encoding::Big5_HKSCS_2008,
+      Encoding::BIG5,
+      Encoding::CSWINDOWS31J,
+      Encoding::Big5_UAO,
+      Encoding::SJIS_SoftBank,
+      Encoding::CP1256,
+      Encoding::CP1255,
+      Encoding::CP1254,
+      Encoding::CP1253,
+      Encoding::CP1252,
+      Encoding::CP1251,
+      Encoding::CP1250,
+      Encoding::Big5_HKSCS,
+      Encoding::Stateless_ISO_2022_JP_KDDI,
+      Encoding::Windows_31J,
+      Encoding::ISO_2022_JP,
+      Encoding::EucJP_ms,
+      Encoding::EUC_CN,
+      Encoding::Converter,
+      Encoding::CP1257,
+      Encoding::CP1258,
+      Encoding::MacIceland,
+      Encoding::CsWindows31J,
+      Encoding::MACCYRILLIC,
+      Encoding::UndefinedConversionError,
+      Encoding::ASCII,
+      Encoding::MacGreek,
+      Encoding::MacRomania,
+      Encoding::InvalidByteSequenceError,
+      Encoding::UTF8_KDDI,
+      Encoding::UTF8_SOFTBANK,
+      Encoding::MACJAPAN,
+      Encoding::PCK,
+      Encoding::MACCROATIAN,
+      Encoding::ISO_8859_13,
+      Encoding::ISO_8859_11,
+      Encoding::EucTW,
+      Encoding::ISO_8859_10,
+      Encoding::ISO_8859_16,
+      Encoding::ISO_8859_15,
+      Encoding::ISO_8859_14,
+      Encoding::EUCCN,
+      Encoding::ISO_2022_JP_2,
+      Encoding::Stateless_ISO_2022_JP,
+      Encoding::SJIS,
+      Encoding::IBM437,
+      Encoding::ISO2022_JP,
+      Encoding::CP50221,
+      Encoding::UTF_32,
+      Encoding::CP50220,
+      Encoding::UTF_32BE,
+      Encoding::SJIS_KDDI,
+      Encoding::UCS_4LE,
+      Encoding::Windows_1255,
+      Encoding::Windows_1254,
+      Encoding::Windows_1257,
+      Encoding::Windows_1256,
+      Encoding::Windows_1251,
+      Encoding::UTF_8_MAC,
+      Encoding::Windows_1250,
+      Encoding::Windows_1253,
+      Encoding::ISO_8859_9,
+      Encoding::Windows_1252,
+      Encoding::GBK,
+      Encoding::ISO_8859_7,
+      Encoding::IBM850,
+      Encoding::ISO_8859_8,
+      Encoding::ISO_8859_5,
+      Encoding::Emacs_Mule,
+      Encoding::ISO_8859_6,
+      Encoding::ISO_8859_3,
+      Encoding::ISO_8859_4,
+      Encoding::ISO_8859_1,
+      Encoding::ISO_8859_2,
+      Encoding::SHIFT_JIS,
+      Encoding::EUCTW,
+      Encoding::EucCN,
+      Encoding::MACTURKISH,
+      Encoding::ISO8859_6,
+      Encoding::ISO8859_7,
+      Encoding::ISO8859_8,
+      Encoding::ISO8859_9,
+      Encoding::UCS_2BE,
+      Encoding::MacUkraine,
+      Encoding::BINARY,
+      Encoding::ASCII_8BIT,
+      Encoding::UTF_16,
+      Encoding::Windows_1258,
+      Encoding::MACCENTEURO
+    ]
+  end
+
+  def name_list
+    ["ASCII-8BIT",
+     "Big5",
+     "Big5-HKSCS",
+     "Big5-UAO",
+     "CP949",
+     "Emacs-Mule",
+     "EUC-JP",
+     "EUC-KR",
+     "EUC-TW",
+     "GB18030",
+     "GBK",
+     "ISO-8859-1",
+     "ISO-8859-2",
+     "ISO-8859-3",
+     "ISO-8859-4",
+     "ISO-8859-5",
+     "ISO-8859-6",
+     "ISO-8859-7",
+     "ISO-8859-8",
+     "ISO-8859-9",
+     "ISO-8859-10",
+     "ISO-8859-11",
+     "ISO-8859-13",
+     "ISO-8859-14",
+     "ISO-8859-15",
+     "ISO-8859-16",
+     "KOI8-R",
+     "KOI8-U",
+     "Shift_JIS",
+     "US-ASCII",
+     "UTF-8",
+     "UTF-16BE",
+     "UTF-16LE",
+     "UTF-32BE",
+     "UTF-32LE",
+     "Windows-1251",
+     "GB2312",
+     "IBM437",
+     "IBM737",
+     "IBM775",
+     "CP850",
+     "IBM852",
+     "CP852",
+     "IBM855",
+     "CP855",
+     "IBM857",
+     "IBM860",
+     "IBM861",
+     "IBM862",
+     "IBM863",
+     "IBM864",
+     "IBM865",
+     "IBM866",
+     "IBM869",
+     "Windows-1258",
+     "GB1988",
+     "macCentEuro",
+     "macCroatian",
+     "macCyrillic",
+     "macGreek",
+     "macIceland",
+     "macRoman",
+     "macRomania",
+     "macThai",
+     "macTurkish",
+     "macUkraine",
+     "CP950",
+     "CP951",
+     "stateless-ISO-2022-JP",
+     "eucJP-ms",
+     "CP51932",
+     "GB12345",
+     "ISO-2022-JP",
+     "ISO-2022-JP-2",
+     "CP50220",
+     "CP50221",
+     "Windows-1252",
+     "Windows-1250",
+     "Windows-1256",
+     "Windows-1253",
+     "Windows-1255",
+     "Windows-1254",
+     "TIS-620",
+     "Windows-874",
+     "Windows-1257",
+     "Windows-31J",
+     "MacJapanese",
+     "UTF-7",
+     "UTF8-MAC",
+     "UTF-16",
+     "UTF-32",
+     "UTF8-DoCoMo",
+     "SJIS-DoCoMo",
+     "UTF8-KDDI",
+     "SJIS-KDDI",
+     "ISO-2022-JP-KDDI",
+     "ISO-2022-JP-KDDI",
+     "UTF8-SoftBank",
+     "SJIS-SoftBank",
+     "BINARY",
+     "CP437",
+     "CP737",
+     "CP775",
+     "IBM850",
+     "CP857",
+     "CP860",
+     "CP861",
+     "CP862",
+     "CP863",
+     "CP864",
+     "CP865",
+     "CP866",
+     "CP869",
+     "CP1258",
+     "Big5-HKSCS:2008",
+     "eucJP",
+     "euc-jp-ms",
+     "eucKR",
+     "eucTW",
+     "EUC-CN",
+     "eucCN",
+     "CP936",
+     "ISO2022-JP",
+     "ISO2022-JP2",
+     "ISO8859-1",
+     "CP1252",
+     "ISO8859-2",
+     "CP1250",
+     "ISO8859-3",
+     "ISO8859-4",
+     "ISO8859-5",
+     "ISO8859-6",
+     "CP1256",
+     "ISO8859-7",
+     "CP1253",
+     "ISO8859-8",
+     "CP1255",
+     "ISO8859-9",
+     "CP1254",
+     "ISO8859-10",
+     "ISO8859-11",
+     "CP874",
+     "ISO8859-13",
+     "CP1257",
+     "ISO8859-14",
+     "ISO8859-15",
+     "ISO8859-16",
+     "CP878",
+     "CP932",
+     "csWindows31J",
+     "SJIS",
+     "PCK",
+     "MacJapan",
+     "ASCII",
+     "ANSI_X3.4-1968",
+     "646",
+     "CP65000",
+     "CP65001",
+     "UTF-8-MAC",
+     "UTF-8-HFS",
+     "UCS-2BE",
+     "UCS-4BE",
+     "UCS-4LE",
+     "CP1251",
+     "external",
+     "locale"]
+  end
+
+  def ascii_compatible?
+    true
+  end
+
+  def dummy?
+    true
+  end
+
+  def inspect
+    ""
+  end
+
+  def name
+    ""
+  end
+
+  def names
+    ["UTF-8", "CP65001", "external", "locale"]
+  end
+
+  def replicate(str)
+    Encoding.new
+  end
+
+end
+
+Encoding::KOI8_R = Encoding.new
+Encoding::MacRoman = Encoding.new
+Encoding::IBM857 = Encoding.new
+Encoding::ISO8859_2 = Encoding.new
+Encoding::UTF8_DoCoMo = Encoding.new
+Encoding::ISO8859_3 = Encoding.new
+Encoding::IBM855 = Encoding.new
+Encoding::ISO8859_4 = Encoding.new
+Encoding::ISO8859_5 = Encoding.new
+Encoding::CP65000 = Encoding.new
+Encoding::CP65001 = Encoding.new
+Encoding::IBM852 = Encoding.new
+Encoding::KOI8_U = Encoding.new
+Encoding::ISO8859_1 = Encoding.new
+Encoding::IBM861 = Encoding.new
+Encoding::IBM860 = Encoding.new
+Encoding::ISO_2022_JP_KDDI = Encoding.new
+Encoding::UTF_16LE = Encoding.new
+Encoding::UCS_4BE = Encoding.new
+Encoding::ISO2022_JP2 = Encoding.new
+Encoding::CP775 = Encoding.new
+Encoding::IBM866 = Encoding.new
+Encoding::IBM869 = Encoding.new
+Encoding::CP878 = Encoding.new
+Encoding::IBM862 = Encoding.new
+Encoding::IBM863 = Encoding.new
+Encoding::IBM864 = Encoding.new
+Encoding::CP874 = Encoding.new
+Encoding::IBM865 = Encoding.new
+Encoding::UTF_8 = Encoding.new
+Encoding::BIG5_HKSCS = Encoding.new
+Encoding::ConverterNotFoundError = Encoding.new
+Encoding::EUC_JP_MS = Encoding.new
+Encoding::IBM737 = Encoding.new
+Encoding::UTF8_DOCOMO = Encoding.new
+Encoding::EUCJP_MS = Encoding.new
+Encoding::ANSI_X3_4_1968 = Encoding.new
+Encoding::EUC_KR = Encoding.new
+Encoding::Windows_874 = Encoding.new
+Encoding::MacJapan = Encoding.new
+Encoding::STATELESS_ISO_2022_JP = Encoding.new
+Encoding::BIG5_HKSCS_2008 = Encoding.new
+Encoding::WINDOWS_874 = Encoding.new
+Encoding::MacJapanese = Encoding.new
+Encoding::EUCJP = Encoding.new
+Encoding::Shift_JIS = Encoding.new
+Encoding::MACROMANIA = Encoding.new
+Encoding::SJIS_DOCOMO = Encoding.new
+Encoding::EUC_JP = Encoding.new
+Encoding::TIS_620 = Encoding.new
+Encoding::UTF_8_HFS = Encoding.new
+Encoding::EUCKR = Encoding.new
+Encoding::CP737 = Encoding.new
+Encoding::UTF8_SoftBank = Encoding.new
+Encoding::GB1988 = Encoding.new
+Encoding::CP437 = Encoding.new
+Encoding::US_ASCII = Encoding.new
+Encoding::EMACS_MULE = Encoding.new
+Encoding::GB18030 = Encoding.new
+Encoding::UTF8_MAC = Encoding.new
+Encoding::MACJAPANESE = Encoding.new
+Encoding::UTF_7 = Encoding.new
+Encoding::WINDOWS_1250 = Encoding.new
+Encoding::CP863 = Encoding.new
+Encoding::WINDOWS_1251 = Encoding.new
+Encoding::CP864 = Encoding.new
+Encoding::CP932 = Encoding.new
+Encoding::WINDOWS_1252 = Encoding.new
+Encoding::CP865 = Encoding.new
+Encoding::WINDOWS_1253 = Encoding.new
+Encoding::CP866 = Encoding.new
+Encoding::MacThai = Encoding.new
+Encoding::MACROMAN = Encoding.new
+Encoding::WINDOWS_1254 = Encoding.new
+Encoding::SJIS_SOFTBANK = Encoding.new
+Encoding::CP936 = Encoding.new
+Encoding::WINDOWS_1255 = Encoding.new
+Encoding::WINDOWS_1256 = Encoding.new
+Encoding::CP869 = Encoding.new
+Encoding::WINDOWS_1257 = Encoding.new
+Encoding::MACGREEK = Encoding.new
+Encoding::UTF_16BE = Encoding.new
+Encoding::EucJP = Encoding.new
+Encoding::CP860 = Encoding.new
+Encoding::CP861 = Encoding.new
+Encoding::IBM775 = Encoding.new
+Encoding::CP862 = Encoding.new
+Encoding::GB2312 = Encoding.new
+Encoding::MacCroatian = Encoding.new
+Encoding::CP855 = Encoding.new
+Encoding::CP852 = Encoding.new
+Encoding::MACICELAND = Encoding.new
+Encoding::CP857 = Encoding.new
+Encoding::SJIS_DoCoMo = Encoding.new
+Encoding::EucKR = Encoding.new
+Encoding::Big5 = Encoding.new
+Encoding::UTF_32LE = Encoding.new
+Encoding::CP850 = Encoding.new
+Encoding::MacTurkish = Encoding.new
+Encoding::ISO8859_10 = Encoding.new
+Encoding::ISO8859_11 = Encoding.new
+Encoding::MACTHAI = Encoding.new
+Encoding::CP949 = Encoding.new
+Encoding::STATELESS_ISO_2022_JP_KDDI = Encoding.new
+Encoding::WINDOWS_1258 = Encoding.new
+Encoding::ISO8859_13 = Encoding.new
+Encoding::ISO8859_14 = Encoding.new
+Encoding::ISO8859_15 = Encoding.new
+Encoding::ISO8859_16 = Encoding.new
+Encoding::MacCyrillic = Encoding.new
+Encoding::EUC_TW = Encoding.new
+Encoding::CompatibilityError = Encoding.new
+Encoding::CP950 = Encoding.new
+Encoding::CP951 = Encoding.new
+Encoding::MACUKRAINE = Encoding.new
+Encoding::CP51932 = Encoding.new
+Encoding::GB12345 = Encoding.new
+Encoding::BIG5_UAO = Encoding.new
+Encoding::WINDOWS_31J = Encoding.new
+Encoding::MacCentEuro = Encoding.new
+Encoding::Big5_HKSCS_2008 = Encoding.new
+Encoding::BIG5 = Encoding.new
+Encoding::CSWINDOWS31J = Encoding.new
+Encoding::Big5_UAO = Encoding.new
+Encoding::SJIS_SoftBank = Encoding.new
+Encoding::CP1256 = Encoding.new
+Encoding::CP1255 = Encoding.new
+Encoding::CP1254 = Encoding.new
+Encoding::CP1253 = Encoding.new
+Encoding::CP1252 = Encoding.new
+Encoding::CP1251 = Encoding.new
+Encoding::CP1250 = Encoding.new
+Encoding::Big5_HKSCS = Encoding.new
+Encoding::Stateless_ISO_2022_JP_KDDI = Encoding.new
+Encoding::Windows_31J = Encoding.new
+Encoding::ISO_2022_JP = Encoding.new
+Encoding::EucJP_ms = Encoding.new
+Encoding::EUC_CN = Encoding.new
+Encoding::Converter = Encoding.new
+Encoding::CP1257 = Encoding.new
+Encoding::CP1258 = Encoding.new
+Encoding::MacIceland = Encoding.new
+Encoding::CsWindows31J = Encoding.new
+Encoding::MACCYRILLIC = Encoding.new
+Encoding::UndefinedConversionError = Encoding.new
+Encoding::ASCII = Encoding.new
+Encoding::MacGreek = Encoding.new
+Encoding::MacRomania = Encoding.new
+Encoding::InvalidByteSequenceError = Encoding.new
+Encoding::UTF8_KDDI = Encoding.new
+Encoding::UTF8_SOFTBANK = Encoding.new
+Encoding::MACJAPAN = Encoding.new
+Encoding::PCK = Encoding.new
+Encoding::MACCROATIAN = Encoding.new
+Encoding::ISO_8859_13 = Encoding.new
+Encoding::ISO_8859_11 = Encoding.new
+Encoding::EucTW = Encoding.new
+Encoding::ISO_8859_10 = Encoding.new
+Encoding::ISO_8859_16 = Encoding.new
+Encoding::ISO_8859_15 = Encoding.new
+Encoding::ISO_8859_14 = Encoding.new
+Encoding::EUCCN = Encoding.new
+Encoding::ISO_2022_JP_2 = Encoding.new
+Encoding::Stateless_ISO_2022_JP = Encoding.new
+Encoding::SJIS = Encoding.new
+Encoding::IBM437 = Encoding.new
+Encoding::ISO2022_JP = Encoding.new
+Encoding::CP50221 = Encoding.new
+Encoding::UTF_32 = Encoding.new
+Encoding::CP50220 = Encoding.new
+Encoding::UTF_32BE = Encoding.new
+Encoding::SJIS_KDDI = Encoding.new
+Encoding::UCS_4LE = Encoding.new
+Encoding::Windows_1255 = Encoding.new
+Encoding::Windows_1254 = Encoding.new
+Encoding::Windows_1257 = Encoding.new
+Encoding::Windows_1256 = Encoding.new
+Encoding::Windows_1251 = Encoding.new
+Encoding::UTF_8_MAC = Encoding.new
+Encoding::Windows_1250 = Encoding.new
+Encoding::Windows_1253 = Encoding.new
+Encoding::ISO_8859_9 = Encoding.new
+Encoding::Windows_1252 = Encoding.new
+Encoding::GBK = Encoding.new
+Encoding::ISO_8859_7 = Encoding.new
+Encoding::IBM850 = Encoding.new
+Encoding::ISO_8859_8 = Encoding.new
+Encoding::ISO_8859_5 = Encoding.new
+Encoding::Emacs_Mule = Encoding.new
+Encoding::ISO_8859_6 = Encoding.new
+Encoding::ISO_8859_3 = Encoding.new
+Encoding::ISO_8859_4 = Encoding.new
+Encoding::ISO_8859_1 = Encoding.new
+Encoding::ISO_8859_2 = Encoding.new
+Encoding::SHIFT_JIS = Encoding.new
+Encoding::EUCTW = Encoding.new
+Encoding::EucCN = Encoding.new
+Encoding::MACTURKISH = Encoding.new
+Encoding::ISO8859_6 = Encoding.new
+Encoding::ISO8859_7 = Encoding.new
+Encoding::ISO8859_8 = Encoding.new
+Encoding::ISO8859_9 = Encoding.new
+Encoding::UCS_2BE = Encoding.new
+Encoding::MacUkraine = Encoding.new
+Encoding::BINARY = Encoding.new
+Encoding::ASCII_8BIT = Encoding.new
+Encoding::UTF_16 = Encoding.new
+Encoding::Windows_1258 = Encoding.new
+Encoding::MACCENTEURO  = Encoding.new
+
+module Process
+  PRIO_PGRP       =  0
+  PRIO_PROCESS    =  0
+  PRIO_USER       =  0
+  RLIMIT_AS       =  0
+  RLIMIT_CORE     =  0
+  RLIMIT_CPU      =  0
+  RLIMIT_DATA     =  0
+  RLIMIT_FSIZE    =  0
+  RLIMIT_MEMLOCK  =  0
+  RLIMIT_NOFILE   =  0
+  RLIMIT_NPROC    =  0
+  RLIMIT_RSS      =  0
+  RLIMIT_SBSIZE   =  0
+  RLIMIT_STACK    =  0
+  RLIM_INFINITY   =  0
+  RLIM_SAVED_CUR  =  0
+  RLIM_SAVED_MAX  =  0
+  WNOHANG         =  0
+  WUNTRACED       =  0
+
+  ##% self.abort(?String) -> ?
+  def self.abort(message = '') end
+  ##% self.detach(Integer) -> Thread
+  def self.detach(pid) Thread.current end
+  ##% self.exec(String, *String) -> ?
+  def self.exec(command, *args) end
+  ##% self.exit(?Boolean) -> ?
+  def self.exit(status = true) end
+  ##% self.exit!(?Boolean) -> ?
+  def self.exit!(status = true) end
+  ##% self.fork() -> Integer
+  ##% self.fork() {() -> ?} -> Integer
+  def self.fork() yield; 0 end
+
+  module_function
+  ##% egid() -> Integer
+  def egid() 0 end
+  ##% egid=(Integer) -> ?
+  def egid=(gid) end
+  ##% euid() -> Integer
+  def euid() 0 end
+  ##% euid=(Integer) -> ?
+  def euid=(gid) end
+  ##% getpgid(?Integer) -> Integer
+  def getpgid(pid = 0) 0 end
+  ##% getpgrp() -> Integer
+  def getpgrp() 0 end
+  ##% getpriority(Integer, Integer) -> Integer
+  def getpriority(which, who) 0 end
+  ##% getrlimit(Integer) -> (Integer, Integer)
+  def getrlimit(resource) [0, 0] end
+  ##% gid() -> Integer
+  def gid() 0 end
+  ##% gid=(Integer) -> ?
+  def gid=(gid) end
+  ##% groups() -> Array<Integer>
+  def groups() [0] end
+  ##% groups=(a) -> ?
+  def groups=(gids) end
+  ##% initgroups(String, Integer) -> Array<Integer>
+  def initgroups(user, group) [0] end
+  ##% kill(Integer or String, Integer, *Integer) -> Integer
+  def kill(signal, pid, *rest) 0 end
+  ##% maxgroups() -> Integer
+  def maxgroups() 0 end
+  ##% maxgroups=(Integer) -> ?
+  def maxgroups=(num) end
+  ##% pid() -> Integer
+  def pid() 0 end
+  ##% ppid() -> Integer
+  def ppid() 0 end
+  ##% setpgid(Integer, Integer) -> Integer
+  def setpgid(pid, pgrp) 0 end
+  ##% setpgrp() -> Integer
+  def setpgrp() 0 end
+  ##% setpriority(Integer, Integer, Integer) -> Integer
+  def setpriority(which, who, prio) 0 end
+  ##% setrlimit(Integer, Integer, ?Integer) -> nil
+  def setrlimit(resource, cur_limit, max_limit = nil) nil end
+  ##% setsid() -> Integer
+  def setsid() 0 end
+  ##% times() -> Struct::Tms
+  def times() Struct::Tms.new end
+  ##% uid() -> Integer
+  def uid() 0 end
+  ##% uid=(Integer) -> ?
+  def uid=(id) end
+  ##% wait() -> Integer
+  def wait() 0 end
+  ##% wait2() -> (Integer, Process::Status)
+  def wait2() [0, Process::Status.new] end
+  ##% waitall() -> Array<(Integer, Process::Status)>
+  def waitall() [[0, Process::Status.new]] end
+  ##% waitpid(Integer, ?Integer) -> Integer
+  def waitpid(pid, flags = 0) 0 end
+  ##% waitpid2(Integer, ?Integer) -> (Integer, Process::Status)
+  def waitpid2(pid, flags = 0) [0, Process::Status.new] end
+end
+
+module Process::GID
+  module_function
+  ##% change_privilege(Integer) -> Integer
+  def change_privilege(id) 0 end
+  ##% eid() -> Integer
+  def eid() 0 end
+  ##% grant_privilege(Integer) -> Integer
+  def grant_privilege(id) 0 end
+  alias :eid= :grant_privilege
+  ##% re_exchange() -> Integer
+  def re_exchange() 0 end
+  ##% re_exchangeable?() -> Boolean
+  def re_exchangeable?() BOOLEAN end
+  ##% rid() -> Integer
+  def rid() 0 end
+  ##% sid_available?() -> Boolean
+  def sid_available?() BOOLEAN end
+  ##% switch() -> Integer
+  ##% switch() {() -> a} -> a
+  def switch() yield; 0 end
+end
+
+class Process::Status
+  ##% &(Integer) -> Integer
+  def &(other) Integer end
+  ##% ==(a) -> Boolean
+  def ==(other) BOOLEAN end
+  ##% ">>"(Integer) -> Integer
+  def >>(num) 0 end
+  ##% coredump?() -> Boolean
+  def coredump?() BOOLEAN end
+  ##% exited?() -> Boolean
+  def exited?() BOOLEAN end
+  ##% exitstatus() -> Integer
+  def exitstatus() 0 end
+  ##% inspect() -> String
+  def inspect() '' end
+  ##% pid() -> Integer
+  def pid() 0 end
+  ##% signaled?() -> Boolean
+  def signaled?() BOOLEAN end
+  ##% stopped?() -> Boolean
+  def stopped?() BOOLEAN end
+  ##% stopsig() -> Integer
+  def stopsig() 0 end
+  ##% success?() -> Boolean
+  def success?() BOOLEAN end
+  ##% termsig() -> Integer
+  def termsig() 0 end
+  ##% to_i() -> Integer
+  def to_i() 0 end
+  alias :to_int :to_i
+  ##% to_s() -> String
+  def to_s() '' end
+end
+
+module Process::Sys
+  module_function
+  ##% getegid() -> Integer
+  def getegid() 0 end
+  ##% geteuid() -> Integer
+  def geteuid() 0 end
+  ##% getgid() -> Integer
+  def getgid() 0 end
+  ##% getuid() -> Integer
+  def getuid() 0 end
+  ##% issetugid() -> Boolean
+  def issetugid() BOOLEAN end
+  ##% setegid(Integer) -> nil
+  def setegid(id) nil end
+  ##% seteuid(Integer) -> nil
+  def seteuid(id) nil end
+  ##% setgid(Integer) -> nil
+  def setgid(id) nil end
+  ##% setregid(Integer, Integer) -> nil
+  def setregid(rid, eid) nil end
+  ##% setresgid(Integer, Integer, Integer) -> nil
+  def setresgid(rid, eid, sid) nil end
+  ##% setresuid(Integer, Integer, Integer) -> nil
+  def setresuid(rid, eid, sid) nil end
+  ##% setreuid(Integer, Integer) -> nil
+  def setreuid(rid, eid) nil end
+  ##% setrgid(Integer) -> nil
+  def setrgid(id) nil end
+  ##% setruid(Integer) -> nil
+  def setruid(id) nil end
+  ##% setuid(Integer) -> nil
+  def setuid(id) nil end
+end
+
+module Process::UID
+  module_function
+  ##% change_privilege(Integer) -> Integer
+  def change_privilege(id) 0 end
+  ##% eid() -> Integer
+  def eid() 0 end
+  ##% grant_privilege(Integer) -> Integer
+  def grant_privilege(id) 0 end
+  alias :eid= :grant_privilege
+  ##% re_exchange() -> Integer
+  def re_exchange() 0 end
+  ##% re_exchangeable?() -> Boolean
+  def re_exchangeable?() BOOLEAN end
+  ##% rid() -> Integer
+  def rid() 0 end
+  ##% sid_available?() -> Boolean
+  def sid_available?() BOOLEAN end
+  ##% switch() -> Integer
+  ##% switch() {() -> a} -> a
+  def switch() yield; 0 end
+end
+
 class FalseClass
   ##% &(a) -> FalseClass
   def %(other) false end
@@ -2105,218 +3031,6 @@ class Proc
   def to_proc() self end
   ##% to_s() -> String
   def to_s() '' end
-end
-
-module Process
-  PRIO_PGRP       =  0
-  PRIO_PROCESS    =  0
-  PRIO_USER       =  0
-  RLIMIT_AS       =  0
-  RLIMIT_CORE     =  0
-  RLIMIT_CPU      =  0
-  RLIMIT_DATA     =  0
-  RLIMIT_FSIZE    =  0
-  RLIMIT_MEMLOCK  =  0
-  RLIMIT_NOFILE   =  0
-  RLIMIT_NPROC    =  0
-  RLIMIT_RSS      =  0
-  RLIMIT_SBSIZE   =  0
-  RLIMIT_STACK    =  0
-  RLIM_INFINITY   =  0
-  RLIM_SAVED_CUR  =  0
-  RLIM_SAVED_MAX  =  0
-  WNOHANG         =  0
-  WUNTRACED       =  0
-
-  ##% self.abort(?String) -> ?
-  def self.abort(message = '') end
-  ##% self.detach(Integer) -> Thread
-  def self.detach(pid) Thread.current end
-  ##% self.exec(String, *String) -> ?
-  def self.exec(command, *args) end
-  ##% self.exit(?Boolean) -> ?
-  def self.exit(status = true) end
-  ##% self.exit!(?Boolean) -> ?
-  def self.exit!(status = true) end
-  ##% self.fork() -> Integer
-  ##% self.fork() {() -> ?} -> Integer
-  def self.fork() yield; 0 end
-
-  module_function
-  ##% egid() -> Integer
-  def egid() 0 end
-  ##% egid=(Integer) -> ?
-  def egid=(gid) end
-  ##% euid() -> Integer
-  def euid() 0 end
-  ##% euid=(Integer) -> ?
-  def euid=(gid) end
-  ##% getpgid(?Integer) -> Integer
-  def getpgid(pid = 0) 0 end
-  ##% getpgrp() -> Integer
-  def getpgrp() 0 end
-  ##% getpriority(Integer, Integer) -> Integer
-  def getpriority(which, who) 0 end
-  ##% getrlimit(Integer) -> (Integer, Integer)
-  def getrlimit(resource) [0, 0] end
-  ##% gid() -> Integer
-  def gid() 0 end
-  ##% gid=(Integer) -> ?
-  def gid=(gid) end
-  ##% groups() -> Array<Integer>
-  def groups() [0] end
-  ##% groups=(a) -> ?
-  def groups=(gids) end
-  ##% initgroups(String, Integer) -> Array<Integer>
-  def initgroups(user, group) [0] end
-  ##% kill(Integer or String, Integer, *Integer) -> Integer
-  def kill(signal, pid, *rest) 0 end
-  ##% maxgroups() -> Integer
-  def maxgroups() 0 end
-  ##% maxgroups=(Integer) -> ?
-  def maxgroups=(num) end
-  ##% pid() -> Integer
-  def pid() 0 end
-  ##% ppid() -> Integer
-  def ppid() 0 end
-  ##% setpgid(Integer, Integer) -> Integer
-  def setpgid(pid, pgrp) 0 end
-  ##% setpgrp() -> Integer
-  def setpgrp() 0 end
-  ##% setpriority(Integer, Integer, Integer) -> Integer
-  def setpriority(which, who, prio) 0 end
-  ##% setrlimit(Integer, Integer, ?Integer) -> nil
-  def setrlimit(resource, cur_limit, max_limit = nil) nil end
-  ##% setsid() -> Integer
-  def setsid() 0 end
-  ##% times() -> Struct::Tms
-  def times() Struct::Tms.new end
-  ##% uid() -> Integer
-  def uid() 0 end
-  ##% uid=(Integer) -> ?
-  def uid=(id) end
-  ##% wait() -> Integer
-  def wait() 0 end
-  ##% wait2() -> (Integer, Process::Status)
-  def wait2() [0, Process::Status.new] end
-  ##% waitall() -> Array<(Integer, Process::Status)>
-  def waitall() [[0, Process::Status.new]] end
-  ##% waitpid(Integer, ?Integer) -> Integer
-  def waitpid(pid, flags = 0) 0 end
-  ##% waitpid2(Integer, ?Integer) -> (Integer, Process::Status)
-  def waitpid2(pid, flags = 0) [0, Process::Status.new] end
-end
-
-module Process::GID
-  module_function
-  ##% change_privilege(Integer) -> Integer
-  def change_privilege(id) 0 end
-  ##% eid() -> Integer
-  def eid() 0 end
-  ##% grant_privilege(Integer) -> Integer
-  def grant_privilege(id) 0 end
-  alias :eid= :grant_privilege
-  ##% re_exchange() -> Integer
-  def re_exchange() 0 end
-  ##% re_exchangeable?() -> Boolean
-  def re_exchangeable?() BOOLEAN end
-  ##% rid() -> Integer
-  def rid() 0 end
-  ##% sid_available?() -> Boolean
-  def sid_available?() BOOLEAN end
-  ##% switch() -> Integer
-  ##% switch() {() -> a} -> a
-  def switch() yield; 0 end
-end
-
-class Process::Status
-  ##% &(Integer) -> Integer
-  def &(other) Integer end
-  ##% ==(a) -> Boolean
-  def ==(other) BOOLEAN end
-  ##% ">>"(Integer) -> Integer
-  def >>(num) 0 end
-  ##% coredump?() -> Boolean
-  def coredump?() BOOLEAN end
-  ##% exited?() -> Boolean
-  def exited?() BOOLEAN end
-  ##% exitstatus() -> Integer
-  def exitstatus() 0 end
-  ##% inspect() -> String
-  def inspect() '' end
-  ##% pid() -> Integer
-  def pid() 0 end
-  ##% signaled?() -> Boolean
-  def signaled?() BOOLEAN end
-  ##% stopped?() -> Boolean
-  def stopped?() BOOLEAN end
-  ##% stopsig() -> Integer
-  def stopsig() 0 end
-  ##% success?() -> Boolean
-  def success?() BOOLEAN end
-  ##% termsig() -> Integer
-  def termsig() 0 end
-  ##% to_i() -> Integer
-  def to_i() 0 end
-  alias :to_int :to_i
-  ##% to_s() -> String
-  def to_s() '' end
-end
-
-module Process::Sys
-  module_function
-  ##% getegid() -> Integer
-  def getegid() 0 end
-  ##% geteuid() -> Integer
-  def geteuid() 0 end
-  ##% getgid() -> Integer
-  def getgid() 0 end
-  ##% getuid() -> Integer
-  def getuid() 0 end
-  ##% issetugid() -> Boolean
-  def issetugid() BOOLEAN end
-  ##% setegid(Integer) -> nil
-  def setegid(id) nil end
-  ##% seteuid(Integer) -> nil
-  def seteuid(id) nil end
-  ##% setgid(Integer) -> nil
-  def setgid(id) nil end
-  ##% setregid(Integer, Integer) -> nil
-  def setregid(rid, eid) nil end
-  ##% setresgid(Integer, Integer, Integer) -> nil
-  def setresgid(rid, eid, sid) nil end
-  ##% setresuid(Integer, Integer, Integer) -> nil
-  def setresuid(rid, eid, sid) nil end
-  ##% setreuid(Integer, Integer) -> nil
-  def setreuid(rid, eid) nil end
-  ##% setrgid(Integer) -> nil
-  def setrgid(id) nil end
-  ##% setruid(Integer) -> nil
-  def setruid(id) nil end
-  ##% setuid(Integer) -> nil
-  def setuid(id) nil end
-end
-
-module Process::UID
-  module_function
-  ##% change_privilege(Integer) -> Integer
-  def change_privilege(id) 0 end
-  ##% eid() -> Integer
-  def eid() 0 end
-  ##% grant_privilege(Integer) -> Integer
-  def grant_privilege(id) 0 end
-  alias :eid= :grant_privilege
-  ##% re_exchange() -> Integer
-  def re_exchange() 0 end
-  ##% re_exchangeable?() -> Boolean
-  def re_exchangeable?() BOOLEAN end
-  ##% rid() -> Integer
-  def rid() 0 end
-  ##% sid_available?() -> Boolean
-  def sid_available?() BOOLEAN end
-  ##% switch() -> Integer
-  ##% switch() {() -> a} -> a
-  def switch() yield; 0 end
 end
 
 ##% Range<t>
