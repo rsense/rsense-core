@@ -841,7 +841,7 @@ public class Graph implements NodeVisitor {
         String name = cpath.getName();
         RubyModule module = RuntimeHelper.getNamespace(this, cpath);
         if (module == null) {
-            Logger.error(SourceLocation.of(node), "namespace unresolved: %s", cpath);
+            // Logger.error(SourceLocation.of(node), "namespace unresolved: %s", cpath);
             return Vertex.EMPTY;
         }
 
@@ -855,7 +855,7 @@ public class Graph implements NodeVisitor {
                 }
             }
             if (superClass == null) {
-                Logger.error("superclass not found: %s", cpath.getName());
+            //  Logger.error("superclass not found: %s", cpath.getName());
             }
         }
 
@@ -988,7 +988,7 @@ public class Graph implements NodeVisitor {
     public Object visitDefsNode(DefsNode node) {
         Vertex receiverVertex = createVertex(node.getReceiver());
         if (receiverVertex.isEmpty()) {
-            Logger.error(SourceLocation.of(node), "null receiver for defs: %s", node.getName());
+            // Logger.error(SourceLocation.of(node), "null receiver for defs: %s", node.getName());
             return Vertex.EMPTY;
         }
 
@@ -1011,8 +1011,10 @@ public class Graph implements NodeVisitor {
                 dummyCallQueue.offer(new DummyCall(node, newMethod, oldMethod, receiver));
 
                 notifyDefineEvent(node, newMethod);
-            } else
-                Logger.warn(SourceLocation.of(node), "cannot define singleton method for individual object: %s", name);
+            } else {
+                return Vertex.EMPTY;
+                //Logger.warn(SourceLocation.of(node), "cannot define singleton method for individual object: %s", name);
+              }
         }
 
         return Vertex.EMPTY;
@@ -1446,7 +1448,7 @@ public class Graph implements NodeVisitor {
 
                     return Vertex.EMPTY;
                 } else {
-                    Logger.warn(SourceLocation.of(node), "singleton class of objects is not supported.");
+                  //  Logger.warn(SourceLocation.of(node), "singleton class of objects is not supported.");
                 }
             }
         }
@@ -1522,7 +1524,7 @@ public class Graph implements NodeVisitor {
     }
 
     public Object visitUndefNode(UndefNode node) {
-        Logger.warn("undef is not supported yet.");
+        // Logger.warn("undef is not supported yet.");
         return Vertex.EMPTY;
     }
 
